@@ -2,25 +2,88 @@ name: aio
 version: 1.0.0+1
 publish_to: none
 description: An AIO marketing tool project
-environment: 
+environment:
   sdk: '>=3.1.1 <4.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
+
+  # Architecture & Dependency Injection
   get: ^4.6.6
+
+  # dio network library
   dio: ^5.3.2
+
+  # Dependency Injection
   get_it: ^7.6.4
+
+  # Cache
   get_storage: ^2.1.1
+
+  # Permission handling
   permission_handler: ^8.2.2
+
+  # Path Provider
   path_provider: ^2.0.5
-  flutter: 
+
+  # Local database
+  sqflite: ^2.3.0
+
+  # Path
+  path: ^1.8.2
+
+  # Device network status check
+  connectivity_plus: ^4.0.2
+
+  # pretty logger
+  pretty_dio_logger: ^1.3.1
+
+  #logger
+  logger: ^2.0.2
+
+  # video player
+  video_player: ^2.7.2
+
+  # Flutter SVG
+  flutter_svg: ^2.0.7
+
+  # video player library
+  chewie: ^1.7.1
+
+  # dropdown
+  dropdown_button2: ^2.3.9
+
+  flutter:
     sdk: flutter
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
   uses-material-design: true
 
+  assets:
+    - assets/
+    - assets/video/
+    - assets/svg/
+    - assets/images/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: fonts/Poppins-SemiBold.ttf
+          weight: 500
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 600
+        - asset: fonts/Poppins-ExtraBold.ttf
+          weight: 700
+
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Bold.ttf
+          weight: 600

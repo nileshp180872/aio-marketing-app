@@ -26,13 +26,28 @@ class Nav {
     ),
     GetPage(
       name: Routes.SYNCHRONISATION,
-      page: () => const SynchronisationScreen(),
+      page: () => SynchronisationScreen(),
       binding: SynchronisationControllerBinding(),
     ),
     GetPage(
       name: Routes.HOME,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
       binding: HomeControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PORTFOLIO,
+      page: () => PortfolioScreen(),
+      binding: PortfolioControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.ENQUIRY,
+      page: () => const EnquiryScreen(),
+      binding: EnquiryControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SEARCH,
+      page: () => const SearchScreen(),
+      binding: SearchControllerBinding(),
     ),
   ];
 }
