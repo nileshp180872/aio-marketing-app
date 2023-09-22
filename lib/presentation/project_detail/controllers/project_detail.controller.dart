@@ -34,6 +34,14 @@ class ProjectDetailController extends GetxController {
           ProjectListTypeEnum.DOMAIN;
     }
   }
+  /// Navigate to next page.
+  void goToNextPage() {
 
+  }
+
+  /// Navigate to previous page.
+  void goToPreviousPage() {
+
+  }
   void _prepareProjectDetails() {}
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../model/member_model.dart';
@@ -5,6 +6,8 @@ import '../model/member_model.dart';
 class BoardMemberSliderController extends GetxController {
   /// List of board members.
   RxList<MemberModel> lstMembers = RxList();
+
+  PageController pageController = PageController();
 
   @override
   void onInit() {
@@ -21,5 +24,19 @@ class BoardMemberSliderController extends GetxController {
       MemberModel(),
       MemberModel(),
     ]);
+  }
+
+  /// Navigate to next page.
+  void goToNextPage() {
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.linearToEaseOut);
+  }
+
+  /// Navigate to previous page.
+  void goToPreviousPage() {
+    pageController.previousPage(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.linearToEaseOut);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
+import 'package:aio/config/app_constants.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -22,7 +23,17 @@ mixin AppFeature {
     );
   }
 
+  /// Build custom appbar
+  ///
+  /// required[title] for title text
   Widget buildCustomAppBar({String title = ""}) {
+    return buildCustomAppBarWithChild(child: _buildTitleWithBack(title: title));
+  }
+
+  /// Build appbar widget with custom child below custom view.
+  ///
+  /// required [child] widget which needs to add below appbar.
+  Widget buildCustomAppBarWithChild({required Widget child, bool enableSearch=true}) {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -35,6 +46,7 @@ mixin AppFeature {
       padding: const EdgeInsets.only(left: AppValues.sideMargin),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: double.infinity,
@@ -42,10 +54,11 @@ mixin AppFeature {
             child: Row(children: [
               SvgPicture.asset(SVGAssets.headerAppLogo),
               const Spacer(),
+              if(enableSearch)
               _buildSearchContainer()
             ]),
           ),
-          _buildTitleWithBack(title: title)
+          child
         ],
       ),
     );
@@ -143,28 +156,45 @@ mixin AppFeature {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
         isExpanded: true,
-        hint: Text(
-          'Select Item',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black,
-          ),
-        ),
+        enableFeedback: true,
         items: items
             .map((String item) => DropdownMenuItem<String>(
                   value: item,
                   child: Text(
                     item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.colorSecondary.withOpacity(0.5),
+                        fontFamily: AppConstants.sourceSansPro),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ))
             .toList(),
+        selectedItemBuilder: (context) {
+          return items.map(
+            (item) {
+              return Container(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  item,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.colorSecondary,
+                      fontFamily: AppConstants.sourceSansPro),
+                  maxLines: 1,
+                ),
+              );
+            },
+          ).toList();
+        },
         value: selectedItem,
+        style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.colorSecondary,
+            fontFamily: AppConstants.sourceSansPro),
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),

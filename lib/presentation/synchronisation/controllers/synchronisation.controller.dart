@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:synchronized/synchronized.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/leadership_type.dart';
@@ -21,9 +22,12 @@ class SynchronisationController extends GetxController {
 
   final SynchronisationProvider _provider = SynchronisationProvider();
 
+  // prevent concurrent access to data
+  var lock = new Lock();
+
   @override
   void onInit() {
-    _setupFields();
+    // _setupFields();
     super.onInit();
   }
 
@@ -41,13 +45,15 @@ class SynchronisationController extends GetxController {
   /// Get domains API.
   void getAPIS() async {
     if (await Utils.isConnected()) {
-      Future.wait(
-        [
-          _getDomains(),
-          _getTechnologies(),
-          _getLeaderships(),
-        ],
-      );
+      await lock.synchronized(() async {
+        Future.wait(
+          [
+            _getDomains(),
+            _getTechnologies(),
+            _getLeaderships(),
+          ],
+        );
+      });
     }
   }
 

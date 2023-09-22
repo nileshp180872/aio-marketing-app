@@ -1,5 +1,6 @@
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
+import 'package:aio/config/app_constants.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
 import 'package:chewie/chewie.dart';
@@ -101,7 +102,8 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
           buttonText,
           style: _textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              fontSize: 28,
+              fontFamily: AppConstants.poppins,
+              fontSize: 24,
               color: AppColors.colorSecondary),
         ),
       ),
@@ -153,6 +155,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
                   fontWeight: FontWeight.w400,
                   fontSize: 32,
                   height: 1.5,
+                  fontFamily: AppConstants.poppins,
                   color: Colors.white),
             ),
             const SizedBox(
@@ -174,6 +177,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
               style: _textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
+                  fontFamily: AppConstants.poppins,
                   color: Colors.white.withOpacity(0.8)),
             ),
             const SizedBox(
@@ -186,12 +190,10 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
 
   /// Build overlay right side
   Widget _buildOverlayRightSide() {
-    return Container(
-      child: Center(
-        child: InkWell(
-          onTap: _controller.hideOverlayAndLoadVideo,
-          child: SvgPicture.asset(SVGAssets.bluePlayIcon),
-        ),
+    return Center(
+      child: InkWell(
+        onTap: _controller.hideOverlayAndLoadVideo,
+        child: SvgPicture.asset(SVGAssets.bluePlayIcon),
       ),
     );
   }
@@ -208,7 +210,10 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
         child: Text(
           AppStrings.letsDiscussYourIdea,
           style: _textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w600, fontSize: 16, color: Colors.white),
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              fontFamily: AppConstants.poppins,
+              color: Colors.white),
         ));
   }
 }

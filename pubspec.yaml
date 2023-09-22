@@ -53,6 +53,12 @@ dependencies:
   # dropdown
   dropdown_button2: ^2.3.9
 
+  # Animation library
+  lottie: ^2.6.0
+
+  # for preventing unwanted deadlock during synchronisation.
+  synchronized: ^3.1.0
+
   flutter:
     sdk: flutter
 
@@ -69,21 +75,34 @@ flutter:
     - assets/video/
     - assets/svg/
     - assets/images/
+    - assets/lottie/
 
   fonts:
     - family: Poppins
       fonts:
-        - asset: fonts/Poppins-Regular.ttf
-        - asset: fonts/Poppins-Italic.ttf
+        - asset: fonts/poppins/Poppins-Regular.ttf
+        - asset: fonts/poppins/Poppins-Italic.ttf
           style: italic
-        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/poppins/Poppins-SemiBold.ttf
           weight: 500
-        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/poppins/Poppins-Bold.ttf
           weight: 600
-        - asset: fonts/Poppins-ExtraBold.ttf
+        - asset: fonts/poppins/Poppins-ExtraBold.ttf
           weight: 700
 
     - family: Inter
       fonts:
-        - asset: fonts/Inter-Bold.ttf
+        - asset: fonts/inter/Inter-Bold.ttf
           weight: 600
+
+    - family: SoursSansPro
+      fonts:
+        - asset: fonts/source_sans/SourceSansPro-Regular.ttf
+        - asset: fonts/source_sans/SourceSansPro-Italic.ttf
+          style: italic
+        - asset: fonts/source_sans/SourceSansPro-SemiBold.ttf
+          weight: 500
+        - asset: fonts/source_sans/SourceSansPro-Bold.ttf
+          weight: 600
+        - asset: fonts/source_sans/SourceSansPro-Black.ttf
+          weight: 700

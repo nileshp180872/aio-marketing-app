@@ -1,6 +1,7 @@
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_list/view/project_list_tile_widget.dart';
+import 'package:aio/presentation/project_list/view/project_list_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 
@@ -40,17 +41,9 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
     return Container(
       margin: const EdgeInsets.symmetric(
           horizontal: AppValues.sideMargin, vertical: 34),
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.colorSecondary.withOpacity(0.5))),
-      child: Column(
-        children: [
-          _buildProjectListHeader(),
-          Container(
-            height: 1,
-            color: AppColors.colorSecondary.withOpacity(0.5),
-          ),
-          Expanded(child: _buildProjectList()),
-        ],
+      child: ProjectListWidget(
+        projectList: _controller.projectList,
+        onClick: _controller.onProjectClick,
       ),
     );
   }
@@ -67,26 +60,6 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
           letterSpacing: 1.0,
         ),
       ),
-    );
-  }
-
-  /// Build project list
-  Widget _buildProjectList() {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: _controller.projectList.length,
-      itemBuilder: (ctx, index) {
-        return ProjectListTileWidget(
-          projectListModel: _controller.projectList[index],
-          onClick: _controller.onProjectClick,
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 1,
-          color: AppColors.colorSecondary.withOpacity(0.5),
-        );
-      },
     );
   }
 

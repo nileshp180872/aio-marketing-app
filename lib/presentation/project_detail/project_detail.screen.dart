@@ -12,9 +12,11 @@ import 'controllers/project_detail.controller.dart';
 
 class ProjectDetailScreen extends GetView<ProjectDetailController>
     with AppFeature {
+
   ProjectDetailController _controller = Get.find(tag: Routes.PROJECT_DETAIL);
 
   ProjectDetailScreen({Key? key}) : super(key: key);
+
   late TextTheme _textTheme;
   late BuildContext _buildContext;
 
@@ -40,15 +42,33 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
   /// build screen body
   Widget _buildScreenBody() {
     return Container(
-      margin: const EdgeInsets.all(AppValues.sideMargin),
+      margin: const EdgeInsets.symmetric(vertical: AppValues.sideMargin),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: _buildLeftSideProductImage()),
-          const SizedBox(
-            width: 30,
+          InkWell(
+            onTap: _controller.goToPreviousPage,
+            child: const SizedBox(
+                width: AppValues.sideMargin,
+                child: Center(child: Icon(Icons.arrow_back_ios_new))),
           ),
-          Expanded(child: _buildScrollableProductDetail())
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildLeftSideProductImage()),
+                const SizedBox(
+                  width: 30,
+                ),
+                Expanded(child: _buildScrollableProductDetail())
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: _controller.goToNextPage,
+            child: const SizedBox(
+                width: AppValues.sideMargin,
+                child: Center(child: Icon(Icons.arrow_forward_ios_rounded))),
+          ),
         ],
       ),
     );

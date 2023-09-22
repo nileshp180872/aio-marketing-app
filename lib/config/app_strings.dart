@@ -18,6 +18,15 @@ abstract class AppStrings {
   static const usedTechnologies = 'Used Technology';
   static const overview = 'Overview';
   static const description = 'Description';
+  static const enquiryTitle = 'Submit your Inquiry';
+  static const fullNameMandatory = 'Full Name*';
+  static const emailMandatory = 'Email ID*';
+  static const phoneMandatory = 'Phone No.*';
+  static const companyNameMandatory = 'Company Name*';
+  static const messageMandatory = 'Message*';
+  static const submit = 'Submit';
+  static const goToHome = 'Home';
+  static const success = 'Success';
 
 
 }

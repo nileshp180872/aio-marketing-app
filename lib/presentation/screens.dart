@@ -4,6 +4,6 @@ export 'package:aio/presentation/home/home.screen.dart';
 export 'package:aio/presentation/portfolio/portfolio.screen.dart';
 export 'package:aio/presentation/project_detail/project_detail.screen.dart';
 export 'package:aio/presentation/project_list/project_list.screen.dart';
-export 'package:aio/presentation/search/search.screen.dart';
+export 'package:aio/presentation/search/global_search.screen.dart';
 export 'package:aio/presentation/splash/splash.screen.dart';
 export 'package:aio/presentation/synchronisation/synchronisation.screen.dart';

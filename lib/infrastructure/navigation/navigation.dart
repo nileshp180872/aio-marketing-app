@@ -41,12 +41,12 @@ class Nav {
     ),
     GetPage(
       name: Routes.ENQUIRY,
-      page: () => const EnquiryScreen(),
+      page: () => EnquiryScreen(),
       binding: EnquiryControllerBinding(),
     ),
     GetPage(
       name: Routes.SEARCH,
-      page: () => const SearchScreen(),
+      page: () => GlobalSearchScreen(),
       binding: SearchControllerBinding(),
     ),
     GetPage(
