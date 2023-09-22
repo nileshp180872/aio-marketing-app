@@ -35,7 +35,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
       onPressed: () => _controller.navigateToSynchronisation(),
       child: const Icon(
         Icons.sync,
-        color: Colors.black,
+        color: Colors.white,
       ),
     );
   }
@@ -61,6 +61,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   Widget _buildBottomActions() {
     return Row(
       children: [
+        // work/portfolio
         Expanded(
             child: _buildButton(
                 buttonText: AppStrings.workPortfolio,
@@ -68,17 +69,19 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
         const SizedBox(
           width: AppValues.size_30,
         ),
+        // case study
         Expanded(
             child: _buildButton(
                 buttonText: AppStrings.caseStudy,
-                onClick: _controller.navigateToPortfolio)),
+                onClick: _controller.navigateToCaseStudy)),
         const SizedBox(
           width: AppValues.size_30,
         ),
+        // team leadership
         Expanded(
             child: _buildButton(
                 buttonText: AppStrings.teamLeadership,
-                onClick: _controller.navigateToPortfolio)),
+                onClick: _controller.navigateToLeadership)),
       ],
     );
   }
@@ -164,7 +167,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
                   color: Colors.white),
             ),
             const SizedBox(
-              height: AppValues.size_20,
+              height: AppValues.size_16,
             ),
             Text(
               AppStrings.homeOverlayContent3,

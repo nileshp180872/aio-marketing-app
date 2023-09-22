@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 
 import 'controllers/search.controller.dart';
 
-class SearchScreen extends GetView<SearchController> {
+class SearchScreen extends GetView<GlobalSearchController> {
+
   const SearchScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

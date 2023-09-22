@@ -49,5 +49,20 @@ class Nav {
       page: () => const SearchScreen(),
       binding: SearchControllerBinding(),
     ),
+    GetPage(
+      name: Routes.PROJECT_LIST,
+      page: () => ProjectListScreen(),
+      binding: ProjectListControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PROJECT_DETAIL,
+      page: () => ProjectDetailScreen(),
+      binding: ProjectDetailControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.BOARD_MEMBER_SLIDER,
+      page: () => BoardMemberSliderScreen(),
+      binding: BoardMemberSliderControllerBinding(),
+    ),
   ];
 }

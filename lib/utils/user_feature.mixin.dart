@@ -4,6 +4,7 @@ import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,8 @@ mixin AppFeature {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment(-1.0, 0.0),
-          end: Alignment(1.0, 0.0),
-          transform: GradientRotation(math.pi / 2),
+          begin: Alignment(0, 0),
+          end: Alignment(0, 1),
           colors: [Color(0xFFDEF8FF), Color(0xFFFFFFFF)],
         ),
       ),
@@ -131,6 +131,53 @@ mixin AppFeature {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget buildBaseDropdown(
+      {required String title,
+      required List<String> items,
+      required String selectedItem,
+      required Function(String? selectedValue) onChangeSelection}) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2<String>(
+        isExpanded: true,
+        hint: Text(
+          'Select Item',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.black,
+          ),
+        ),
+        items: items
+            .map((String item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ))
+            .toList(),
+        value: selectedItem,
+        buttonStyleData: ButtonStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(
+              color: Colors.black26,
+            ),
+            color: Colors.white,
+          ),
+          elevation: 0,
+        ),
+        onChanged: (String? value) {
+          onChangeSelection(value);
+        },
       ),
     );
   }

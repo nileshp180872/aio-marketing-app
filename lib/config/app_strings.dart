@@ -11,6 +11,13 @@ abstract class AppStrings {
   static const workPortfolio = 'Work/Portfolio';
   static const caseStudy = 'Case study';
   static const teamLeadership = 'Team/Leadership';
+  static const domainIndustry = 'Domains/Industries';
+  static const mobileWeb = 'Mobile/Web';
+  static const technologyStack = 'Technology/Tech stack';
+  static const project = 'Project';
+  static const usedTechnologies = 'Used Technology';
+  static const overview = 'Overview';
+  static const description = 'Description';
 
 
 }

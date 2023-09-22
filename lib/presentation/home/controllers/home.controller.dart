@@ -1,3 +1,5 @@
+import 'package:aio/infrastructure/navigation/route_arguments.dart';
+import 'package:aio/presentation/portfolio/controllers/portfolio.controller.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -14,6 +16,9 @@ class HomeController extends GetxController {
   /// video player controller
   late Rx<VideoPlayerController> videoPlayerController =
       VideoPlayerController.asset(AppAssets.kCompanyVideo).obs;
+
+  /// Store true when user request to play video otherwise false.
+  bool userRequested = false;
 
   @override
   void onInit() {
@@ -34,12 +39,27 @@ class HomeController extends GetxController {
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController.value,
       autoPlay: true,
+      showControlsOnInitialize: false,
       looping: true,
       allowFullScreen: true,
+      hideControlsTimer: const Duration(seconds: 1),
       autoInitialize: true,
     );
-
+    videoPlayerController.value.addListener(() {
+      if (!videoPlayerController.value.value.isPlaying) {
+        overlayEnabled.value = true;
+      } else {
+        overlayEnabled.value = !userRequested ;
+      }
+    });
     videoPlayerController.refresh();
+  }
+
+  /// Play video muted
+  void _playVideoMuted() {
+    videoPlayerController.value.seekTo(const Duration(seconds: 0));
+    videoPlayerController.value.setVolume(0.0);
+    videoPlayerController.value.play();
   }
 
   /// Navigate to synchronisation.
@@ -49,14 +69,26 @@ class HomeController extends GetxController {
 
   /// Hide overlay and play video.
   void hideOverlayAndLoadVideo() {
-    overlayEnabled.value = false;
+    userRequested = true;
     videoPlayerController.value.setVolume(1.0);
     videoPlayerController.value.seekTo(const Duration(seconds: 0));
+    videoPlayerController.value.play();
   }
 
   /// on portfolio click
   void navigateToPortfolio() {
     Get.toNamed(Routes.PORTFOLIO);
+  }
+
+  /// on caseStudy click
+  void navigateToCaseStudy() {
+    Get.toNamed(Routes.PORTFOLIO,
+        arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});
+  }
+
+  /// on leadership click
+  void navigateToLeadership() {
+    Get.toNamed(Routes.BOARD_MEMBER_SLIDER);
   }
 
   /// on enquiry click

@@ -1,9 +1,12 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/infrastructure/navigation/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
+import '../../config/app_assets.dart';
 import 'controllers/splash.controller.dart';
 
 class SplashScreen extends GetView<SplashController> {
@@ -25,9 +28,9 @@ class SplashScreen extends GetView<SplashController> {
 
   /// Build center logo widget.
   Widget _buildCenterLogo() {
-    return Text(
-      AppStrings.appName,
-      style: textTheme.bodyLarge,
+    return SvgPicture.asset(
+      SVGAssets.headerAppLogo,
+      width: 300,
     );
   }
 }
