@@ -27,7 +27,7 @@ class SynchronisationController extends GetxController {
 
   @override
   void onInit() {
-    // _setupFields();
+    _setupFields();
     super.onInit();
   }
 

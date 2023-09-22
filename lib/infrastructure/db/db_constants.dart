@@ -17,4 +17,15 @@ abstract class DbConstants {
 
   static const technologicalId = 'technologies_id';
   static const technologicalName = 'technologies_name';
+
+  //------------- Enquiry Data ---------
+  static const tblEnquiry = 'enquiry';
+
+  static const enquiryId = 'enquiry_id';
+  static const enquiryMemberName = 'enquiry_member_name';
+  static const enquiryMemberEmail = 'enquiry_member_email';
+  static const enquiryMemberPhone = 'enquiry_member_phone';
+  static const enquiryMemberCompanyName = 'enquiry_member_company_name';
+  static const enquiryMemberMessage = 'enquiry_member_message';
+  static const enquirySyncStatus = 'enquiry_sync_status';
 }

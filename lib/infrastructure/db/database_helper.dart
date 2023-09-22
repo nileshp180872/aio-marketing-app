@@ -1,5 +1,6 @@
 import 'package:aio/infrastructure/db/db_constants.dart';
 import 'package:aio/infrastructure/db/schema/domain.dart';
+import 'package:aio/infrastructure/db/schema/enquiry.dart';
 import 'package:aio/infrastructure/db/schema/leadership_type.dart';
 import 'package:aio/infrastructure/db/schema/technologies.dart';
 
@@ -31,5 +32,10 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   /// Add data to the technologies.
   void addToTechnologies(Technologies technologies) {
     insert(technologies.toJson(), DbConstants.tblTechnologies);
+  }
+
+  /// Add enquiry to db.
+  void addToEnquiry(Enquiry enquiry) {
+    insert(enquiry.toJson(), DbConstants.tblEnquiry);
   }
 }
