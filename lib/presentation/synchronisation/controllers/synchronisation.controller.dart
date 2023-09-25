@@ -9,6 +9,7 @@ import 'package:synchronized/synchronized.dart';
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/leadership_type.dart';
 import '../../../infrastructure/db/schema/technologies.dart';
+import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/network/model/domain_response.dart';
 import '../../../infrastructure/network/model/leadership_type.dart';
 import '../../../infrastructure/network/model/technology_response.dart';
@@ -23,7 +24,10 @@ class SynchronisationController extends GetxController {
   final SynchronisationProvider _provider = SynchronisationProvider();
 
   // prevent concurrent access to data
-  var lock = new Lock();
+  var lock = Lock();
+
+  /// is network enable
+  RxBool isNetworkEnable = false.obs;
 
   @override
   void onInit() {
@@ -32,14 +36,18 @@ class SynchronisationController extends GetxController {
   }
 
   /// Setup fields.
-  void _setupFields() {
+  void _setupFields() async {
     _dbHelper = GetIt.I<DatabaseHelper>();
 
-    Future.delayed(
-        const Duration(
-          seconds: 1,
-        ),
-        () => getAPIS());
+    isNetworkEnable.value = await Utils.isConnected();
+
+    if (isNetworkEnable.value) {
+      Future.delayed(
+          const Duration(
+            seconds: 1,
+          ),
+          () => getAPIS());
+    }
   }
 
   /// Get domains API.
@@ -52,8 +60,13 @@ class SynchronisationController extends GetxController {
             _getTechnologies(),
             _getLeaderships(),
           ],
-        );
+        ).then((value) => _synchronizeEnquiryWithServer);
+      }).then((value) {
+        logger.i("Data synchronised!.");
+        Get.offAllNamed(Routes.HOME);
       });
+    } else {
+      logger.i("Sync not processed due to internet connectivity.");
     }
   }
 
@@ -96,12 +109,13 @@ class SynchronisationController extends GetxController {
   /// Domain success
   ///
   /// required [response] response.
-  void _domainAPISuccess(dio.Response response) {
+  void _domainAPISuccess(dio.Response response) async {
     final domainResponse = DomainResponse.fromJson(response.data);
     for (DomainResponseData element in (domainResponse.data ?? [])) {
       final model =
           Domain(domainId: element.id, domainName: element.domainName);
-      _dbHelper.addToDomain(model);
+      final dbResponse = await _dbHelper.addToDomain(model);
+      Get.log('dbResponse $dbResponse');
     }
   }
 
@@ -136,19 +150,34 @@ class SynchronisationController extends GetxController {
 
   /// Synchronize enquiry with server.
   void _synchronizeEnquiryWithServer() async {
-    final queryList = await _dbHelper.getFirstColumn();
-    if (queryList.isNotEmpty) {
-      final response = await _provider.addInquiry(queryList.first);
-      if (response.statusCode == 200) {
-        _dbHelper.delete(
-            id: queryList.first.enquiryId ?? "",
-            table: DbConstants.tblEnquiry,
-            columnName: DbConstants.enquiryId);
-      } else {}
+    final storedEnquiries = await _dbHelper.getTotalInquiryCount();
+    if (storedEnquiries > 0) {
+      for (int i = 0; i < storedEnquiries - 1; i++) {
+        await _syncWithServer();
+      }
     }
   }
 
-  void _syncWithServer(){
+  /// _sync data with server.
+  ///
+  /// returns true if server response is success and data deleted
+  /// from device storage.
+  Future<bool> _syncWithServer() async {
+    final queryList = await _dbHelper.getFirstColumn();
+    final response = await _provider.addInquiry(queryList.first);
+    if (response.statusCode == 200) {
+      final deleteResponse = _dbHelper.delete(
+          id: queryList.first.enquiryId ?? "",
+          table: DbConstants.tblEnquiry,
+          columnName: DbConstants.enquiryId);
+      return deleteResponse == 1;
+    } else {
+      return false;
+    }
+  }
 
+  /// on back.
+  void onGetBack() {
+    Get.back();
   }
 }

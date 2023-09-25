@@ -20,7 +20,7 @@ abstract class NetworkAPIs {
 }
 
 abstract class NetworkParams {
-  static const companyName = "comapny_name";
+  static const companyName = "company_name";
   static const email = "email";
   static const message = "message";
   static const phoneNumber = "phone_no";

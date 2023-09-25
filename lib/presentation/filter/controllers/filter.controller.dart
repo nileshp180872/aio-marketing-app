@@ -1,16 +1,19 @@
+import 'package:aio/infrastructure/db/schema/technologies.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../infrastructure/db/database_helper.dart';
+import '../../../infrastructure/db/schema/domain.dart';
 import '../model/selection_model.dart';
 
 class FilterController extends GetxController {
   RxInt selectedIndex = 0.obs;
 
+  // Database helper
+  late DatabaseHelper _dbHelper;
+
   List<String> list1 = ["Domain", "Technology Stack", "Mobile/Web"];
-  RxList<SelectionModel> lstDomains = RxList([
-    SelectionModel(title: "Domain1"),
-    SelectionModel(title: "Domain2"),
-    SelectionModel(title: "Domain3")
-  ]);
+  RxList<SelectionModel> lstDomains = RxList();
   RxList<SelectionModel> lstMobileWeb = RxList([
     SelectionModel(title: "Mobile/Web1"),
     SelectionModel(title: "Mobile/Web2"),
@@ -58,6 +61,15 @@ class FilterController extends GetxController {
     SelectionModel(title: "Technology Stack7"),
   ]);
 
+  @override
+  void onInit() {
+    _dbHelper = GetIt.I<DatabaseHelper>();
+
+    _prepareDomains();
+    _prepareTechnologies();
+    super.onInit();
+  }
+
   void setSelectedIndex(int index) {
     selectedIndex.value = index;
   }
@@ -103,5 +115,25 @@ class FilterController extends GetxController {
     }
 
     lstDomains.refresh();
+  }
+
+  /// Prepare domains
+  void _prepareDomains() async {
+    final domains = await _dbHelper.getAllDomains();
+    Get.log("domainName ${domains.length}");
+    for (Domain element in domains) {
+      Get.log("domainName ${element.domainName}");
+      lstDomains.add(SelectionModel(title: element.domainName));
+    }
+  }
+
+  /// Prepare technologies
+  void _prepareTechnologies() async {
+    final technologies = await _dbHelper.getAllTechnologies();
+    Get.log("technologyName ${technologies.length}");
+    for (Technologies element in technologies) {
+      Get.log("technologyName ${element.technologyName}");
+      lstTechnologies.add(SelectionModel(title: element.technologyName));
+    }
   }
 }

@@ -20,8 +20,19 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   }
 
   /// Add data to the domain.
-  void addToDomain(Domain domain) {
-    insert(domain.toJson(), DbConstants.tblDomain);
+  Future<int> addToDomain(Domain domain) async{
+    return await insert(domain.toJson(), DbConstants.tblDomain);
+  }
+
+  /// Return all domains.
+  Future<List<Domain>> getAllDomains() async {
+    List<dynamic> result = await queryAllRows(DbConstants.tblDomain);
+
+    List<Domain> enquiries = [];
+    for (var element in result) {
+      enquiries.add(Domain.fromJson(element));
+    }
+    return enquiries;
   }
 
   /// Add data to the leadership.
@@ -32,6 +43,17 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   /// Add data to the technologies.
   void addToTechnologies(Technologies technologies) {
     insert(technologies.toJson(), DbConstants.tblTechnologies);
+  }
+
+  /// Return all domains.
+  Future<List<Technologies>> getAllTechnologies() async {
+    List<dynamic> result = await queryAllRows(DbConstants.tblTechnologies);
+
+    List<Technologies> enquiries = [];
+    for (var element in result) {
+      enquiries.add(Technologies.fromJson(element));
+    }
+    return enquiries;
   }
 
   /// Add enquiry to db.
@@ -59,5 +81,10 @@ class DatabaseHelper with DbConfig, SchemaConfig {
       enquiries.add(Enquiry.fromJson(element));
     }
     return enquiries;
+  }
+
+  /// Return count of available inquires data.
+  Future<int> getTotalInquiryCount() async{
+    return queryRowCount(DbConstants.tblEnquiry);
   }
 }
