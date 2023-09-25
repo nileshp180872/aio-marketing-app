@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../presentation/portfolio/new_portfolio.screen.dart';
 import '../../presentation/screens.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
@@ -36,7 +37,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.PORTFOLIO,
-      page: () => PortfolioScreen(),
+      page: () => NewPortfolioScreen(),
       binding: PortfolioControllerBinding(),
     ),
     GetPage(
@@ -63,6 +64,11 @@ class Nav {
       name: Routes.BOARD_MEMBER_SLIDER,
       page: () => BoardMemberSliderScreen(),
       binding: BoardMemberSliderControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.FILTER,
+      page: () => FilterScreen(),
+      binding: FilterControllerBinding(),
     ),
   ];
 }

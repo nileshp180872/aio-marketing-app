@@ -1,5 +1,6 @@
 export 'package:aio/presentation/board_member_slider/board_member_slider.screen.dart';
 export 'package:aio/presentation/enquiry/enquiry.screen.dart';
+export 'package:aio/presentation/filter/filter.screen.dart';
 export 'package:aio/presentation/home/home.screen.dart';
 export 'package:aio/presentation/portfolio/portfolio.screen.dart';
 export 'package:aio/presentation/project_detail/project_detail.screen.dart';

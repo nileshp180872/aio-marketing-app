@@ -27,6 +27,7 @@ abstract class AppStrings {
   static const submit = 'Submit';
   static const goToHome = 'Home';
   static const success = 'Success';
+  static const apply = 'Apply';
 
 
 }

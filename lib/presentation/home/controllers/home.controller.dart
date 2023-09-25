@@ -77,7 +77,7 @@ class HomeController extends GetxController {
 
   /// on portfolio click
   void navigateToPortfolio() {
-    Get.toNamed(Routes.PORTFOLIO);
+    Get.toNamed(Routes.FILTER);
   }
 
   /// on caseStudy click

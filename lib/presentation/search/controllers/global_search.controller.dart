@@ -21,22 +21,35 @@ class GlobalSearchController extends GetxController {
 
     super.onInit();
   }
+
   void setSearch(String value) {
     _search = value;
   }
+
   /// Populate data.
   void _populateDataOnScreenFilter() {
     projectList.addAll([
-      ProjectListModel(projectName: 'Project 1'),
-      ProjectListModel(projectName: 'Project 2'),
-      ProjectListModel(projectName: 'Project 3'),
-      ProjectListModel(projectName: 'Project 4'),
-      ProjectListModel(projectName: 'Project 5'),
-      ProjectListModel(projectName: 'Project 6'),
-      ProjectListModel(projectName: 'Project 7'),
-      ProjectListModel(projectName: 'Project 8'),
-      ProjectListModel(projectName: 'Project 9'),
-      ProjectListModel(projectName: 'Project 10'),
+      ProjectListModel(
+          projectName: 'Project 1', projectImage: "assets/images/project1.png"),
+      ProjectListModel(
+          projectName: 'Project 2', projectImage: "assets/images/project2.png"),
+      ProjectListModel(
+          projectName: 'Project 3', projectImage: "assets/images/project3.png"),
+      ProjectListModel(
+          projectName: 'Project 4', projectImage: "assets/images/project1.png"),
+      ProjectListModel(
+          projectName: 'Project 5', projectImage: "assets/images/project3.png"),
+      ProjectListModel(
+          projectName: 'Project 6', projectImage: "assets/images/project1.png"),
+      ProjectListModel(
+          projectName: 'Project 7', projectImage: "assets/images/project2.png"),
+      ProjectListModel(
+          projectName: 'Project 8', projectImage: "assets/images/project1.png"),
+      ProjectListModel(
+          projectName: 'Project 9', projectImage: "assets/images/project1.png"),
+      ProjectListModel(
+          projectName: 'Project 10',
+          projectImage: "assets/images/project1.png"),
     ]);
   }
 

@@ -1,5 +1,6 @@
 export 'package:aio/infrastructure/navigation/bindings/controllers/board_member_slider.controller.binding.dart'; 
 export 'package:aio/infrastructure/navigation/bindings/controllers/enquiry.controller.binding.dart'; 
+export 'package:aio/infrastructure/navigation/bindings/controllers/filter.controller.binding.dart'; 
 export 'package:aio/infrastructure/navigation/bindings/controllers/global_search.controller.binding.dart';
 export 'package:aio/infrastructure/navigation/bindings/controllers/home.controller.binding.dart'; 
 export 'package:aio/infrastructure/navigation/bindings/controllers/portfolio.controller.binding.dart'; 

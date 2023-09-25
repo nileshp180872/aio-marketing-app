@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_constants.dart';
@@ -33,7 +31,8 @@ mixin AppFeature {
   /// Build appbar widget with custom child below custom view.
   ///
   /// required [child] widget which needs to add below appbar.
-  Widget buildCustomAppBarWithChild({required Widget child, bool enableSearch=true}) {
+  Widget buildCustomAppBarWithChild(
+      {required Widget child, bool enableSearch = true}) {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -52,10 +51,13 @@ mixin AppFeature {
             width: double.infinity,
             height: 77,
             child: Row(children: [
-              SvgPicture.asset(SVGAssets.headerAppLogo),
+              GestureDetector(
+                  onTap: () {
+                    Get.until((route) => route.settings.name == Routes.HOME);
+                  },
+                  child: SvgPicture.asset(SVGAssets.headerAppLogo)),
               const Spacer(),
-              if(enableSearch)
-              _buildSearchContainer()
+              if (enableSearch) _buildSearchContainer()
             ]),
           ),
           child
@@ -64,20 +66,68 @@ mixin AppFeature {
     );
   }
 
-  /// Build left logo.
-  Widget _buildLeftLogo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 28.0),
-      child: SvgPicture.asset(SVGAssets.headerAppLogo),
+  /// Build appbar widget with custom child below custom view.
+  ///
+  /// required [child] widget which needs to add below appbar.
+  Widget buildCustomAppBarWithFilter(
+      {required Widget child, bool enableSearch = true}) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment(0, 0),
+          end: Alignment(0, 1),
+          colors: [Color(0xFFDEF8FF), Color(0xFFFFFFFF)],
+        ),
+      ),
+      padding: const EdgeInsets.only(
+          left: AppValues.sideMargin, right: AppValues.sideMargin),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Get.until((route) => route.settings.name == Routes.HOME);
+                  },
+                  child: SvgPicture.asset(SVGAssets.headerAppLogo)),
+              _buildTitleWithBack(title: "This")
+            ],
+          ),
+          Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (enableSearch) _buildSearchContainer(ignoreRightMargin: true),
+              child
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSearchContainer() {
+  /// Build left logo.
+  Widget _buildLeftLogo() {
+    return InkWell(
+      onTap: () {
+        Get.until((route) => route.settings.name == Routes.HOME);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 28.0),
+        child: SvgPicture.asset(SVGAssets.headerAppLogo),
+      ),
+    );
+  }
+
+  Widget _buildSearchContainer({bool ignoreRightMargin = false}) {
     return InkWell(
       onTap: () => Get.toNamed(Routes.SEARCH),
       child: Container(
         color: Colors.transparent,
-        margin: const EdgeInsets.only(right: AppValues.sideMargin),
+        margin: EdgeInsets.only(
+            right: ignoreRightMargin ? 0 : AppValues.sideMargin),
         child: Center(
           child: Container(
               width: 200,
