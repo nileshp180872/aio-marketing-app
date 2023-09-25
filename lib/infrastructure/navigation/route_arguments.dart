@@ -3,4 +3,5 @@ abstract class RouteArguments {
   static const screenName = 'screenName';
   static const projectId = 'projectId';
   static const projectListType = 'projectListType';
+  static const filterApplied = 'filterApplied';
 }

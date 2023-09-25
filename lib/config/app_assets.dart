@@ -1,5 +1,4 @@
 abstract class AppAssets{
-
   static const kCompanyVideo = 'assets/video/sample_video1.mp4';
 }
 

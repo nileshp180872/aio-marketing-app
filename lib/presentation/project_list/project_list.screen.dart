@@ -1,10 +1,8 @@
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
-import 'package:aio/presentation/project_list/view/project_list_tile_widget.dart';
 import 'package:aio/presentation/project_list/view/project_list_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../config/app_values.dart';
@@ -27,7 +25,11 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildCustomAppBar(title: _controller.screenTitle.value),
+              buildCustomAppBarWithDropdown(
+                  title: _controller.screenTitle.value,
+                  screenValue: _controller.screenTitle.value,
+                  filterApplied: _controller.filterApplied.isTrue,
+                  onClick: _controller.onFilterClick),
               Expanded(child: _buildScreenBody())
             ],
           ),

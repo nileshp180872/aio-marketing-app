@@ -1,3 +1,4 @@
+import 'package:aio/presentation/project_list/view/project_list_grid_tile_widget.dart';
 import 'package:aio/presentation/project_list/view/project_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,20 +19,7 @@ class ProjectListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.colorSecondary.withOpacity(0.5))),
-      child: Column(
-        children: [
-          _buildProjectListHeader(),
-          Container(
-            height: 1,
-            color: AppColors.colorSecondary.withOpacity(0.5),
-          ),
-          Expanded(child: _buildProjectList()),
-        ],
-      ),
-    );
+    return _buildProjectGridList();
   }
 
   /// Build project list header widget.
@@ -64,6 +52,22 @@ class ProjectListWidget extends StatelessWidget {
         return Container(
           height: 1,
           color: AppColors.colorSecondary.withOpacity(0.5),
+        );
+      },
+    );
+  }
+
+  /// Build project grid list view
+  Widget _buildProjectGridList() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4, crossAxisSpacing: 30,mainAxisSpacing: 30, childAspectRatio: 1.1),
+      shrinkWrap: true,
+      itemCount: projectList.length,
+      itemBuilder: (ctx, index) {
+        return ProjectListGridTileWidget(
+          projectListModel: projectList[index],
+          onClick: onClick,
         );
       },
     );
