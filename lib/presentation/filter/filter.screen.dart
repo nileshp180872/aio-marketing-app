@@ -25,7 +25,9 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildClearButton(),
-            const SizedBox(width: 20,),
+            const SizedBox(
+              width: 20,
+            ),
             _buildApplyButton(),
           ],
         ),
@@ -39,12 +41,16 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
 
   Widget _buildBodyWidget() {
     return Padding(
-      padding: const EdgeInsets.all(AppValues.sideMargin),
+      padding: const EdgeInsets.only(
+          top: AppValues.sideMargin,
+          left: AppValues.sideMargin,
+          bottom: AppValues.size_10,
+          right: AppValues.sideMargin),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: _buildLeftSideList()),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
           Expanded(
@@ -164,16 +170,16 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
   /// Build apply button
   Widget _buildClearButton() {
     return InkWell(
-      onTap: _controller.onCancel,
+      onTap: _controller.onClearFilter,
       child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 42),
           decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(4)),
+              color: Colors.grey[100], borderRadius: BorderRadius.circular(4)),
           child: Text(
-            AppStrings.apply,
-            style: _textTheme.labelLarge
-                ?.copyWith(fontFamily: AppConstants.poppins, color: AppColors.textColorContent),
+            AppStrings.clearAll,
+            style: _textTheme.labelLarge?.copyWith(
+                fontFamily: AppConstants.poppins,
+                color: AppColors.textColorContent),
           )),
     );
   }

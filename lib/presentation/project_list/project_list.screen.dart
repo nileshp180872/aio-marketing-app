@@ -27,8 +27,9 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
             children: [
               buildCustomAppBarWithDropdown(
                   title: _controller.screenTitle.value,
-              screenValue: _controller.screenTitle.value,
-              onClick: _controller.onFilterClick),
+                  screenValue: _controller.screenTitle.value,
+                  filterApplied: _controller.filterApplied.isTrue,
+                  onClick: _controller.onFilterClick),
               Expanded(child: _buildScreenBody())
             ],
           ),

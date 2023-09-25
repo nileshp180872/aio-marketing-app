@@ -72,6 +72,7 @@ mixin AppFeature {
   Widget buildCustomAppBarWithDropdown(
       {required String title,
       required String screenValue,
+      bool filterApplied = false,
       required Function() onClick,
       bool enableSearch = true}) {
     return Container(
@@ -110,19 +111,42 @@ mixin AppFeature {
                 child: Container(
                   height: 36,
                   width: 200,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: AppColors.colorSecondary.withOpacity(0.5))),
-                  margin: const EdgeInsets.only(right: AppValues.sideMargin),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(screenValue)),
-                      Icon(
-                        Icons.arrow_drop_down_outlined,
-                        color: AppColors.colorSecondary.withOpacity(0.5),
-                      )
-                    ],
+                  child: Container(
+                    height: 36,
+                    width: 200,
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: AppColors.colorSecondary.withOpacity(0.5))),
+                    margin: const EdgeInsets.only(right: AppValues.sideMargin),
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Row(
+                            children: [
+                              Expanded(child: Text(screenValue)),
+                              Icon(
+                                Icons.arrow_drop_down_outlined,
+                                color:
+                                    AppColors.colorSecondary.withOpacity(0.5),
+                              )
+                            ],
+                          ),
+                        ),
+                        if (filterApplied)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.red,
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
                   ),
                 ),
               ),

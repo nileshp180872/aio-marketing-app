@@ -28,6 +28,7 @@ abstract class AppStrings {
   static const goToHome = 'Home';
   static const success = 'Success';
   static const apply = 'Apply';
+  static const clearAll = 'Clear All';
 
 
 }

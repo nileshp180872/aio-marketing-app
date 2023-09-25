@@ -89,7 +89,19 @@ class FilterController extends GetxController {
   }
 
   /// on cancel button click
-  void onCancel() {
-    Get.back();
+  void onClearFilter() {
+    for (var element in lstDomains) {
+      element.selected = false;
+    }
+
+    for (var element in lstTechnologies) {
+      element.selected = false;
+    }
+
+    for (var element in lstMobileWeb) {
+      element.selected = false;
+    }
+
+    lstDomains.refresh();
   }
 }
