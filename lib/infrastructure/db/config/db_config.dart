@@ -2,8 +2,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../db_constants.dart';
-
 mixin DbConfig {
   late Database _db;
 
@@ -30,8 +28,14 @@ mixin DbConfig {
 
   // All of the rows are returned as a list of maps, where each map is
   // a key-value list of columns.
-  Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
+  Future<List<dynamic>> queryAllRows(String table) async {
     return await _db.query(table);
+  }
+
+  // first row returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<dynamic>> queryOneRows(String table) async {
+    return await _db.query(table, limit: 1);
   }
 
   // All of the methods (insert, query, update, delete) can also be done using
@@ -53,13 +57,16 @@ mixin DbConfig {
 //   );
 // }
 //
-// // Deletes the row specified by the id. The number of affected rows is
-// // returned. This should be 1 as long as the row exists.
-// Future<int> delete(int id) async {
-//   return await _db.delete(
-//     table,
-//     where: '$columnId = ?',
-//     whereArgs: [id],
-//   );
-// }
+// Deletes the row specified by the id. The number of affected rows is
+// returned. This should be 1 as long as the row exists.
+  Future<int> delete(
+      {required String id,
+      required String table,
+      required String columnName}) async {
+    return await _db.delete(
+      table,
+      where: '$columnName = ?',
+      whereArgs: [id],
+    );
+  }
 }

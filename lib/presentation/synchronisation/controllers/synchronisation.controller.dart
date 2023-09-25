@@ -1,7 +1,7 @@
+import 'package:aio/infrastructure/db/db_constants.dart';
 import 'package:aio/infrastructure/db/schema/domain.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
@@ -133,4 +133,22 @@ class SynchronisationController extends GetxController {
   ///
   /// required [response] response.
   void _domainAPIError(dio.Response response) {}
+
+  /// Synchronize enquiry with server.
+  void _synchronizeEnquiryWithServer() async {
+    final queryList = await _dbHelper.getFirstColumn();
+    if (queryList.isNotEmpty) {
+      final response = await _provider.addInquiry(queryList.first);
+      if (response.statusCode == 200) {
+        _dbHelper.delete(
+            id: queryList.first.enquiryId ?? "",
+            table: DbConstants.tblEnquiry,
+            columnName: DbConstants.enquiryId);
+      } else {}
+    }
+  }
+
+  void _syncWithServer(){
+
+  }
 }

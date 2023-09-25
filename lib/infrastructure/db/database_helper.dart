@@ -38,4 +38,26 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   void addToEnquiry(Enquiry enquiry) {
     insert(enquiry.toJson(), DbConstants.tblEnquiry);
   }
+
+  /// Return all enquiries.
+  Future<List<Enquiry>> getAllEnquiries() async {
+    List<dynamic> result = await queryAllRows(DbConstants.tblEnquiry);
+
+    List<Enquiry> enquiries = [];
+    for (var element in result) {
+      enquiries.add(Enquiry.fromJson(element));
+    }
+    return enquiries;
+  }
+
+  /// Return all enquiries.
+  Future<List<Enquiry>> getFirstColumn() async {
+    List<dynamic> result = await queryOneRows(DbConstants.tblEnquiry);
+
+    List<Enquiry> enquiries = [];
+    for (var element in result) {
+      enquiries.add(Enquiry.fromJson(element));
+    }
+    return enquiries;
+  }
 }

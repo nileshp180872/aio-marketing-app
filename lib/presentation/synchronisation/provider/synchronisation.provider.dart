@@ -1,3 +1,4 @@
+import 'package:aio/infrastructure/db/schema/enquiry.dart';
 import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -18,5 +19,18 @@ class SynchronisationProvider {
   /// Returns list of leadership.
   Future<Response> getLeadership() async {
     return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeadership);
+  }
+
+  /// Returns add enquiry response.
+  Future<Response> addInquiry(Enquiry enquiry) async {
+    Map<String, dynamic> body = {
+      NetworkParams.companyName: enquiry.enquiryMemberCompany,
+      NetworkParams.email: enquiry.enquiryMemberEmail,
+      NetworkParams.phoneNumber: enquiry.enquiryMemberPhone,
+      NetworkParams.userName: enquiry.enquiryMemberName,
+      NetworkParams.message: enquiry.enquiryMemberMessage,
+    };
+    return GetIt.I<DioProvider>()
+        .postBaseAPI(url: NetworkAPIs.kEnquiry, data: body);
   }
 }

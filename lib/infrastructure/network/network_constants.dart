@@ -14,4 +14,15 @@ abstract class NetworkAPIs {
 
   // Leadership
   static const kLeadership = "list/leader";
+
+  // Enquiry
+  static const kEnquiry = "enquiry/new";
+}
+
+abstract class NetworkParams {
+  static const companyName = "comapny_name";
+  static const email = "email";
+  static const message = "message";
+  static const phoneNumber = "phone_no";
+  static const userName = "users_name";
 }
