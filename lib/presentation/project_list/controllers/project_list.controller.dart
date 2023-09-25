@@ -65,6 +65,11 @@ class ProjectListController extends GetxController {
       RouteArguments.portfolioEnum: _portfolioEnum,
     });
   }
+
+  /// filter screen.
+  void onFilterClick() {
+    Get.toNamed(Routes.FILTER);
+  }
 }
 
 enum ProjectListTypeEnum {

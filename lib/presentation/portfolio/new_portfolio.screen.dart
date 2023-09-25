@@ -1,19 +1,14 @@
-import 'package:aio/config/app_colors.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../infrastructure/navigation/routes.dart';
 import 'controllers/portfolio.controller.dart';
 
 class NewPortfolioScreen extends GetView<PortfolioController> with AppFeature {
   final PortfolioController _controller =
-  Get.find<PortfolioController>(tag: Routes.PORTFOLIO);
+      Get.find<PortfolioController>(tag: Routes.PORTFOLIO);
 
   late BuildContext _buildContext;
 
@@ -25,10 +20,13 @@ class NewPortfolioScreen extends GetView<PortfolioController> with AppFeature {
     return Scaffold(
       body: SafeArea(
         child: Obx(
-              () => Column(
+          () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildCustomAppBar(title: _controller.screenTitle.value),
+              buildCustomAppBarWithDropdown(
+                  title: _controller.screenTitle.value,
+                  screenValue: _controller.screenTitle.value,
+                  onClick: _controller.onFilterClick),
               _buildScreenBody()
             ],
           ),

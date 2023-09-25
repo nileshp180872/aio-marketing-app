@@ -1,7 +1,6 @@
 import 'package:aio/infrastructure/db/schema/domain.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';

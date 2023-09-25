@@ -69,6 +69,73 @@ mixin AppFeature {
   /// Build appbar widget with custom child below custom view.
   ///
   /// required [child] widget which needs to add below appbar.
+  Widget buildCustomAppBarWithDropdown(
+      {required String title,
+      required String screenValue,
+      required Function() onClick,
+      bool enableSearch = true}) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment(0, 0),
+          end: Alignment(0, 1),
+          colors: [Color(0xFFDEF8FF), Color(0xFFFFFFFF)],
+        ),
+      ),
+      padding: const EdgeInsets.only(left: AppValues.sideMargin),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 77,
+            child: Row(children: [
+              GestureDetector(
+                  onTap: () {
+                    Get.until((route) => route.settings.name == Routes.HOME);
+                  },
+                  child: SvgPicture.asset(SVGAssets.headerAppLogo)),
+              const Spacer(),
+              if (enableSearch) _buildSearchContainer()
+            ]),
+          ),
+          Row(
+            children: [
+              _buildTitleWithBack(title: title),
+              const Spacer(),
+              InkWell(
+                onTap: () => onClick(),
+                child: Container(
+                  height: 36,
+                  width: 200,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: AppColors.colorSecondary.withOpacity(0.5))),
+                  margin: const EdgeInsets.only(right: AppValues.sideMargin),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(screenValue)),
+                      Icon(
+                        Icons.arrow_drop_down_outlined,
+                        color: AppColors.colorSecondary.withOpacity(0.5),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  /// Build appbar widget with custom child below custom view.
+  ///
+  /// required [child] widget which needs to add below appbar.
   Widget buildCustomAppBarWithFilter(
       {required Widget child, bool enableSearch = true}) {
     return Container(
@@ -150,6 +217,49 @@ mixin AppFeature {
                     ),
                   ),
                   SvgPicture.asset(SVGAssets.searchIcon),
+                  const SizedBox(
+                    width: AppValues.size_10,
+                  ),
+                ],
+              )),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDummyDropdownContainer(
+      {required Function() onClick,
+      String displayText = "",
+      bool ignoreRightMargin = false}) {
+    return InkWell(
+      onTap: () => onClick(),
+      child: Container(
+        color: Colors.transparent,
+        margin: EdgeInsets.only(
+            right: ignoreRightMargin ? 0 : AppValues.sideMargin),
+        child: Center(
+          child: Container(
+              width: 200,
+              height: 32,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1,
+                      color: AppColors.colorSecondary.withOpacity(0.25))),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: AppValues.size_10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      displayText,
+                      style: TextStyle(
+                          color: AppColors.colorSecondary.withOpacity(0.75),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SvgPicture.asset(SVGAssets.backIcon),
                   const SizedBox(
                     width: AppValues.size_10,
                   ),

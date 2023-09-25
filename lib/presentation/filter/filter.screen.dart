@@ -21,13 +21,20 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: _buildEnquiryButton(),
+        floatingActionButton: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildClearButton(),
+            const SizedBox(width: 20,),
+            _buildApplyButton(),
+          ],
+        ),
         body: Column(
-      children: [
-        buildCustomAppBar(title: "Filter"),
-        Expanded(child: Obx(() => _buildBodyWidget())),
-      ],
-    ));
+          children: [
+            buildCustomAppBar(title: "Filter"),
+            Expanded(child: Obx(() => _buildBodyWidget())),
+          ],
+        ));
   }
 
   Widget _buildBodyWidget() {
@@ -42,8 +49,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
           ),
           Expanded(
             flex: 3,
-            child: Container(
-                child: _buildRightSliderList()),
+            child: Container(child: _buildRightSliderList()),
           )
         ],
       ),
@@ -62,8 +68,9 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
         );
       },
       separatorBuilder: (_, index) {
-        return const SizedBox(
-          height: 8,
+        return Divider(
+          height: 1,
+          color: Colors.grey.withOpacity(0.5),
         );
       },
       itemCount: _controller.list1.length,
@@ -137,8 +144,8 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
     );
   }
 
-  /// Build enquiry button
-  Widget _buildEnquiryButton() {
+  /// Build apply button
+  Widget _buildApplyButton() {
     return InkWell(
       onTap: _controller.submit,
       child: Container(
@@ -150,6 +157,23 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
             AppStrings.apply,
             style: _textTheme.labelLarge
                 ?.copyWith(fontFamily: AppConstants.poppins),
+          )),
+    );
+  }
+
+  /// Build apply button
+  Widget _buildClearButton() {
+    return InkWell(
+      onTap: _controller.onCancel,
+      child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 42),
+          decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(4)),
+          child: Text(
+            AppStrings.apply,
+            style: _textTheme.labelLarge
+                ?.copyWith(fontFamily: AppConstants.poppins, color: AppColors.textColorContent),
           )),
     );
   }

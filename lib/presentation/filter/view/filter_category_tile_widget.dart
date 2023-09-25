@@ -22,8 +22,8 @@ class FilterCategoryTileWidget extends StatelessWidget {
       onTap: () => onClick(index),
       child: Container(
           color: isSelected
-              ? AppColors.colorSecondary
-              : Colors.grey.withOpacity(0.2),
+              ? Colors.grey.withOpacity(0.2)
+              : Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
           child: Text(
             text,
@@ -33,7 +33,7 @@ class FilterCategoryTileWidget extends StatelessWidget {
                   fontFamily: AppConstants.sourceSansPro,
                   fontWeight: FontWeight.w500,
                 )
-                ?.copyWith(color: isSelected ? Colors.white : null),
+                ?.copyWith(),
           )),
     );
   }

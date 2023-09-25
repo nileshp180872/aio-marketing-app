@@ -83,5 +83,13 @@ class FilterController extends GetxController {
     lstDomains.refresh();
   }
 
-  void submit() {}
+  /// on apply button click
+  void submit() {
+    Get.back();
+  }
+
+  /// on cancel button click
+  void onCancel() {
+    Get.back();
+  }
 }

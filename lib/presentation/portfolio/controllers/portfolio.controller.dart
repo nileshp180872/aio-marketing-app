@@ -153,6 +153,7 @@ class PortfolioController extends GetxController {
           projectImage: "assets/images/project1.png"),
     ]);
   }
+
   /// on project click
   ///
   /// required [model] instance of ProjectListModel.
@@ -162,6 +163,11 @@ class PortfolioController extends GetxController {
       // RouteArguments.projectListType: _projectListTypeEnum,
       // RouteArguments.portfolioEnum: _portfolioEnum,
     });
+  }
+
+  /// filter screen.
+  void onFilterClick() {
+    Get.toNamed(Routes.FILTER);
   }
 }
 
