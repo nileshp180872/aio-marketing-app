@@ -3,7 +3,6 @@ import 'package:aio/config/app_values.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 
 import '../../config/app_assets.dart';
@@ -31,9 +30,11 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
               padding: const EdgeInsets.symmetric(
                   horizontal: AppValues.sideMargin,
                   vertical: AppValues.size_30),
-              child: ProjectListWidget(
-                projectList: _controller.projectList,
-                onClick: _controller.onProjectClick,
+              child: Obx(
+                () => ProjectListWidget(
+                  projectList: _controller.projectList.value,
+                  onClick: _controller.onProjectClick,
+                ),
               ),
             ),
           ),

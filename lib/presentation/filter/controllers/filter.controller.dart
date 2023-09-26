@@ -1,9 +1,11 @@
+import 'package:aio/config/app_strings.dart';
 import 'package:aio/infrastructure/db/schema/technologies.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/domain.dart';
+import '../../../infrastructure/db/schema/platform.dart';
 import '../model/selection_model.dart';
 
 class FilterController extends GetxController {
@@ -12,54 +14,21 @@ class FilterController extends GetxController {
   // Database helper
   late DatabaseHelper _dbHelper;
 
-  List<String> list1 = ["Domain", "Technology Stack", "Mobile/Web"];
+  // Main category list
+  List<String> lstSectionCategory = [
+    AppStrings.domainIndustry,
+    AppStrings.mobileWeb,
+    AppStrings.technologyStack
+  ];
+
+  // domain list
   RxList<SelectionModel> lstDomains = RxList();
-  RxList<SelectionModel> lstMobileWeb = RxList([
-    SelectionModel(title: "Mobile/Web1"),
-    SelectionModel(title: "Mobile/Web2"),
-    SelectionModel(title: "Mobile/Web3"),
-    SelectionModel(title: "Mobile/Web4"),
-    SelectionModel(title: "Mobile/Web5"),
-    SelectionModel(title: "Mobile/Web6"),
-    SelectionModel(title: "Mobile/Web7")
-  ]);
-  RxList<SelectionModel> lstTechnologies = RxList([
-    SelectionModel(title: "Technology Stack1"),
-    SelectionModel(title: "Technology Stack2"),
-    SelectionModel(title: "Technology Stack3"),
-    SelectionModel(title: "Technology Stack4"),
-    SelectionModel(title: "Technology Stack5"),
-    SelectionModel(title: "Technology Stack6"),
-    SelectionModel(title: "Technology Stack7"),
-    SelectionModel(title: "Technology Stack1"),
-    SelectionModel(title: "Technology Stack2"),
-    SelectionModel(title: "Technology Stack3"),
-    SelectionModel(title: "Technology Stack4"),
-    SelectionModel(title: "Technology Stack5"),
-    SelectionModel(title: "Technology Stack6"),
-    SelectionModel(title: "Technology Stack7"),
-    SelectionModel(title: "Technology Stack1"),
-    SelectionModel(title: "Technology Stack2"),
-    SelectionModel(title: "Technology Stack3"),
-    SelectionModel(title: "Technology Stack4"),
-    SelectionModel(title: "Technology Stack5"),
-    SelectionModel(title: "Technology Stack6"),
-    SelectionModel(title: "Technology Stack7"),
-    SelectionModel(title: "Technology Stack1"),
-    SelectionModel(title: "Technology Stack2"),
-    SelectionModel(title: "Technology Stack3"),
-    SelectionModel(title: "Technology Stack4"),
-    SelectionModel(title: "Technology Stack5"),
-    SelectionModel(title: "Technology Stack6"),
-    SelectionModel(title: "Technology Stack7"),
-    SelectionModel(title: "Technology Stack1"),
-    SelectionModel(title: "Technology Stack2"),
-    SelectionModel(title: "Technology Stack3"),
-    SelectionModel(title: "Technology Stack4"),
-    SelectionModel(title: "Technology Stack5"),
-    SelectionModel(title: "Technology Stack6"),
-    SelectionModel(title: "Technology Stack7"),
-  ]);
+
+  // mobile/web list
+  RxList<SelectionModel> lstMobileWeb = RxList();
+
+  // technologies list
+  RxList<SelectionModel> lstTechnologies = RxList();
 
   @override
   void onInit() {
@@ -67,6 +36,7 @@ class FilterController extends GetxController {
 
     _prepareDomains();
     _prepareTechnologies();
+    _prepareMobileWeb();
     super.onInit();
   }
 
@@ -120,9 +90,7 @@ class FilterController extends GetxController {
   /// Prepare domains
   void _prepareDomains() async {
     final domains = await _dbHelper.getAllDomains();
-    Get.log("domainName ${domains.length}");
     for (Domain element in domains) {
-      Get.log("domainName ${element.domainName}");
       lstDomains.add(SelectionModel(title: element.domainName));
     }
   }
@@ -130,10 +98,16 @@ class FilterController extends GetxController {
   /// Prepare technologies
   void _prepareTechnologies() async {
     final technologies = await _dbHelper.getAllTechnologies();
-    Get.log("technologyName ${technologies.length}");
     for (Technologies element in technologies) {
-      Get.log("technologyName ${element.technologyName}");
       lstTechnologies.add(SelectionModel(title: element.technologyName));
+    }
+  }
+
+  /// Prepare technologies
+  void _prepareMobileWeb() async {
+    final platforms = await _dbHelper.getAllPlatform();
+    for (Platform element in platforms) {
+      lstMobileWeb.add(SelectionModel(title: element.platformName));
     }
   }
 }

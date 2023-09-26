@@ -1,6 +1,7 @@
 import 'package:aio/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/app_assets.dart';
 import '../model/project_list_model.dart';
 
 class ProjectListGridTileWidget extends StatelessWidget {
@@ -24,10 +25,15 @@ class ProjectListGridTileWidget extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Image.asset(
-                projectListModel.projectImage ?? "",
-                fit: BoxFit.cover,
-              ),
+              child: (projectListModel.projectImage ?? "").isNotEmpty
+                  ? Image.asset(
+                      projectListModel.projectImage ?? "",
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      AppAssets.kNoImage,
+                      fit: BoxFit.cover,
+                    ),
             ),
             Container(
               width: double.infinity,

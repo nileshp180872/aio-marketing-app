@@ -13,10 +13,22 @@ abstract class NetworkAPIs {
   static const kTechnologies = "list/tech";
 
   // Leadership
-  static const kLeadership = "list/leader";
+  static const kLeadershipRole = "list/leader";
+
+  // leaders
+  static const kLeaders = "leader/list";
+
+  // Platform
+  static const kPlatform = "list/screen";
 
   // Enquiry
   static const kEnquiry = "enquiry/new";
+
+  // Portfolio
+  static const kPortfolio = "portfolio/list";
+
+  // case studies
+  static const kCaseStudies = "casestudies/list";
 }
 
 abstract class NetworkParams {

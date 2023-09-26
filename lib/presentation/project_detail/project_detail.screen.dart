@@ -3,7 +3,6 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_detail/view/project_image_tile_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../config/app_values.dart';
@@ -12,7 +11,6 @@ import 'controllers/project_detail.controller.dart';
 
 class ProjectDetailScreen extends GetView<ProjectDetailController>
     with AppFeature {
-
   ProjectDetailController _controller = Get.find(tag: Routes.PROJECT_DETAIL);
 
   ProjectDetailScreen({Key? key}) : super(key: key);
@@ -100,27 +98,20 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildSectionHeader(title: AppStrings.usedTechnologies),
-          _buildContentText(content: 'PHP, Angular JS, Figma'),
+          _buildContentText(
+              content: _controller.projectData.value.technologies ?? ""),
           const SizedBox(
             height: 38,
           ),
           _buildSectionHeader(title: AppStrings.overview),
-          _buildContentText(content: 'PHP, Angular JS, Figma'),
+          _buildContentText(
+              content: _controller.projectData.value.overView ?? ""),
           const SizedBox(
             height: 38,
           ),
           _buildSectionHeader(title: AppStrings.description),
           _buildContentText(
-              content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'),
+              content: _controller.projectData.value.description ?? "")
         ],
       ),
     );

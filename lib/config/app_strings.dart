@@ -29,6 +29,7 @@ abstract class AppStrings {
   static const success = 'Success';
   static const apply = 'Apply';
   static const clearAll = 'Clear All';
+  static const recordNotFound = 'Record not found!';
 
 
 }

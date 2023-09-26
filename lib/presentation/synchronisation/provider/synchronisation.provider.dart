@@ -18,8 +18,28 @@ class SynchronisationProvider {
 
   /// Returns list of leadership.
   Future<Response> getLeadership() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeadership);
+    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeadershipRole);
   }
+
+  /// Returns list of leaders.
+  Future<Response> getLeaders() async {
+    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeaders);
+  }
+
+  /// Returns list of platform.
+  Future<Response> getPlatforms() async {
+    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPlatform);
+  }
+  /// Returns list of portfolios.
+  Future<Response> getAllPortfolios() async {
+    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPortfolio);
+  }
+
+  /// Returns list of case studies.
+  Future<Response> getCaseStudies() async {
+    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kCaseStudies);
+  }
+
 
   /// Returns add enquiry response.
   Future<Response> addInquiry(Enquiry enquiry) async {

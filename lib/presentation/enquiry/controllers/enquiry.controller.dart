@@ -77,24 +77,49 @@ class EnquiryController extends GetxController {
   /// submit enquiry
   void submit() {
     if (enquiryFormKey.currentState!.validate()) {
-      _saveEntryToDb();
+      if(_validateFields()) {
+        _saveEntryToDb();
+      }
     }
   }
 
   ///Store entry to db and later it will by sync with server.
-  void _saveEntryToDb() {
+  void _saveEntryToDb() async {
     try {
       final enquiry = Enquiry();
+      enquiry.enquiryId = DateTime.now().toIso8601String();
       enquiry.enquiryMemberName = _name;
       enquiry.enquiryMemberEmail = _email;
       enquiry.enquiryMemberPhone = _phoneNumber;
       enquiry.enquiryMemberCompany = _companyName;
       enquiry.enquiryMemberMessage = _message;
-      _dbHelper.addToEnquiry(enquiry);
-
-      Utils.showSuccessDialog(message: 'Your enquiry is saved!');
+      final enquiryResponse = await _dbHelper.addToEnquiry(enquiry);
+      if (enquiryResponse != -1) {
+        Utils.showSuccessDialog(message: 'Your enquiry is saved!');
+      }
     } catch (ex) {
       logger.e(ex);
     }
   }
+
+  /// Return true of form validation is valid.
+  bool _validateFields() {
+    if (emailInvalid()) {
+      return false;
+    }
+
+    if (phoneNumberInvalid()) {
+      return false;
+    }
+    return true;
+  }
+
+  /// Return true if user entered invalid email.
+  bool emailInvalid() => !_email.isEmail;
+
+  /// Returns false if phone number is invalid.
+  bool phoneNumberInvalid() =>
+      !_phoneNumber.isPhoneNumber ||
+      _phoneNumber.length < 10 ||
+      _phoneNumber.length > 15;
 }

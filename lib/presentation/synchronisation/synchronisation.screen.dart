@@ -23,11 +23,15 @@ class SynchronisationScreen extends GetView<SynchronisationController>
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        body: SizedBox(
-            width: double.infinity,
-            child: _controller.isNetworkEnable.value
-                ? _buildSynchroniseWidget()
-                : _buildNoInternetWidget()));
+      body: Obx(
+        () => SizedBox(
+          width: double.infinity,
+          child: _controller.isNetworkEnable.value
+              ? _buildSynchroniseWidget()
+              : _buildNoInternetWidget(),
+        ),
+      ),
+    );
   }
 
   /// Build synchronise widget.

@@ -1,9 +1,12 @@
+import 'package:aio/infrastructure/db/database_helper.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../config/app_strings.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/controllers/project_list.controller.dart';
+import '../../project_list/model/project_list_model.dart';
 
 class ProjectDetailController extends GetxController {
   /// Project list view type enum
@@ -15,10 +18,17 @@ class ProjectDetailController extends GetxController {
   /// screen title
   RxString screenTitle = AppStrings.domainIndustry.obs;
 
+  /// Project reactive model
+  Rx<ProjectListModel> projectData = ProjectListModel().obs;
+
+  late DatabaseHelper _dbHelper;
+
   late String _projectId;
 
   @override
   void onInit() {
+    _dbHelper = GetIt.I<DatabaseHelper>();
+
     _getArguments();
     super.onInit();
   }
@@ -32,16 +42,28 @@ class ProjectDetailController extends GetxController {
           PortfolioEnum.PORTFOLIO;
       _projectListTypeEnum = Get.arguments[RouteArguments.projectListType] ??
           ProjectListTypeEnum.DOMAIN;
+
+      _prepareProjectDetails();
     }
   }
-  /// Navigate to next page.
-  void goToNextPage() {
 
-  }
+  /// Navigate to next page.
+  void goToNextPage() {}
 
   /// Navigate to previous page.
-  void goToPreviousPage() {
+  void goToPreviousPage() {}
 
+  /// Get project detail by id.
+  void _prepareProjectDetails() async {
+    final projectDetail =
+        await _dbHelper.getPortfolioById(portfolioId: _projectId);
+    if (projectDetail != null) {
+      ProjectListModel model = ProjectListModel();
+      model.projectName = projectDetail.portfolioProjectName;
+      model.description = projectDetail.portfolioProjectDescription;
+      model.overView = projectDetail.portfolioDomainName;
+      model.technologies = projectDetail.portfolioScreenTypeName;
+      projectData.value = model;
+    }
   }
-  void _prepareProjectDetails() {}
 }

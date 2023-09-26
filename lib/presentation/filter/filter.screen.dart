@@ -67,7 +67,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
     return ListView.separated(
       itemBuilder: (_, index) {
         return FilterCategoryTileWidget(
-          text: _controller.list1[index],
+          text: _controller.lstSectionCategory[index],
           isSelected: index == _controller.selectedIndex.value,
           index: index,
           onClick: _controller.setSelectedIndex,
@@ -79,7 +79,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
           color: Colors.grey.withOpacity(0.5),
         );
       },
-      itemCount: _controller.list1.length,
+      itemCount: _controller.lstSectionCategory.length,
     );
   }
 
@@ -98,56 +98,71 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
 
   /// Build domain list
   Widget _buildDomainList() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20),
-      itemBuilder: (_, index) {
-        return FilterSubCategoryGridTileWidget(
-            index: index,
-            onTapItem: _controller.selectDomain,
-            text: _controller.lstDomains[index]);
-      },
-      itemCount: _controller.lstDomains.length,
-    );
+    return _controller.lstDomains.isNotEmpty
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3.0,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20),
+            itemBuilder: (_, index) {
+              return FilterSubCategoryGridTileWidget(
+                  index: index,
+                  onTapItem: _controller.selectDomain,
+                  text: _controller.lstDomains[index]);
+            },
+            itemCount: _controller.lstDomains.length,
+          )
+        : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
   /// Build mobile/web list
   Widget _buildMobileList() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20),
-      itemBuilder: (_, index) {
-        return FilterSubCategoryGridTileWidget(
-            index: index,
-            onTapItem: _controller.selectMobileWeb,
-            text: _controller.lstMobileWeb[index]);
-      },
-      itemCount: _controller.lstMobileWeb.length,
-    );
+    return _controller.lstMobileWeb.isNotEmpty
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3.0,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20),
+            itemBuilder: (_, index) {
+              return FilterSubCategoryGridTileWidget(
+                  index: index,
+                  onTapItem: _controller.selectMobileWeb,
+                  text: _controller.lstMobileWeb[index]);
+            },
+            itemCount: _controller.lstMobileWeb.length,
+          )
+        : _buildNoDataView(content: AppStrings.recordNotFound);
+  }
+
+  /// Display widget when any of no data exists.
+  Widget _buildNoDataView({required String content}) {
+    return Center(
+        child: Text(
+      content,
+      style: _textTheme.displaySmall,
+    ));
   }
 
   /// Build technology stack list
   Widget _buildTechnologyStackList() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 3.0,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20),
-      itemBuilder: (_, index) {
-        return FilterSubCategoryGridTileWidget(
-            index: index,
-            onTapItem: _controller.selectTechnology,
-            text: _controller.lstTechnologies[index]);
-      },
-      itemCount: _controller.lstTechnologies.length,
-    );
+    return _controller.lstTechnologies.isNotEmpty
+        ? GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 3.0,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20),
+            itemBuilder: (_, index) {
+              return FilterSubCategoryGridTileWidget(
+                  index: index,
+                  onTapItem: _controller.selectTechnology,
+                  text: _controller.lstTechnologies[index]);
+            },
+            itemCount: _controller.lstTechnologies.length,
+          )
+        : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
   /// Build apply button

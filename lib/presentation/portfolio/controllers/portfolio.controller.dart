@@ -1,7 +1,10 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_list/controllers/project_list.controller.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
+import '../../../infrastructure/db/database_helper.dart';
+import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../../infrastructure/navigation/route_arguments.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../project_list/model/project_list_model.dart';
@@ -37,6 +40,9 @@ class PortfolioController extends GetxController {
     "Mobile3"
   ];
 
+  // Database helper
+  late DatabaseHelper _dbHelper;
+
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
 
@@ -49,7 +55,6 @@ class PortfolioController extends GetxController {
   @override
   void onInit() {
     _getArguments();
-    _populateDataOnScreenFilter();
     super.onInit();
   }
 
@@ -64,6 +69,8 @@ class PortfolioController extends GetxController {
 
   /// prepare screen based on screen type.
   void _setupScreen() {
+    _dbHelper = GetIt.I<DatabaseHelper>();
+
     if (portfolioEnum == PortfolioEnum.PORTFOLIO) {
       screenTitle.value = AppStrings.workPortfolio;
       _prepareMobileWeb();
@@ -73,6 +80,7 @@ class PortfolioController extends GetxController {
 
     _prepareDomains();
     _prepareTechnologyStack();
+    _preparePortfolio();
   }
 
   /// Prepare domains list
@@ -127,33 +135,6 @@ class PortfolioController extends GetxController {
     }
   }
 
-  /// Populate data.
-  void _populateDataOnScreenFilter() {
-    projectList.addAll([
-      ProjectListModel(
-          projectName: 'Project 1', projectImage: "assets/images/project1.png"),
-      ProjectListModel(
-          projectName: 'Project 2', projectImage: "assets/images/project2.png"),
-      ProjectListModel(
-          projectName: 'Project 3', projectImage: "assets/images/project3.png"),
-      ProjectListModel(
-          projectName: 'Project 4', projectImage: "assets/images/project1.png"),
-      ProjectListModel(
-          projectName: 'Project 5', projectImage: "assets/images/project3.png"),
-      ProjectListModel(
-          projectName: 'Project 6', projectImage: "assets/images/project1.png"),
-      ProjectListModel(
-          projectName: 'Project 7', projectImage: "assets/images/project2.png"),
-      ProjectListModel(
-          projectName: 'Project 8', projectImage: "assets/images/project1.png"),
-      ProjectListModel(
-          projectName: 'Project 9', projectImage: "assets/images/project1.png"),
-      ProjectListModel(
-          projectName: 'Project 10',
-          projectImage: "assets/images/project1.png"),
-    ]);
-  }
-
   /// on project click
   ///
   /// required [model] instance of ProjectListModel.
@@ -168,6 +149,17 @@ class PortfolioController extends GetxController {
   /// filter screen.
   void onFilterClick() {
     Get.toNamed(Routes.FILTER);
+  }
+
+  /// Prepare portfolio
+  void _preparePortfolio() async {
+    final portfolio = await _dbHelper.getAllPortfolios();
+    for (Portfolio element in portfolio) {
+      projectList.add(ProjectListModel(
+        id: element.portfolioId,
+        projectName: element.portfolioProjectName,
+      ));
+    }
   }
 }
 
