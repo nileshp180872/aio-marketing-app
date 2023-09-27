@@ -1,3 +1,4 @@
+import 'package:aio/config/app_constants.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/utils/app_loading.mixin.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:logger/logger.dart';
 
 import '../../../config/app_strings.dart';
 import '../../../infrastructure/db/database_helper.dart';
+import '../../../infrastructure/db/schema/case_study.dart';
 import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../filter/model/filter_menu.dart';
@@ -58,19 +60,19 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           ? AppStrings.workPortfolio
           : AppStrings.caseStudy;
     }
-
-    _preparePortfolio();
+    _getAllData();
   }
 
   /// Prepare portfolio
   void _preparePortfolio() async {
     showLoading();
-    final portfolio = await _dbHelper.getAllPortfolios();
+    final portfolio = await _dbHelper.getPortfolioWithImage();
     for (Portfolio element in portfolio) {
       projectList.add(ProjectListModel(
-        id: element.portfolioId,
-        projectName: element.portfolioProjectName,
-      ));
+          id: element.portfolioId,
+          projectName: element.portfolioProjectName,
+          projectImage: element.images,
+          viewType: AppConstants.portfolio));
     }
     Future.delayed(const Duration(milliseconds: 400), () {
       hideLoading();
@@ -80,12 +82,13 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   /// Prepare case study
   void _prepareCaseStudy() async {
     showLoading();
-    final portfolio = await _dbHelper.getAllPortfolios();
-    for (Portfolio element in portfolio) {
+    final portfolio = await _dbHelper.getAllCaseStudies();
+    for (CaseStudy element in portfolio) {
       projectList.add(ProjectListModel(
-        id: element.portfolioId,
-        projectName: element.portfolioProjectName,
-      ));
+          id: element.caseStudyId,
+          projectName: element.caseStudyProjectName,
+          projectImage: element.images,
+          viewType: AppConstants.caseStudy));
     }
     Future.delayed(const Duration(milliseconds: 400), () {
       hideLoading();
@@ -101,9 +104,10 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           domains: domains, screens: screens, technologies: technologies);
       for (Portfolio element in portfolio) {
         projectList.add(ProjectListModel(
-          id: element.portfolioId,
-          projectName: element.portfolioProjectName,
-        ));
+            id: element.portfolioId,
+            projectName: element.portfolioProjectName,
+            projectImage: element.images,
+            viewType: AppConstants.portfolio));
       }
       Future.delayed(const Duration(milliseconds: 400), () {
         hideLoading();
@@ -119,10 +123,12 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   /// on project click
   ///
   /// required [model] instance of ProjectListModel.
-  void onProjectClick(ProjectListModel model) {
+  void onProjectClick(ProjectListModel model, int index) {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
+      RouteArguments.index: index,
+      RouteArguments.projectList: projectList.value,
       RouteArguments.projectListType: _projectListTypeEnum,
       RouteArguments.portfolioEnum: _portfolioEnum,
     });

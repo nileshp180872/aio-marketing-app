@@ -136,6 +136,17 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     return enquiries;
   }
 
+  /// Return all case studies.
+  Future<List<CaseStudy>> getAllCaseStudies() async {
+    List<dynamic> result = await queryAllRows(DbConstants.tblCaseStudies);
+
+    List<CaseStudy> enquiries = [];
+    for (var element in result) {
+      enquiries.add(CaseStudy.fromJson(element));
+    }
+    return enquiries;
+  }
+
   /// Return all portfolios.
   Future<List<Portfolio>> getFilterPortfolios({
     required List<String> domains,
@@ -153,17 +164,15 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   }
 
   /// Return portfolio detail by Id.
-  Future<Portfolio?> getPortfolioById({required String portfolioId}) async {
-    List<dynamic> result = await filterDataById(
-        table: DbConstants.tblPortfolio,
-        columnName: DbConstants.portfolioId,
-        id: portfolioId);
+  Future<Portfolio?> getPortfolioDetails({required String portfolioId}) async {
+    List<dynamic> result = await getPortfolioById(portfolioId: portfolioId);
+    return result.isNotEmpty ? result.first : null;
+  }
 
-    List<Portfolio> enquiries = [];
-    for (var element in result) {
-      enquiries.add(Portfolio.fromJson(element));
-    }
-    return enquiries.isNotEmpty ? enquiries.first : null;
+  /// Return case study detail by Id.
+  Future<CaseStudy?> getCaseStudyDetails({required String caseStudyId}) async {
+    List<dynamic> result = await getCaseStudyById(caseStudyId: caseStudyId);
+    return result.isNotEmpty ? result.first : null;
   }
 
   /// Return portfolio detail by search.
@@ -203,6 +212,84 @@ class DatabaseHelper with DbConfig, SchemaConfig {
       enquiries.add(Enquiry.fromJson(element));
     }
     return enquiries;
+  }
+
+  /// Return  comma separated technologies of specific portfolio.
+  ///
+  /// required [id] -> portfolio id
+  Future<String> getPortfolioTechnologies({required String id}) async {
+    List<dynamic> result = await filterDataById(
+        table: DbConstants.tblPortfolioTechnologies,
+        columnName: DbConstants.portfolioTableId,
+        id: id);
+    if (result.isNotEmpty) {
+      List<PortfolioTechnologies> enquiries = [];
+      for (var element in result) {
+        enquiries.add(PortfolioTechnologies.fromJson(element));
+      }
+      return (enquiries.map((e) => e.portfolioTechnologyName ?? "").toList())
+          .join(",");
+    } else {
+      return "";
+    }
+  }
+
+  /// Return  comma separated technologies of specific case study.
+  ///
+  /// required [id] -> case study id
+  Future<String> getCaseStudyTechnologies({required String id}) async {
+    List<dynamic> result = await filterDataById(
+        table: DbConstants.tblCaseStudiesTechnologies,
+        columnName: DbConstants.caseStudyTableId,
+        id: id);
+    if (result.isNotEmpty) {
+      List<CaseStudyTechnologyMapping> enquiries = [];
+      for (var element in result) {
+        enquiries.add(CaseStudyTechnologyMapping.fromJson(element));
+      }
+      return (enquiries.map((e) => e.caseStudyTechnologyName ?? "").toList())
+          .join(",");
+    } else {
+      return "";
+    }
+  }
+
+  /// Return  portfolio images with list of [PortfolioImages]
+  ///
+  /// required [id] -> portfolio id
+  Future<List<PortfolioImages>> getPortfolioImages({required String id}) async {
+    List<dynamic> result = await filterDataById(
+        table: DbConstants.tblPortfolioImages,
+        columnName: DbConstants.portfolioImagePortfolioId,
+        id: id);
+    if (result.isNotEmpty) {
+      List<PortfolioImages> enquiries = [];
+      for (var element in result) {
+        enquiries.add(PortfolioImages.fromJson(element));
+      }
+      return enquiries;
+    } else {
+      return [];
+    }
+  }
+
+  /// Return  case study images with list of [CaseStudyImages]
+  ///
+  /// required [id] -> case study id
+  Future<List<CaseStudyImages>> getCaseStudyImages({required String id}) async {
+    List<dynamic> result = await filterDataById(
+        table: DbConstants.tblCaseStudyImages,
+        columnName: DbConstants.caseStudyImageCaseStudyId,
+        id: id);
+    if (result.isNotEmpty) {
+      List<CaseStudyImages> enquiries = [];
+      for (var element in result) {
+        enquiries.add(CaseStudyImages.fromJson(element));
+      }
+      return enquiries;
+    } else {
+      return [];
+    }
   }
 
   /// Return count of available inquires data.

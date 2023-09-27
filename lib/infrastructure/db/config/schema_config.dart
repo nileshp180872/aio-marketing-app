@@ -66,7 +66,7 @@ mixin SchemaConfig {
   void _createEnquiryTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblEnquiry} (
-            ${DbConstants.enquiryId} TEXT PRIMARY KEY NOT NULL,
+            ${DbConstants.enquiryId} TEXT NOT NULL,
             ${DbConstants.enquiryMemberName} TEXT NOT NULL,
             ${DbConstants.enquiryMemberEmail} TEXT NOT NULL,
             ${DbConstants.enquiryMemberPhone} TEXT NOT NULL,
@@ -81,7 +81,7 @@ mixin SchemaConfig {
   void _createPortfolioTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblPortfolio} (
-            ${DbConstants.portfolioId} TEXT PRIMARY KEY NOT NULL,
+            ${DbConstants.portfolioId} TEXT NOT NULL,
             ${DbConstants.portfolioDomainId} TEXT,
             ${DbConstants.portfolioDomainName} TEXT,
             ${DbConstants.portfolioScreenType} TEXT,
@@ -97,7 +97,7 @@ mixin SchemaConfig {
   void _createLeadersTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblLeaders} (
-            ${DbConstants.leaderId} TEXT PRIMARY KEY NOT NULL,
+            ${DbConstants.leaderId} TEXT NOT NULL,
             ${DbConstants.leaderName} TEXT,
             ${DbConstants.leaderDesignation} TEXT,
             ${DbConstants.leaderDescription} TEXT,
@@ -110,7 +110,7 @@ mixin SchemaConfig {
   void _createCaseStudiesTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblCaseStudies} (
-            ${DbConstants.caseStudyId} TEXT PRIMARY KEY NOT NULL,
+            ${DbConstants.caseStudyId} TEXT NOT NULL,
             ${DbConstants.caseStudyDomainId} TEXT,
             ${DbConstants.caseStudyDomainName} TEXT,
             ${DbConstants.caseStudyProjectName} TEXT,

@@ -298,7 +298,7 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _caseStudyAPISuccess(dio.Response response) async {
     final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
-    for (CaseStudiesResponseData element in (leadershipResponse.data ?? [])) {
+    (leadershipResponse.data ?? []).forEach((element) async {
       try {
         await _addCaseStudies(element);
         await _addCaseStudyImages(element);
@@ -306,7 +306,7 @@ class SynchronisationController extends GetxController {
       } catch (ex) {
         logger.e(ex);
       }
-    }
+    });
   }
 
   /// Add case studies
@@ -352,7 +352,7 @@ class SynchronisationController extends GetxController {
     try {
       (element.techMapping ?? []).forEach((technologyMappingElement) async {
         final techMapping = CaseStudyTechnologyMapping(
-            caseStudyTechnologyId: technologyMappingElement.techID,
+            caseStudyTechnologyId: technologyMappingElement.techId,
             caseStudyTechnologyName: technologyMappingElement.techName,
             caseStudyTableId: element.casestudiesID);
         await _dbHelper.addToCaseStudyTechnologies(techMapping);

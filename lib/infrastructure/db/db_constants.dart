@@ -55,6 +55,7 @@ abstract class DbConstants {
   static const portfolioProjectName = 'portfolio_project_name';
   static const portfolioProjectDescription = 'portfolio_project_description';
   static const projectImages = 'project_images';
+  static const images = 'images';
 
   //------------- Portfolio technologies ---------
   static const tblPortfolioTechnologies = 'portfolio_technology';

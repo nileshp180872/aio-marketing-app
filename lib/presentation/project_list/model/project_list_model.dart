@@ -5,7 +5,8 @@ class ProjectListModel{
   String? overView;
   String? description;
   String? projectImage;
+  int? viewType;
 
   ProjectListModel(
-      {this.id,this.projectName,this.projectImage, this.technologies, this.overView, this.description});
+      {this.id,this.viewType,this.projectName,this.projectImage, this.technologies, this.overView, this.description});
 }

@@ -9,7 +9,8 @@ import '../model/project_list_model.dart';
 class ProjectListWidget extends StatelessWidget {
   List<ProjectListModel> projectList = [];
 
-  Function(ProjectListModel model) onClick;
+
+  Function(ProjectListModel model, int index) onClick;
   late TextTheme _textTheme;
 
   bool isLoading;
@@ -50,6 +51,7 @@ class ProjectListWidget extends StatelessWidget {
         return ProjectListTileWidget(
           projectListModel: projectList[index],
           onClick: onClick,
+          index: index,
         );
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -75,6 +77,7 @@ class ProjectListWidget extends StatelessWidget {
         return ProjectListGridTileWidget(
           projectListModel: projectList[index],
           onClick: onClick,
+          index: index,
         );
       },
     );

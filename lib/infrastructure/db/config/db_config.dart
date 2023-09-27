@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../schema/case_study.dart';
+
 mixin DbConfig {
   late Database _db;
 
@@ -98,6 +100,60 @@ mixin DbConfig {
   }) async {
     final List<Map<String, dynamic>> result = await _db.rawQuery(
         "SELECT * FROM portfolio WHERE portfolio.portfolio_domain_id in ($domains) OR portfolio.portfolio_screen_type in ($screens);");
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
+  }
+
+  // Return all rows returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioWithImage() async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT portfolio.*, portfolio_images.portfolio_images_path as images FROM portfolio left join portfolio_images on portfolio.portfolio_id = portfolio_images.portfolio_images_portfolio_id GROUP BY portfolio.portfolio_id;");
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
+  }
+
+  // Return all rows returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioWithImageOffset({required int offset}) async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT portfolio.*, portfolio_images.portfolio_images_path as images FROM portfolio left join portfolio_images on portfolio.portfolio_id = portfolio_images.portfolio_images_portfolio_id GROUP BY portfolio.portfolio_id;");
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
+  }
+
+  // Return first row matched by portfolioId returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioById({required String portfolioId}) async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT portfolio.* FROM portfolio WHERE portfolio.portfolio_id = '$portfolioId' LIMIT 1;");
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
+  }
+  // Return first row matched by caseStudyId returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<CaseStudy>> getCaseStudyById({required String caseStudyId}) async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT * FROM case_study WHERE case_study.case_study_id = '$caseStudyId' LIMIT 1;");
+
+    return List<CaseStudy>.generate(
+        result.length, (index) => CaseStudy.fromJson(result[index]),
+        growable: true);
+  }
+
+  // Return first row matched by portfolioId returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioByOffset({required int offset}) async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT portfolio.* FROM portfolio OFFSET $offset LIMIT 1;");
 
     return List<Portfolio>.generate(
         result.length, (index) => Portfolio.fromJson(result[index]),

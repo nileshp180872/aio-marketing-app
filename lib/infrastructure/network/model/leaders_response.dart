@@ -41,9 +41,9 @@ class LeadersResponseData {
 
   LeadersResponseData.fromJson(Map<String, dynamic> json) {
     leadershipID = json['LeadershipID'];
-    designation = json['designation'];
-    leaderNAME = json['LeaderNAME'];
-    description = json['description'];
+    designation = json['Designation'];
+    leaderNAME = json['LeaderName'];
+    description = json['Description'];
     if (json['ImageMapping'] != null) {
       imageMapping = <LeaderImageMapping>[];
       json['ImageMapping'].forEach((v) { imageMapping!.add(new LeaderImageMapping.fromJson(v)); });
@@ -53,9 +53,9 @@ class LeadersResponseData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['LeadershipID'] = leadershipID;
-    data['designation'] = designation;
-    data['LeaderNAME'] = leaderNAME;
-    data['description'] = description;
+    data['Designation'] = designation;
+    data['LeaderName'] = leaderNAME;
+    data['Description'] = description;
     if (this.imageMapping != null) {
       data['ImageMapping'] = this.imageMapping!.map((v) => v.toJson()).toList();
     }

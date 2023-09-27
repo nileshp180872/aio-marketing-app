@@ -61,10 +61,10 @@ class PortfolioResponseData {
     portfolioID = json['PortfolioID'];
     domainID = json['DomainID'];
     domainName = json['DomainName'];
-    screenTYPE = json['ScreenTYPE'];
-    screenNAME = json['ScreenNAME'];
-    projectName = json['project_name'];
-    description = json['description'];
+    screenTYPE = json['ScreenType'];
+    screenNAME = json['ScreenName'];
+    projectName = json['ProjectName'];
+    description = json['Description'];
     if (json['TechMapping'] != null) {
       techMapping = <TechMapping>[];
       json['TechMapping'].forEach((v) { techMapping!.add(new TechMapping.fromJson(v)); });
@@ -80,10 +80,10 @@ class PortfolioResponseData {
     data['PortfolioID'] = this.portfolioID;
     data['DomainID'] = this.domainID;
     data['DomainName'] = this.domainName;
-    data['ScreenTYPE'] = this.screenTYPE;
-    data['ScreenNAME'] = this.screenNAME;
-    data['project_name'] = this.projectName;
-    data['description'] = this.description;
+    data['ScreenType'] = this.screenTYPE;
+    data['ScreenName'] = this.screenNAME;
+    data['ProjectName'] = this.projectName;
+    data['Description'] = this.description;
     if (this.techMapping != null) {
       data['TechMapping'] = this.techMapping!.map((v) => v.toJson()).toList();
     }

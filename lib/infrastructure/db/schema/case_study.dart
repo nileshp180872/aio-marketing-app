@@ -8,6 +8,7 @@ class CaseStudy {
   String? caseStudyDomainName;
   String? caseStudyProjectName;
   String? caseStudyProjectDescription;
+  String? images;
   List<String>? caseStudyProjectImages;
 
   CaseStudy(
@@ -16,6 +17,7 @@ class CaseStudy {
       this.caseStudyDomainName,
       this.caseStudyProjectImages,
       this.caseStudyProjectName,
+        this.images,
       this.caseStudyProjectDescription});
 
   CaseStudy.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class CaseStudy {
     caseStudyDomainName = json[DbConstants.caseStudyDomainName];
     caseStudyProjectName = json[DbConstants.caseStudyProjectName];
     caseStudyProjectDescription = json[DbConstants.caseStudyDescription];
+    images = json[DbConstants.images];
     if (json[DbConstants.projectImages] != null) {
       caseStudyProjectImages = <String>[];
       (json[DbConstants.projectImages].split(" ")).forEach((v) {
@@ -39,6 +42,7 @@ class CaseStudy {
     data[DbConstants.caseStudyDomainName] = caseStudyDomainName;
     data[DbConstants.caseStudyProjectName] = caseStudyProjectName;
     data[DbConstants.caseStudyDescription] = caseStudyProjectDescription;
+    data[DbConstants.images] = images;
 
     if (caseStudyProjectImages != null) {
       var json =

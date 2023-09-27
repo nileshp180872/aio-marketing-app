@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_detail/view/project_image_tile_widget.dart';
@@ -80,7 +83,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             height: AppValues.projectDetailImagePreview,
             width: double.infinity,
             color: AppColors.colorSecondary.withOpacity(0.15),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(top: 20),
             child: _buildImagePreview()),
         const SizedBox(
           height: 30,
@@ -98,12 +101,11 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildSectionHeader(title: AppStrings.usedTechnologies),
-          _buildContentText(
-              content: _controller.projectData.value.technologies ?? ""),
+          _buildContentText(content: _controller.technologies.value ?? ""),
           const SizedBox(
             height: 38,
           ),
-          _buildSectionHeader(title: AppStrings.overview),
+          _buildSectionHeader(title: AppStrings.domain),
           _buildContentText(
               content: _controller.projectData.value.overView ?? ""),
           const SizedBox(
@@ -138,7 +140,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
     final screenSize = MediaQuery.of(_buildContext).size.width;
     final leftContainerSize = screenSize - 90;
     final remainingLeftContainerSize = leftContainerSize / 2;
-    final listItemWidth = remainingLeftContainerSize - 63;
+    final listItemWidth = remainingLeftContainerSize - 72;
     final finalListItemWidth = (listItemWidth / 3);
     return SizedBox(
       height: 100,
@@ -148,6 +150,10 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             itemBuilder: (_, index) {
               return ProjectImageTileWidget(
                 itemWidth: finalListItemWidth,
+                index: index,
+                selected: index == _controller.activeImageIndex.value,
+                selectImage: _controller.onSelectImage,
+                imagePath: _controller.images[index],
               );
             },
             separatorBuilder: (_, index) {
@@ -155,13 +161,16 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
                 width: 30,
               );
             },
-            itemCount: 3),
+            itemCount: _controller.images.length),
       ),
     );
   }
 
   /// Build image preview.
   Widget _buildImagePreview() {
-    return Image.asset('assets/images/sample_image.png');
+    return _controller.images.isNotEmpty
+        ? Image.file(
+            File(_controller.images[_controller.activeImageIndex.value]))
+        : Image.asset(AppAssets.kNoImage);
   }
 }

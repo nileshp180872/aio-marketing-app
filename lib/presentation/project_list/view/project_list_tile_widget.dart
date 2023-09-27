@@ -4,10 +4,11 @@ import '../model/project_list_model.dart';
 
 class ProjectListTileWidget extends StatelessWidget {
   ProjectListModel projectListModel;
-  Function(ProjectListModel model) onClick;
+  Function(ProjectListModel model, int index) onClick;
+  int index;
 
   ProjectListTileWidget(
-      {required this.projectListModel, required this.onClick, super.key});
+      {required this.projectListModel, required this.onClick,required this.index, super.key});
 
   late TextTheme _textTheme;
 
@@ -15,7 +16,7 @@ class ProjectListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: () => onClick(projectListModel),
+      onTap: () => onClick(projectListModel,index),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Text(

@@ -10,6 +10,7 @@ class Portfolio {
   String? portfolioScreenTypeName;
   String? portfolioProjectName;
   String? portfolioProjectDescription;
+  String? images;
   List<String>? projectImages;
 
   Portfolio(
@@ -20,6 +21,7 @@ class Portfolio {
       this.portfolioScreenTypeName,
       this.portfolioProjectName,
       this.projectImages,
+      this.images,
       this.portfolioProjectDescription});
 
   Portfolio.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Portfolio {
     portfolioScreenTypeName = json[DbConstants.portfolioScreenName];
     portfolioProjectName = json[DbConstants.portfolioProjectName];
     portfolioProjectDescription = json[DbConstants.portfolioProjectDescription];
+    images = json[DbConstants.images];
     if (json[DbConstants.projectImages] != null) {
       projectImages = <String>[];
       (json[DbConstants.projectImages].split(" ")).forEach((v) {
@@ -48,6 +51,7 @@ class Portfolio {
     data[DbConstants.portfolioScreenName] = portfolioScreenTypeName;
     data[DbConstants.portfolioProjectName] = portfolioProjectName;
     data[DbConstants.portfolioProjectDescription] = portfolioProjectDescription;
+    data[DbConstants.images] = images;
 
     if (projectImages != null) {
       var json = jsonEncode(projectImages, toEncodable: (e) => e!.toString());

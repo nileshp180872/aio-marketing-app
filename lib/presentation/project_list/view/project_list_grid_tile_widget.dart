@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aio/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -6,10 +8,11 @@ import '../model/project_list_model.dart';
 
 class ProjectListGridTileWidget extends StatelessWidget {
   ProjectListModel projectListModel;
-  Function(ProjectListModel model) onClick;
+  Function(ProjectListModel model, int index) onClick;
+  int index;
 
   ProjectListGridTileWidget(
-      {required this.projectListModel, required this.onClick, super.key});
+      {required this.projectListModel, required this.onClick,required this.index, super.key});
 
   late TextTheme _textTheme;
 
@@ -17,7 +20,7 @@ class ProjectListGridTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: () => onClick(projectListModel),
+      onTap: () => onClick(projectListModel, index),
       child: Container(
         decoration: const BoxDecoration(
           color: AppColors.cardBackground,
@@ -26,8 +29,8 @@ class ProjectListGridTileWidget extends StatelessWidget {
           children: [
             Expanded(
               child: (projectListModel.projectImage ?? "").isNotEmpty
-                  ? Image.asset(
-                      projectListModel.projectImage ?? "",
+                  ? Image.file(
+                      File(projectListModel.projectImage ?? ""),
                       fit: BoxFit.cover,
                     )
                   : Image.asset(

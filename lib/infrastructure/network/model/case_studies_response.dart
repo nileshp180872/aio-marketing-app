@@ -38,7 +38,7 @@ class CaseStudiesResponseData {
   String? projectName;
   String? description;
   String? domainName;
-  List<TechMapping>? techMapping;
+  List<CaseStudyTechMapping>? techMapping;
   List<CaseStudyImageMapping>? imageMapping;
 
   CaseStudiesResponseData(
@@ -51,15 +51,15 @@ class CaseStudiesResponseData {
       this.techMapping});
 
   CaseStudiesResponseData.fromJson(Map<String, dynamic> json) {
-    casestudiesID = json['casestudiesID'];
+    casestudiesID = json['CasestudiesID'];
     domainID = json['DomainID'];
-    projectName = json['project_name'];
-    description = json['description'];
+    projectName = json['ProjectName'];
+    description = json['Description'];
     domainName = json['DomainName'];
     if (json['TechMapping'] != null) {
-      techMapping = <TechMapping>[];
+      techMapping = <CaseStudyTechMapping>[];
       json['TechMapping'].forEach((v) {
-        techMapping!.add(new TechMapping.fromJson(v));
+        techMapping!.add(new CaseStudyTechMapping.fromJson(v));
       });
     }
     if (json['ImageMapping'] != null) {
@@ -72,10 +72,10 @@ class CaseStudiesResponseData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['casestudiesID'] = casestudiesID;
+    data['CasestudiesID'] = casestudiesID;
     data['DomainID'] = domainID;
-    data['project_name'] = projectName;
-    data['description'] = description;
+    data['ProjectName'] = projectName;
+    data['Description'] = description;
     data['DomainName'] = domainName;
     if (techMapping != null) {
       data['TechMapping'] = techMapping!.map((v) => v.toJson()).toList();
@@ -120,6 +120,31 @@ class CaseStudyImageMapping {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['casestudiesID'] = this.casestudiesID;
     data['casestudiesImage'] = this.casestudiesImage;
+    return data;
+  }
+}
+
+class CaseStudyTechMapping {
+  String? id;
+  String? casestudiesId;
+  String? techId;
+  String? techName;
+
+  CaseStudyTechMapping({this.id, this.casestudiesId, this.techId, this.techName});
+
+  CaseStudyTechMapping.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    casestudiesId = json['casestudies_id'];
+    techId = json['tech_id'];
+    techName = json['TechName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['casestudies_id'] = this.casestudiesId;
+    data['tech_id'] = this.techId;
+    data['TechName'] = this.techName;
     return data;
   }
 }

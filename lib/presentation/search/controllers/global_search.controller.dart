@@ -69,7 +69,7 @@ class GlobalSearchController extends GetxController {
   /// on project click
   ///
   /// required [model] instance of ProjectListModel.
-  void onProjectClick(ProjectListModel model) {
+  void onProjectClick(ProjectListModel model, int index) {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
