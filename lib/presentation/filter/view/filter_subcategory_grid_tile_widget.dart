@@ -1,16 +1,17 @@
 import 'package:aio/config/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../model/selection_model.dart';
 
 class FilterSubCategoryGridTileWidget extends StatelessWidget {
-  SelectionModel text;
+  SelectionModel model;
 
   int index;
   Function(int index) onTapItem;
 
   FilterSubCategoryGridTileWidget(
-      {required this.text,
+      {required this.model,
       required this.index,
       required this.onTapItem,
       super.key});
@@ -32,12 +33,12 @@ class FilterSubCategoryGridTileWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Checkbox(
-                value: text.selected,
+                value: model.selected,
                 onChanged: (ds) {
                   onTapItem(index);
                 }),
             Text(
-              text.title ?? "",
+              model.title ?? "",
               style: textTheme.headlineSmall
                   ?.copyWith(fontWeight: FontWeight.normal),
             )

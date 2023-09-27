@@ -1,6 +1,7 @@
-class SelectionModel{
+class SelectionModel {
+  String? id;
   String? title;
   bool selected;
 
-  SelectionModel({this.title, this.selected=false});
+  SelectionModel({this.id, this.title, this.selected = false});
 }

@@ -1,3 +1,5 @@
+import 'package:aio/infrastructure/network/model/portfolio_response.dart';
+
 class LeadersResponse {
   bool? success;
   int? status;
@@ -33,6 +35,7 @@ class LeadersResponseData {
   String? designation;
   String? leaderNAME;
   String? description;
+  List<LeaderImageMapping>? imageMapping;
 
   LeadersResponseData({this.leadershipID, this.designation, this.leaderNAME, this.description});
 
@@ -41,6 +44,10 @@ class LeadersResponseData {
     designation = json['designation'];
     leaderNAME = json['LeaderNAME'];
     description = json['description'];
+    if (json['ImageMapping'] != null) {
+      imageMapping = <LeaderImageMapping>[];
+      json['ImageMapping'].forEach((v) { imageMapping!.add(new LeaderImageMapping.fromJson(v)); });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +56,27 @@ class LeadersResponseData {
     data['designation'] = designation;
     data['LeaderNAME'] = leaderNAME;
     data['description'] = description;
+    if (this.imageMapping != null) {
+      data['ImageMapping'] = this.imageMapping!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+class LeaderImageMapping {
+  String? leadershipID;
+  String? leaderImage;
+
+  LeaderImageMapping({this.leadershipID, this.leaderImage});
+
+  LeaderImageMapping.fromJson(Map<String, dynamic> json) {
+    leadershipID = json['LeadershipID'];
+    leaderImage = json['LeaderImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['LeadershipID'] = this.leadershipID;
+    data['LeaderImage'] = this.leaderImage;
     return data;
   }
 }

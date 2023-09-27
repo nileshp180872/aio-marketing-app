@@ -45,6 +45,7 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
           horizontal: AppValues.sideMargin, vertical: 34),
       child: ProjectListWidget(
         projectList: _controller.projectList,
+        isLoading: _controller.isLoading,
         onClick: _controller.onProjectClick,
       ),
     );

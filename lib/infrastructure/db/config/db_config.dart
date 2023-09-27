@@ -1,3 +1,4 @@
+import 'package:aio/infrastructure/db/schema/portfolio.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -85,7 +86,22 @@ mixin DbConfig {
   Future<List<dynamic>> filterDataForSearchValue(
       {required String searchString}) async {
     return await _db.rawQuery(
-        "	SELECT * FROM portfolio where portfolio.portfolio_project_name LIKE '$searchString' OR portfolio.portfolio_domain_name LIKE '$searchString';");
+        "SELECT * FROM portfolio where portfolio.portfolio_project_name LIKE '$searchString' OR portfolio.portfolio_domain_name LIKE '$searchString';");
+  }
+
+  // first row returned as a list of maps, where each map is
+  // a key-value list of columns.
+  Future<List<dynamic>> filterPortfolioDataForFilter({
+    required String domains,
+    required String screens,
+    required String technologies,
+  }) async {
+    final List<Map<String, dynamic>> result = await _db.rawQuery(
+        "SELECT * FROM portfolio WHERE portfolio.portfolio_domain_id in ($domains) OR portfolio.portfolio_screen_type in ($screens);");
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
   }
 
   //delete all the rows from the table.

@@ -1,3 +1,5 @@
+import 'package:aio/infrastructure/network/model/portfolio_response.dart';
+
 class CaseStudiesResponse {
   bool? success;
   int? status;
@@ -20,9 +22,9 @@ class CaseStudiesResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['status'] = this.status;
-    data['message'] = this.message;
+    data['success'] = success;
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -37,12 +39,14 @@ class CaseStudiesResponseData {
   String? description;
   String? domainName;
   List<TechMapping>? techMapping;
+  List<CaseStudyImageMapping>? imageMapping;
 
   CaseStudiesResponseData(
       {this.casestudiesID,
       this.domainID,
       this.projectName,
       this.description,
+      this.imageMapping,
       this.domainName,
       this.techMapping});
 
@@ -58,40 +62,64 @@ class CaseStudiesResponseData {
         techMapping!.add(new TechMapping.fromJson(v));
       });
     }
+    if (json['ImageMapping'] != null) {
+      imageMapping = <CaseStudyImageMapping>[];
+      json['ImageMapping'].forEach((v) {
+        imageMapping!.add(new CaseStudyImageMapping.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['casestudiesID'] = this.casestudiesID;
-    data['DomainID'] = this.domainID;
-    data['project_name'] = this.projectName;
-    data['description'] = this.description;
-    data['DomainName'] = this.domainName;
-    if (this.techMapping != null) {
-      data['TechMapping'] = this.techMapping!.map((v) => v.toJson()).toList();
+    data['casestudiesID'] = casestudiesID;
+    data['DomainID'] = domainID;
+    data['project_name'] = projectName;
+    data['description'] = description;
+    data['DomainName'] = domainName;
+    if (techMapping != null) {
+      data['TechMapping'] = techMapping!.map((v) => v.toJson()).toList();
+    }
+    if (imageMapping != null) {
+      data['ImageMapping'] = imageMapping!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class TechMapping {
-  String? id;
-  String? casestudiesId;
-  String? techId;
+class ImageMapping {
+  String? portfolioID;
+  String? portfolioImage;
 
-  TechMapping({this.id, this.casestudiesId, this.techId});
+  ImageMapping({this.portfolioID, this.portfolioImage});
 
-  TechMapping.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    casestudiesId = json['casestudies_id'];
-    techId = json['tech_id'];
+  ImageMapping.fromJson(Map<String, dynamic> json) {
+    portfolioID = json['PortfolioID'];
+    portfolioImage = json['PortfolioImage'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['casestudies_id'] = this.casestudiesId;
-    data['tech_id'] = this.techId;
+    data['PortfolioID'] = this.portfolioID;
+    data['PortfolioImage'] = this.portfolioImage;
+    return data;
+  }
+}
+class CaseStudyImageMapping {
+  String? casestudiesID;
+  String? casestudiesImage;
+
+  CaseStudyImageMapping({this.casestudiesID, this.casestudiesImage});
+
+  CaseStudyImageMapping.fromJson(Map<String, dynamic> json) {
+    casestudiesID = json['casestudiesID'];
+    casestudiesImage = json['casestudiesImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['casestudiesID'] = this.casestudiesID;
+    data['casestudiesImage'] = this.casestudiesImage;
     return data;
   }
 }

@@ -4,4 +4,5 @@ abstract class RouteArguments {
   static const projectId = 'projectId';
   static const projectListType = 'projectListType';
   static const filterApplied = 'filterApplied';
+  static const filterData = 'filterData';
 }

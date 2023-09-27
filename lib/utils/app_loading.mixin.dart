@@ -10,6 +10,6 @@ mixin AppLoadingMixin {
   }
 
   void hideLoading() {
-    loading.value = true;
+    loading.value = false;
   }
 }

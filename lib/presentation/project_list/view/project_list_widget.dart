@@ -1,7 +1,6 @@
 import 'package:aio/presentation/project_list/view/project_list_grid_tile_widget.dart';
 import 'package:aio/presentation/project_list/view/project_list_tile_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_strings.dart';
@@ -13,13 +12,18 @@ class ProjectListWidget extends StatelessWidget {
   Function(ProjectListModel model) onClick;
   late TextTheme _textTheme;
 
+  bool isLoading;
+
   ProjectListWidget(
-      {required this.projectList, required this.onClick, super.key});
+      {required this.projectList,
+      this.isLoading = false,
+      required this.onClick,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
-    return _buildProjectGridList();
+    return isLoading ? _buildLoadingIndicator() : _buildProjectGridList();
   }
 
   /// Build project list header widget.
@@ -61,7 +65,10 @@ class ProjectListWidget extends StatelessWidget {
   Widget _buildProjectGridList() {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4, crossAxisSpacing: 30,mainAxisSpacing: 30, childAspectRatio: 1.1),
+          crossAxisCount: 4,
+          crossAxisSpacing: 30,
+          mainAxisSpacing: 30,
+          childAspectRatio: 1.1),
       shrinkWrap: true,
       itemCount: projectList.length,
       itemBuilder: (ctx, index) {
@@ -70,6 +77,13 @@ class ProjectListWidget extends StatelessWidget {
           onClick: onClick,
         );
       },
+    );
+  }
+
+  /// Build loading indicator
+  Widget _buildLoadingIndicator() {
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

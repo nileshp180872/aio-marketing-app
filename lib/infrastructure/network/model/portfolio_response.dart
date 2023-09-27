@@ -43,7 +43,9 @@ class PortfolioResponseData {
   String? screenNAME;
   String? projectName;
   String? description;
-  List<Null>? techMapping;
+  List<TechMapping>? techMapping;
+  List<ImageMapping>? imageMapping;
+
 
   PortfolioResponseData(
       {this.portfolioID,
@@ -63,6 +65,14 @@ class PortfolioResponseData {
     screenNAME = json['ScreenNAME'];
     projectName = json['project_name'];
     description = json['description'];
+    if (json['TechMapping'] != null) {
+      techMapping = <TechMapping>[];
+      json['TechMapping'].forEach((v) { techMapping!.add(new TechMapping.fromJson(v)); });
+    }
+    if (json['ImageMapping'] != null) {
+      imageMapping = <ImageMapping>[];
+      json['ImageMapping'].forEach((v) { imageMapping!.add(new ImageMapping.fromJson(v)); });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -74,6 +84,55 @@ class PortfolioResponseData {
     data['ScreenNAME'] = this.screenNAME;
     data['project_name'] = this.projectName;
     data['description'] = this.description;
+    if (this.techMapping != null) {
+      data['TechMapping'] = this.techMapping!.map((v) => v.toJson()).toList();
+    }
+    if (this.imageMapping != null) {
+      data['ImageMapping'] = this.imageMapping!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+class TechMapping {
+  String? portfolioID;
+  String? caseStudyID;
+  String? techID;
+  String? techName;
+
+  TechMapping({this.portfolioID,this.caseStudyID, this.techID, this.techName});
+
+  TechMapping.fromJson(Map<String, dynamic> json) {
+    portfolioID = json['PortfolioID'];
+    caseStudyID = json['casestudies_id'];
+    techID = json['TechID'];
+    techName = json['TechName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['PortfolioID'] = this.portfolioID;
+    data['casestudies_id'] = this.caseStudyID;
+    data['TechID'] = this.techID;
+    data['TechName'] = this.techName;
+    return data;
+  }
+}
+
+class ImageMapping {
+  String? portfolioID;
+  String? portfolioImage;
+
+  ImageMapping({this.portfolioID, this.portfolioImage});
+
+  ImageMapping.fromJson(Map<String, dynamic> json) {
+    portfolioID = json['PortfolioID'];
+    portfolioImage = json['PortfolioImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['PortfolioID'] = this.portfolioID;
+    data['PortfolioImage'] = this.portfolioImage;
     return data;
   }
 }

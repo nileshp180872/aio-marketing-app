@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:aio/infrastructure/db/db_constants.dart';
+import 'package:aio/infrastructure/db/schema/case_study_images.dart';
+import 'package:aio/infrastructure/db/schema/case_study_technology_mapping.dart';
 import 'package:aio/infrastructure/db/schema/domain.dart';
 import 'package:aio/infrastructure/db/schema/leadership.dart';
 import 'package:aio/infrastructure/db/schema/portfolio.dart';
+import 'package:aio/infrastructure/db/schema/portfolio_images.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +18,7 @@ import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/case_study.dart';
 import '../../../infrastructure/db/schema/leadership_type.dart';
 import '../../../infrastructure/db/schema/platform.dart';
+import '../../../infrastructure/db/schema/portfolio_technologies.dart';
 import '../../../infrastructure/db/schema/technologies.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/network/model/case_studies_response.dart';
@@ -24,6 +28,7 @@ import '../../../infrastructure/network/model/leadership_type_response.dart';
 import '../../../infrastructure/network/model/platform_response.dart';
 import '../../../infrastructure/network/model/portfolio_response.dart';
 import '../../../infrastructure/network/model/technology_response.dart';
+import '../../../infrastructure/network/network_constants.dart';
 import '../../../utils/utils.dart';
 import '../provider/synchronisation.provider.dart';
 
@@ -230,23 +235,62 @@ class SynchronisationController extends GetxController {
     final leadershipResponse = PortfolioResponse.fromJson(response.data);
     for (PortfolioResponseData element in (leadershipResponse.data ?? [])) {
       try {
-        final imagePath = await getImageFilePath(
-            'https://s3.amazonaws.com/images.seroundtable.com/google-samples-1601379104.jpg',
-            "myimage1");
-        final model = Portfolio(
-            portfolioDomainId: element.domainID,
-            portfolioDomainName: element.domainName,
-            portfolioId: element.portfolioID,
-            portfolioProjectDescription: element.description,
-            portfolioProjectName: element.projectName,
-            portfolioScreenTypeId: element.screenTYPE,
-            projectImages: [imagePath],
-            portfolioScreenTypeName: element.screenNAME);
-        await _dbHelper.addToPortfolio(model);
+        await _addPortfolioData(element);
+        await _addPortfolioImages(element);
+        await _addPortfolioTechnologies(element);
       } catch (ex) {
         logger.e(ex);
       }
     }
+  }
+
+  /// Save portfolio data
+  Future<void> _addPortfolioData(PortfolioResponseData element) async {
+    final model = Portfolio(
+        portfolioDomainId: element.domainID,
+        portfolioDomainName: element.domainName,
+        portfolioId: element.portfolioID,
+        portfolioProjectDescription: element.description,
+        portfolioProjectName: element.projectName,
+        portfolioScreenTypeId: element.screenTYPE,
+        portfolioScreenTypeName: element.screenNAME);
+    await _dbHelper.addToPortfolio(model);
+  }
+
+  /// Portfolio images
+  Future<void> _addPortfolioImages(PortfolioResponseData element) async {
+    (element.imageMapping ?? []).forEach((imageMappingElement) async {
+      try {
+        final fileName =
+            (imageMappingElement.portfolioImage ?? "").split(".")[0];
+        final imagePath = await getImageFilePath(
+            '${NetworkConstants.kImageBasePath}${imageMappingElement.portfolioImage}',
+            "portfolio",
+            fileName);
+        final portfolioImage = PortfolioImages(
+            portfolioImageId: imageMappingElement.portfolioID,
+            portfolioImagePath: imagePath,
+            portfolioImagePortfolioId: element.portfolioID);
+        await _dbHelper.addToPortfolioImage(portfolioImage);
+      } catch (ex) {
+        logger.e(ex);
+      }
+    });
+  }
+
+  /// Add portfolio technologies
+  Future<void> _addPortfolioTechnologies(PortfolioResponseData element) async {
+    (element.techMapping ?? []).forEach((technologyMappingElement) async {
+      try {
+        final techMapping = PortfolioTechnologies(
+            portfolioTechnologyId: technologyMappingElement.techID,
+            portfolioTechnologyName: technologyMappingElement.techName,
+            portfolioTechnologyPortfolioId: element.portfolioID);
+        await _dbHelper.addToPortfolioTechnologies(techMapping);
+      } catch (ex) {
+        logger.e(ex);
+      }
+    });
   }
 
   /// Portfolio API success
@@ -256,20 +300,65 @@ class SynchronisationController extends GetxController {
     final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
     for (CaseStudiesResponseData element in (leadershipResponse.data ?? [])) {
       try {
-        final imagePath = await getImageFilePath(
-            'https://s3.amazonaws.com/images.seroundtable.com/google-samples-1601379104.jpg',
-            "myimage1");
-        final model = CaseStudy(
-            caseStudyId: element.casestudiesID,
-            caseStudyDomainId: element.domainID,
-            caseStudyProjectName: element.projectName,
-            caseStudyDomainName: element.domainName,
-            caseStudyProjectDescription: element.description,
-            caseStudyProjectImages: [imagePath]);
-        await _dbHelper.addToCaseStudies(model);
+        await _addCaseStudies(element);
+        await _addCaseStudyImages(element);
+        await _addCaseStudyTechnologies(element);
       } catch (ex) {
         logger.e(ex);
       }
+    }
+  }
+
+  /// Add case studies
+  Future<void> _addCaseStudies(CaseStudiesResponseData element) async {
+    final model = CaseStudy(
+      caseStudyId: element.casestudiesID,
+      caseStudyDomainId: element.domainID,
+      caseStudyProjectName: element.projectName,
+      caseStudyDomainName: element.domainName,
+      caseStudyProjectDescription: element.description,
+    );
+
+    await _dbHelper.addToCaseStudies(model);
+  }
+
+  /// Case study images
+  Future<void> _addCaseStudyImages(CaseStudiesResponseData element) async {
+    (element.imageMapping ?? []).forEach((imageMappingElement) async {
+      String imagePath = "";
+      try {
+        if ((imageMappingElement.casestudiesImage ?? "").isNotEmpty) {
+          final fileName =
+              (imageMappingElement.casestudiesImage ?? "").split(".")[0];
+          imagePath = await getImageFilePath(
+              '${NetworkConstants.kImageBasePath}${imageMappingElement.casestudiesImage}',
+              "casestudy",
+              fileName);
+        }
+        final caseStudyImage = CaseStudyImages(
+            caseStudyImageId: imageMappingElement.casestudiesID,
+            caseStudyImagePath: imagePath,
+            caseStudyImagePortfolioId: element.casestudiesID);
+        await _dbHelper.addToCaseStudyImage(caseStudyImage);
+      } catch (ex) {
+        logger.e(ex);
+      }
+    });
+  }
+
+  /// Add case study technologies
+  Future<void> _addCaseStudyTechnologies(
+      CaseStudiesResponseData element) async {
+    try {
+      (element.techMapping ?? []).forEach((technologyMappingElement) async {
+        final techMapping = CaseStudyTechnologyMapping(
+            caseStudyTechnologyId: technologyMappingElement.techID,
+            caseStudyTechnologyName: technologyMappingElement.techName,
+            caseStudyTableId: element.casestudiesID);
+        await _dbHelper.addToCaseStudyTechnologies(techMapping);
+      });
+    } catch (ex) {
+      logger.e(ex);
     }
   }
 
@@ -297,10 +386,15 @@ class SynchronisationController extends GetxController {
     final leadershipResponse = LeadersResponse.fromJson(response.data);
     for (LeadersResponseData element in (leadershipResponse.data ?? [])) {
       try {
+        String leaderImage = "";
+        if ((element.imageMapping ?? []).isNotEmpty) {
+          leaderImage = (element.imageMapping ?? []).first.leaderImage ?? "";
+        }
         final model = Leadership(
             leaderId: element.leadershipID,
             description: element.description,
             leaderName: element.leaderNAME,
+            image: leaderImage,
             designation: element.designation);
         await _dbHelper.addToLeaders(model);
       } catch (ex) {
@@ -353,12 +447,13 @@ class SynchronisationController extends GetxController {
   /// 2. Return saved destination path.
   ///
   /// required [imageUrl] as image need to downloaded.
-  Future<String> getImageFilePath(String imageUrl, String fileName) async {
+  Future<String> getImageFilePath(
+      String imageUrl, String subPath, String fileName) async {
     var response = await dio.Dio().get(imageUrl,
         options: dio.Options(responseType: dio.ResponseType.bytes));
     var documentDirectory = await getApplicationDocumentsDirectory();
 
-    var firstPath = "${documentDirectory.path}/images";
+    var firstPath = "${documentDirectory.path}/images/$subPath/";
 
     var filePathAndName = '$firstPath/$fileName.jpg';
 

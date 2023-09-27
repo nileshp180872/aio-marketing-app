@@ -15,20 +15,20 @@ class Leadership {
       this.image});
 
   Leadership.fromJson(Map<String, dynamic> json) {
-    leaderId = json[DbConstants.leadershipId];
-    leaderName = json[DbConstants.leadershipName];
-    image = json[DbConstants.leadershipName];
-    designation = json[DbConstants.leadershipName];
-    description = json[DbConstants.leadershipName];
+    leaderId = json[DbConstants.leaderId];
+    leaderName = json[DbConstants.leaderName];
+    image = json[DbConstants.leaderImage];
+    designation = json[DbConstants.leaderDesignation];
+    description = json[DbConstants.leaderDescription];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data[DbConstants.leadershipId] = leaderId;
-    data[DbConstants.leadershipName] = leaderName;
-    data[DbConstants.leadershipName] = image;
-    data[DbConstants.leadershipName] = designation;
-    data[DbConstants.leadershipName] = description;
+    data[DbConstants.leaderId] = leaderId;
+    data[DbConstants.leaderName] = leaderName;
+    data[DbConstants.leaderImage] = image;
+    data[DbConstants.leaderDesignation] = designation;
+    data[DbConstants.leaderDescription] = description;
     return data;
   }
 }

@@ -15,7 +15,11 @@ mixin SchemaConfig {
     _createPlatformTable();
     _createPortfolioTable();
     _createLeadersTable();
+    _createPortfolioImagesTable();
+    _createPortfolioTechnologyTable();
     _createCaseStudiesTable();
+    _createCaseStudyImagesTable();
+    _createCaseStudyTechnologyTable();
   }
 
   /// Creates domain table.
@@ -96,7 +100,8 @@ mixin SchemaConfig {
             ${DbConstants.leaderId} TEXT PRIMARY KEY NOT NULL,
             ${DbConstants.leaderName} TEXT,
             ${DbConstants.leaderDesignation} TEXT,
-            ${DbConstants.leaderDescription} TEXT
+            ${DbConstants.leaderDescription} TEXT,
+            ${DbConstants.leaderImage} TEXT
           )
           ''');
   }
@@ -111,6 +116,51 @@ mixin SchemaConfig {
             ${DbConstants.caseStudyProjectName} TEXT,
             ${DbConstants.caseStudyDescription} TEXT,
             ${DbConstants.caseStudyImages} TEXT
+          )
+          ''');
+  }
+
+  /// Create portfolio image table
+  void _createPortfolioImagesTable() async {
+    await _db.execute('''
+          CREATE TABLE ${DbConstants.tblPortfolioImages} (
+            ${DbConstants.portfolioImageId} TEXT
+            ,
+            ${DbConstants.portfolioImagePath} TEXT,
+            ${DbConstants.portfolioImagePortfolioId} TEXT
+          )
+          ''');
+  }
+
+  /// Create portfolio technology table
+  void _createPortfolioTechnologyTable() async {
+    await _db.execute('''
+          CREATE TABLE ${DbConstants.tblPortfolioTechnologies} (
+            ${DbConstants.portfolioTechnologyId} TEXT,
+            ${DbConstants.portfolioTechnologyName} TEXT,
+            ${DbConstants.portfolioTableId} TEXT
+          )
+          ''');
+  }
+
+  /// Create case study technology table
+  void _createCaseStudyTechnologyTable() async {
+    await _db.execute('''
+          CREATE TABLE ${DbConstants.tblCaseStudiesTechnologies} (
+            ${DbConstants.caseStudyTechnologyId} TEXT,
+            ${DbConstants.caseStudyTechnologyName} TEXT,
+            ${DbConstants.caseStudyTableId} TEXT
+          )
+          ''');
+  }
+
+  /// Create case study image table
+  void _createCaseStudyImagesTable() async {
+    await _db.execute('''
+          CREATE TABLE ${DbConstants.tblCaseStudyImages} (
+            ${DbConstants.caseStudyImageId} TEXT,
+            ${DbConstants.caseStudyImagePath} TEXT,
+            ${DbConstants.caseStudyImageCaseStudyId} TEXT
           )
           ''');
   }

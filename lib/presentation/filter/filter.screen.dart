@@ -1,6 +1,7 @@
 import 'package:aio/config/app_values.dart';
 import 'package:aio/presentation/filter/view/filter_category_tile_widget.dart';
 import 'package:aio/presentation/filter/view/filter_subcategory_grid_tile_widget.dart';
+import 'package:aio/presentation/portfolio/controllers/portfolio.controller.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,9 +86,13 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
 
   /// Build right side slider
   Widget _buildRightSliderList() {
+    final isCaseStudyList =
+        _controller.portfolioEnum == PortfolioEnum.CASE_STUDY;
     switch (_controller.selectedIndex.value) {
       case 1:
-        return _buildMobileList();
+        return isCaseStudyList
+            ? _buildTechnologyStackList()
+            : _buildMobileList();
       case 2:
         return _buildTechnologyStackList();
 
@@ -109,7 +114,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
               return FilterSubCategoryGridTileWidget(
                   index: index,
                   onTapItem: _controller.selectDomain,
-                  text: _controller.lstDomains[index]);
+                  model: _controller.lstDomains[index]);
             },
             itemCount: _controller.lstDomains.length,
           )
@@ -129,7 +134,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
               return FilterSubCategoryGridTileWidget(
                   index: index,
                   onTapItem: _controller.selectMobileWeb,
-                  text: _controller.lstMobileWeb[index]);
+                  model: _controller.lstMobileWeb[index]);
             },
             itemCount: _controller.lstMobileWeb.length,
           )
@@ -158,7 +163,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
               return FilterSubCategoryGridTileWidget(
                   index: index,
                   onTapItem: _controller.selectTechnology,
-                  text: _controller.lstTechnologies[index]);
+                  model: _controller.lstTechnologies[index]);
             },
             itemCount: _controller.lstTechnologies.length,
           )

@@ -31,6 +31,7 @@ abstract class DbConstants {
   static const leaderName = 'leader_name';
   static const leaderDesignation = 'leader_designation';
   static const leaderDescription = 'leader_description';
+  static const leaderImage = 'leader_image';
 
   //------------- Enquiry Data ---------
   static const tblEnquiry = 'enquiry';
@@ -55,6 +56,20 @@ abstract class DbConstants {
   static const portfolioProjectDescription = 'portfolio_project_description';
   static const projectImages = 'project_images';
 
+  //------------- Portfolio technologies ---------
+  static const tblPortfolioTechnologies = 'portfolio_technology';
+
+  static const portfolioTechnologyId = 'portfolio_technology_id';
+  static const portfolioTechnologyName = 'portfolio_technology_name';
+  static const portfolioTableId = 'portfolio_technology_portfolio_id';
+
+  //------------- Portfolio images ---------
+  static const tblPortfolioImages = 'portfolio_images';
+
+  static const portfolioImageId = 'portfolio_images_id';
+  static const portfolioImagePath = 'portfolio_images_path';
+  static const portfolioImagePortfolioId = 'portfolio_images_portfolio_id';
+
   //------------- Case studies ---------
   static const tblCaseStudies = 'case_study';
 
@@ -71,4 +86,11 @@ abstract class DbConstants {
   static const caseStudyTechnologyId = 'case_study_technology_id';
   static const caseStudyTechnologyName = 'case_study_technology_name';
   static const caseStudyTableId = 'case_study_id';
+
+  //------------- Portfolio images ---------
+  static const tblCaseStudyImages = 'case_study_images';
+
+  static const caseStudyImageId = 'case_study_images_id';
+  static const caseStudyImagePath = 'case_study_images_path';
+  static const caseStudyImageCaseStudyId = 'case_study_images_case_study_id';
 }

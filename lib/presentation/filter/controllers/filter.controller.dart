@@ -1,11 +1,15 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/infrastructure/db/schema/technologies.dart';
+import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/domain.dart';
 import '../../../infrastructure/db/schema/platform.dart';
+import '../../portfolio/controllers/portfolio.controller.dart';
+import '../model/filter_menu.dart';
 import '../model/selection_model.dart';
 
 class FilterController extends GetxController {
@@ -21,6 +25,12 @@ class FilterController extends GetxController {
     AppStrings.technologyStack
   ];
 
+  /// logger
+  final logger = Logger();
+
+  /// Screen viewing type enum
+  PortfolioEnum portfolioEnum = PortfolioEnum.PORTFOLIO;
+
   // domain list
   RxList<SelectionModel> lstDomains = RxList();
 
@@ -33,11 +43,71 @@ class FilterController extends GetxController {
   @override
   void onInit() {
     _dbHelper = GetIt.I<DatabaseHelper>();
-
-    _prepareDomains();
-    _prepareTechnologies();
-    _prepareMobileWeb();
+    _getArguments();
     super.onInit();
+  }
+
+  /// Receive arguments from previous screen.
+  void _getArguments() {
+    if (Get.arguments != null) {
+      portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
+          PortfolioEnum.PORTFOLIO;
+
+      // remove mobile web filter
+      if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
+        lstSectionCategory
+            .removeWhere((element) => element == AppStrings.mobileWeb);
+      } else {
+        _prepareMobileWeb();
+      }
+
+      _prepareDomains();
+      _prepareTechnologies();
+
+      final isFilterApplied =
+          Get.arguments[RouteArguments.filterApplied] ?? false;
+
+      Get.log(
+          "check ${((Get.arguments[RouteArguments.filterData]) as FilterMenu).platform.length}");
+
+      if (isFilterApplied) {
+        Future.delayed(Duration(milliseconds: 400), () {
+          FilterMenu selectedItems =
+              Get.arguments[RouteArguments.filterData] ?? FilterMenu();
+
+          if (selectedItems.domains.isNotEmpty) {
+            for (String selectedDomainElement in selectedItems.domains) {
+              final domainIndex = lstDomains
+                  .indexWhere((element) => element.id == selectedDomainElement);
+              if (domainIndex != -1) {
+                lstDomains[domainIndex].selected = true;
+              }
+            }
+          }
+
+          if (selectedItems.technologies.isNotEmpty) {
+            for (String selectedElement in selectedItems.technologies) {
+              final domainIndex = lstTechnologies
+                  .indexWhere((element) => element.id == selectedElement);
+              if (domainIndex != -1) {
+                lstTechnologies[domainIndex].selected = true;
+              }
+            }
+          }
+
+          if (selectedItems.platform.isNotEmpty) {
+            for (String selectedElement in selectedItems.platform) {
+              final domainIndex = lstMobileWeb.indexWhere((element) =>
+                  (element.id ?? "").trim() == selectedElement.trim());
+              if (domainIndex != -1) {
+                lstMobileWeb[domainIndex].selected = true;
+              }
+            }
+            lstMobileWeb.refresh();
+          }
+        });
+      }
+    }
   }
 
   void setSelectedIndex(int index) {
@@ -67,7 +137,23 @@ class FilterController extends GetxController {
 
   /// on apply button click
   void submit() {
-    Get.back();
+    final filterMenuItem = FilterMenu();
+
+    filterMenuItem.domains = (lstDomains.where((p0) => p0.selected).toList())
+        .map((element) => "'${element.id ?? ""}'")
+        .toList();
+
+    filterMenuItem.platform = (lstMobileWeb.where((p0) => p0.selected).toList())
+        .map((element) => "'${element.id ?? ""}'")
+        .toList();
+
+    filterMenuItem.technologies =
+        (lstTechnologies.where((p0) => p0.selected).toList())
+            .map((element) => "'${element.id ?? ""}'")
+            .toList();
+
+    Get.log("filter ${filterMenuItem.platform.length}");
+    Get.back(result: filterMenuItem);
   }
 
   /// on cancel button click
@@ -89,25 +175,40 @@ class FilterController extends GetxController {
 
   /// Prepare domains
   void _prepareDomains() async {
-    final domains = await _dbHelper.getAllDomains();
-    for (Domain element in domains) {
-      lstDomains.add(SelectionModel(title: element.domainName));
+    try {
+      final domains = await _dbHelper.getAllDomains();
+      for (Domain element in domains) {
+        lstDomains.add(
+            SelectionModel(title: element.domainName, id: element.domainId));
+      }
+    } catch (ex) {
+      logger.e(ex);
     }
   }
 
   /// Prepare technologies
   void _prepareTechnologies() async {
-    final technologies = await _dbHelper.getAllTechnologies();
-    for (Technologies element in technologies) {
-      lstTechnologies.add(SelectionModel(title: element.technologyName));
+    try {
+      final technologies = await _dbHelper.getAllTechnologies();
+      for (Technologies element in technologies) {
+        lstTechnologies.add(SelectionModel(
+            title: element.technologyName, id: element.technologyId));
+      }
+    } catch (ex) {
+      logger.e(ex);
     }
   }
 
   /// Prepare technologies
   void _prepareMobileWeb() async {
-    final platforms = await _dbHelper.getAllPlatform();
-    for (Platform element in platforms) {
-      lstMobileWeb.add(SelectionModel(title: element.platformName));
+    try {
+      final platforms = await _dbHelper.getAllPlatform();
+      for (Platform element in platforms) {
+        lstMobileWeb.add(SelectionModel(
+            title: element.platformName, id: element.platformId));
+      }
+    } catch (ex) {
+      logger.e(ex);
     }
   }
 }

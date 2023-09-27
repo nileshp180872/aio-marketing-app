@@ -1,11 +1,15 @@
 import 'package:aio/infrastructure/db/db_constants.dart';
 import 'package:aio/infrastructure/db/schema/case_study.dart';
+import 'package:aio/infrastructure/db/schema/case_study_images.dart';
+import 'package:aio/infrastructure/db/schema/case_study_technology_mapping.dart';
 import 'package:aio/infrastructure/db/schema/domain.dart';
 import 'package:aio/infrastructure/db/schema/enquiry.dart';
 import 'package:aio/infrastructure/db/schema/leadership.dart';
 import 'package:aio/infrastructure/db/schema/leadership_type.dart';
 import 'package:aio/infrastructure/db/schema/platform.dart';
 import 'package:aio/infrastructure/db/schema/portfolio.dart';
+import 'package:aio/infrastructure/db/schema/portfolio_images.dart';
+import 'package:aio/infrastructure/db/schema/portfolio_technologies.dart';
 import 'package:aio/infrastructure/db/schema/technologies.dart';
 
 import 'config/db_config.dart';
@@ -97,11 +101,51 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     return insert(portfolio.toJson(), DbConstants.tblPortfolio);
   }
 
+  /// Add portfolio images to db.
+  Future<int> addToPortfolioImage(PortfolioImages portfolioImage) async {
+    return insert(portfolioImage.toJson(), DbConstants.tblPortfolioImages);
+  }
+
+  /// Add portfolio technologies to db.
+  Future<int> addToPortfolioTechnologies(
+      PortfolioTechnologies portfolioTechnologies) async {
+    return insert(
+        portfolioTechnologies.toJson(), DbConstants.tblPortfolioTechnologies);
+  }
+
+  /// Add case study images to db.
+  Future<int> addToCaseStudyImage(CaseStudyImages caseStudyImages) async {
+    return insert(caseStudyImages.toJson(), DbConstants.tblCaseStudyImages);
+  }
+
+  /// Add case study technologies to db.
+  Future<int> addToCaseStudyTechnologies(
+      CaseStudyTechnologyMapping caseStudyTechnologyMapping) async {
+    return insert(caseStudyTechnologyMapping.toJson(),
+        DbConstants.tblCaseStudiesTechnologies);
+  }
+
   /// Return all portfolios.
   Future<List<Portfolio>> getAllPortfolios() async {
     List<dynamic> result = await queryAllRows(DbConstants.tblPortfolio);
 
     List<Portfolio> enquiries = [];
+    for (var element in result) {
+      enquiries.add(Portfolio.fromJson(element));
+    }
+    return enquiries;
+  }
+
+  /// Return all portfolios.
+  Future<List<Portfolio>> getFilterPortfolios({
+    required List<String> domains,
+    required List<String> platforms,
+    required List<String> technologies,
+  }) async {
+    List<dynamic> result = await queryAllRows(DbConstants.tblPortfolio);
+
+    List<Portfolio> enquiries = [];
+
     for (var element in result) {
       enquiries.add(Portfolio.fromJson(element));
     }
@@ -173,6 +217,11 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     await truncateTable(DbConstants.tblLeadership);
     await truncateTable(DbConstants.tblPlatform);
     await truncateTable(DbConstants.tblPortfolio);
+    await truncateTable(DbConstants.tblEnquiry);
+    await truncateTable(DbConstants.tblPortfolioTechnologies);
+    await truncateTable(DbConstants.tblPortfolioImages);
     await truncateTable(DbConstants.tblCaseStudies);
+    await truncateTable(DbConstants.tblCaseStudiesTechnologies);
+    await truncateTable(DbConstants.tblCaseStudyImages);
   }
 }
