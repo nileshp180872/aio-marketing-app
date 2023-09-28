@@ -17,7 +17,9 @@ class BoardMemberSliderController extends GetxController {
   /// List of board members.
   RxList<MemberModel> lstMembers = RxList();
 
-  PageController pageController = PageController();
+  /// Page controller.
+  PageController pageController =
+      PageController(keepPage: true, initialPage: 0);
 
   @override
   void onInit() {

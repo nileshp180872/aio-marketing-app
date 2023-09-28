@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_values.dart';
+import '../model/member_model.dart';
 
 class MemberTileWidget extends StatelessWidget {
-  MemberTileWidget({super.key});
+  MemberTileWidget({required this.memberModel, super.key});
 
+  final MemberModel memberModel;
   late TextTheme _textTheme;
   late BuildContext _buildContext;
 
@@ -45,20 +47,16 @@ class MemberTileWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildMemberNameText(title: "Ramesh Marand"),
+          _buildMemberNameText(title: memberModel.memberName??""),
           const SizedBox(
             height: 4,
           ),
-          _buildDesignationText(title: "MD & CEO"),
+          _buildDesignationText(title: memberModel.position??""),
           const SizedBox(
             height: 24,
           ),
           _buildContentText(
-              content:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to\n\n'
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to'),
+              content:memberModel.introduction??""),
         ],
       ),
     );

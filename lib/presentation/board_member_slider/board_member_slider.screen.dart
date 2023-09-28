@@ -2,7 +2,6 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/board_member_slider/view/member_tile_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../config/app_values.dart';
@@ -19,18 +18,21 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        buildCustomAppBar(title: AppStrings.teamLeadership),
-        const SizedBox(
-          height: AppValues.size_34,
+      body: Obx(
+        () => Column(
+          children: [
+            buildCustomAppBar(title: AppStrings.teamLeadership),
+            const SizedBox(
+              height: AppValues.size_34,
+            ),
+            Expanded(child: _buildPagedView()),
+            const SizedBox(
+              height: AppValues.size_20,
+            ),
+          ],
         ),
-        Expanded(child: _buildPagedView()),
-        const SizedBox(
-          height: AppValues.size_20,
-        ),
-      ],
-    ));
+      ),
+    );
   }
 
   /// Build page view.
@@ -48,7 +50,9 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
               controller: _controller.pageController,
               itemCount: _controller.lstMembers.length,
               itemBuilder: (_, index) {
-                return MemberTileWidget();
+                return MemberTileWidget(
+                  memberModel: _controller.lstMembers[index],
+                );
               }),
         ),
         InkWell(
