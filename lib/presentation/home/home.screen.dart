@@ -119,11 +119,14 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
 
   /// Stack intro container
   Widget _stackIntroContainer() {
-    return Stack(
-      fit: StackFit.expand,
+    return Row(
       children: [
-        _buildVideoPlayer(),
-        if (_controller.overlayEnabled.isTrue) _buildOverlayContainer(),
+        Expanded(
+            flex: 6,
+            child: _buildOverlayLeftSide()),
+        Expanded(
+          flex: 8,
+            child: _buildVideoPlayer()),
       ],
     );
   }
@@ -131,7 +134,6 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   /// Build overlay widget
   Widget _buildOverlayContainer() {
     return Container(
-      color: const Color(0xFF00517C).withOpacity(0.75),
       child: Row(
         children: [
           Expanded(child: _buildOverlayLeftSide()),
@@ -156,7 +158,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
                   fontSize: 32,
                   height: 1.5,
                   fontFamily: AppConstants.poppins,
-                  color: Colors.white),
+                  color: AppColors.colorSecondary),
             ),
             const SizedBox(
               height: AppValues.size_8,
@@ -167,7 +169,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
                   fontWeight: FontWeight.bold,
                   fontSize: 32,
                   fontFamily: 'Inter',
-                  color: Colors.white),
+                  color: AppColors.colorSecondary),
             ),
             const SizedBox(
               height: AppValues.size_16,
@@ -178,7 +180,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
                   fontFamily: AppConstants.poppins,
-                  color: Colors.white.withOpacity(0.8)),
+                  color: AppColors.colorSecondary.withOpacity(0.8)),
             ),
             const SizedBox(
               height: AppValues.size_20,

@@ -24,8 +24,8 @@ mixin AppFeature {
   /// Build custom appbar
   ///
   /// required[title] for title text
-  Widget buildCustomAppBar({String title = ""}) {
-    return buildCustomAppBarWithChild(child: _buildTitleWithBack(title: title));
+  Widget buildCustomAppBar({String title = "", bool enableSearch=true}) {
+    return buildCustomAppBarWithChild(child: _buildTitleWithBack(title: title, ),enableSearch: enableSearch);
   }
 
   /// Build appbar widget with custom child below custom view.

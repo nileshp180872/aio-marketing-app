@@ -4,7 +4,6 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../infrastructure/navigation/routes.dart';
@@ -58,7 +57,9 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
             _buildPhoneNumberField(),
             _buildCompanyNameField(),
             _buildMessageField(),
-            SizedBox(height: 24,),
+            const SizedBox(
+              height: 24,
+            ),
             _buildEnquiryButton(),
           ],
         ),
