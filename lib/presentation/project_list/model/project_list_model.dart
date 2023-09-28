@@ -1,6 +1,7 @@
 class ProjectListModel{
   String? projectName;
   String? id;
+  int? autoIncrementId;
   String? technologies;
   String? overView;
   String? description;
@@ -8,5 +9,5 @@ class ProjectListModel{
   int? viewType;
 
   ProjectListModel(
-      {this.id,this.viewType,this.projectName,this.projectImage, this.technologies, this.overView, this.description});
+      {this.id,this.autoIncrementId,this.viewType,this.projectName,this.projectImage, this.technologies, this.overView, this.description});
 }

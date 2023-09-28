@@ -27,10 +27,10 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void dispose() {
     videoPlayerController.value.dispose();
     chewieController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   /// Initialise video player.
@@ -49,7 +49,7 @@ class HomeController extends GetxController {
       if (!videoPlayerController.value.value.isPlaying) {
         overlayEnabled.value = true;
       } else {
-        overlayEnabled.value = !userRequested ;
+        overlayEnabled.value = !userRequested;
       }
     });
     videoPlayerController.refresh();

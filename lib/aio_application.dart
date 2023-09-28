@@ -17,13 +17,13 @@ class AIOApplication extends StatefulWidget {
 class _AIOApplicationState extends State<AIOApplication> {
   @override
   void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
     // Hide both overlays
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    super.initState();
   }
 
   @override

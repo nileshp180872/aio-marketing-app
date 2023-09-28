@@ -3,6 +3,7 @@ import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/utils/app_loading.mixin.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
 
 import '../../../config/app_strings.dart';
@@ -39,10 +40,22 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   /// Filter menu
   FilterMenu filterModel = FilterMenu();
 
+  /// Paged view
+  final PagingController<int, ProjectListModel> pagingController =
+      PagingController(firstPageKey: 0);
+
   @override
   void onInit() {
     _getArguments();
+    _addPageViewListener();
     super.onInit();
+  }
+
+  /// Add page view listener
+  void _addPageViewListener() {
+    pagingController.addPageRequestListener((pageKey) {
+      _getAllData(pageKey);
+    });
   }
 
   /// Receive arguments from previous screen.
@@ -60,19 +73,38 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           ? AppStrings.workPortfolio
           : AppStrings.caseStudy;
     }
-    _getAllData();
   }
 
   /// Prepare portfolio
-  void _preparePortfolio() async {
-    showLoading();
-    final portfolio = await _dbHelper.getPortfolioWithImage();
+  void _preparePortfolio(int pageKey) async {
+    String strSelectedDomains = "";
+    String strSelectedScreens = "";
+    String strSelectedTechnologies = "";
+    if (filterApplied.value) {
+      strSelectedDomains = filterModel.domains.join(",");
+      strSelectedScreens = filterModel.platform.join(",");
+      strSelectedTechnologies = filterModel.technologies.join(",");
+    }
+    final portfolio = await _dbHelper.getPortfolioWithImage(pageKey,
+        domains: strSelectedDomains,
+        screens: strSelectedScreens,
+        filterApplied: filterApplied.value,
+        technologies: strSelectedTechnologies);
+    final isLastPage = portfolio.length < AppConstants.paginationPageLimit;
+    List<ProjectListModel> newProjectList = [];
     for (Portfolio element in portfolio) {
-      projectList.add(ProjectListModel(
+      newProjectList.add(ProjectListModel(
           id: element.portfolioId,
+          autoIncrementId: element.portfolioAutoIncrementId,
           projectName: element.portfolioProjectName,
           projectImage: element.images,
           viewType: AppConstants.portfolio));
+    }
+    if (isLastPage) {
+      pagingController.appendLastPage(newProjectList);
+    } else {
+      final nextPageKey = pageKey + newProjectList.length;
+      pagingController.appendPage(newProjectList, nextPageKey);
     }
     Future.delayed(const Duration(milliseconds: 400), () {
       hideLoading();
@@ -80,44 +112,36 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   }
 
   /// Prepare case study
-  void _prepareCaseStudy() async {
-    showLoading();
-    final portfolio = await _dbHelper.getAllCaseStudies();
-    for (CaseStudy element in portfolio) {
-      projectList.add(ProjectListModel(
+  void _prepareCaseStudy(int pageKey) async {
+    String strSelectedDomains = "";
+    String strSelectedTechnologies = "";
+    if (filterApplied.value) {
+      strSelectedDomains = filterModel.domains.join(",");
+      strSelectedTechnologies = filterModel.technologies.join(",");
+    }
+    final caseStudies = await _dbHelper.getCaseStudyWithImage(pageKey,
+        domains: strSelectedDomains,
+        filterApplied: filterApplied.value,
+        technologies: strSelectedTechnologies);
+    final isLastPage = caseStudies.length < AppConstants.paginationPageLimit;
+    List<ProjectListModel> newProjectList = [];
+    for (CaseStudy element in caseStudies) {
+      newProjectList.add(ProjectListModel(
           id: element.caseStudyId,
+          autoIncrementId: element.caseStudyAutoIncrementId,
           projectName: element.caseStudyProjectName,
           projectImage: element.images,
           viewType: AppConstants.caseStudy));
     }
+    if (isLastPage) {
+      pagingController.appendLastPage(newProjectList);
+    } else {
+      final nextPageKey = pageKey + newProjectList.length;
+      pagingController.appendPage(newProjectList, nextPageKey);
+    }
     Future.delayed(const Duration(milliseconds: 400), () {
       hideLoading();
     });
-  }
-
-  /// Prepare portfolio
-  void _filterPortfolioData(
-      String domains, String screens, String technologies) async {
-    try {
-      showLoading();
-      final portfolio = await _dbHelper.filterPortfolioDataForFilter(
-          domains: domains, screens: screens, technologies: technologies);
-      for (Portfolio element in portfolio) {
-        projectList.add(ProjectListModel(
-            id: element.portfolioId,
-            projectName: element.portfolioProjectName,
-            projectImage: element.images,
-            viewType: AppConstants.portfolio));
-      }
-      Future.delayed(const Duration(milliseconds: 400), () {
-        hideLoading();
-      });
-    } catch (ex) {
-      logger.e(ex);
-      Future.delayed(const Duration(milliseconds: 400), () {
-        hideLoading();
-      });
-    }
   }
 
   /// on project click
@@ -127,8 +151,8 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
-      RouteArguments.index: index,
-      RouteArguments.projectList: projectList.value,
+      RouteArguments.filterApplied: filterApplied.value,
+      RouteArguments.filterData: filterModel,
       RouteArguments.projectListType: _projectListTypeEnum,
       RouteArguments.portfolioEnum: _portfolioEnum,
     });
@@ -144,15 +168,12 @@ class ProjectListController extends GetxController with AppLoadingMixin {
 
     if (filterResponse != null) {
       filterModel = filterResponse as FilterMenu;
-      projectList.clear();
       _filterDataBasedOnSelectedItem();
     }
   }
 
   /// filter data
   void _filterDataBasedOnSelectedItem() {
-    showLoading();
-
     final selectedDomains = filterModel.domains;
     final selectedPlatforms = filterModel.platform;
     final selectedTechnologies = filterModel.technologies;
@@ -161,23 +182,15 @@ class ProjectListController extends GetxController with AppLoadingMixin {
         selectedTechnologies.isNotEmpty ||
         selectedPlatforms.isNotEmpty;
 
-    if (filterApplied.value) {
-      final strSelectedDomains = selectedDomains.join(",");
-      final strSelectedScreens = selectedPlatforms.join(",");
-      final strSelectedTechnologies = selectedTechnologies.join(",");
-      _filterPortfolioData(
-          strSelectedDomains, strSelectedScreens, strSelectedTechnologies);
-    } else {
-      _getAllData();
-    }
+    pagingController.refresh();
   }
 
-  /// Get all data
-  void _getAllData() {
+  /// Get data depend on [_portfolioEnum].
+  void _getAllData(int pageKey) {
     if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
-      _preparePortfolio();
+      _preparePortfolio(pageKey);
     } else {
-      _prepareCaseStudy();
+      _prepareCaseStudy(pageKey);
     }
   }
 }

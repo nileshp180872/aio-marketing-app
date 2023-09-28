@@ -1,6 +1,6 @@
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
-import 'package:aio/presentation/project_list/view/project_list_widget.dart';
+import 'package:aio/presentation/project_list/view/pagination_project_grid_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,8 +43,8 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
     return Container(
       margin: const EdgeInsets.symmetric(
           horizontal: AppValues.sideMargin, vertical: 34),
-      child: ProjectListWidget(
-        projectList: _controller.projectList,
+      child: PaginationProjectGridWidget(
+        pagingController: _controller.pagingController,
         isLoading: _controller.isLoading,
         onClick: _controller.onProjectClick,
       ),

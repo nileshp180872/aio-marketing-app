@@ -71,14 +71,15 @@ class FilterController extends GetxController {
           "check ${((Get.arguments[RouteArguments.filterData]) as FilterMenu).platform.length}");
 
       if (isFilterApplied) {
-        Future.delayed(Duration(milliseconds: 400), () {
+        Future.delayed(const Duration(milliseconds: 400), () {
           FilterMenu selectedItems =
               Get.arguments[RouteArguments.filterData] ?? FilterMenu();
 
           if (selectedItems.domains.isNotEmpty) {
             for (String selectedDomainElement in selectedItems.domains) {
-              final domainIndex = lstDomains
-                  .indexWhere((element) => element.id == selectedDomainElement);
+              final domainIndex = lstDomains.indexWhere((element) =>
+                  (element.id ?? "") ==
+                  selectedDomainElement.replaceAll("'", ''));
               if (domainIndex != -1) {
                 lstDomains[domainIndex].selected = true;
               }
@@ -87,8 +88,8 @@ class FilterController extends GetxController {
 
           if (selectedItems.technologies.isNotEmpty) {
             for (String selectedElement in selectedItems.technologies) {
-              final domainIndex = lstTechnologies
-                  .indexWhere((element) => element.id == selectedElement);
+              final domainIndex = lstTechnologies.indexWhere((element) =>
+                  (element.id ?? "") == selectedElement.replaceAll("'", ''));
               if (domainIndex != -1) {
                 lstTechnologies[domainIndex].selected = true;
               }
@@ -98,12 +99,14 @@ class FilterController extends GetxController {
           if (selectedItems.platform.isNotEmpty) {
             for (String selectedElement in selectedItems.platform) {
               final domainIndex = lstMobileWeb.indexWhere((element) =>
-                  (element.id ?? "").trim() == selectedElement.trim());
+                  (element.id ?? "") == selectedElement.replaceAll("'", ''));
               if (domainIndex != -1) {
                 lstMobileWeb[domainIndex].selected = true;
               }
             }
             lstMobileWeb.refresh();
+            lstDomains.refresh();
+            lstTechnologies.refresh();
           }
         });
       }

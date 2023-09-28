@@ -1,4 +1,8 @@
+import 'package:aio/config/app_constants.dart';
+import 'package:aio/infrastructure/db/db_constants.dart';
+import 'package:aio/infrastructure/db/schema/leadership.dart';
 import 'package:aio/infrastructure/db/schema/portfolio.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -99,38 +103,112 @@ mixin DbConfig {
     required String technologies,
   }) async {
     final List<Map<String, dynamic>> result = await _db.rawQuery(
-        "SELECT * FROM portfolio WHERE portfolio.portfolio_domain_id in ($domains) OR portfolio.portfolio_screen_type in ($screens);");
+        "SELECT * FROM portfolio WHERE portfolio.portfolio_domain_id in ($domains) OR portfolio.portfolio_screen_type in ($screens) ORDER BY portfolio.portfolio_autoincrement_id LIMIT 2;");
 
     return List<Portfolio>.generate(
         result.length, (index) => Portfolio.fromJson(result[index]),
         growable: true);
   }
 
-  // Return all rows returned as a list of maps, where each map is
-  // a key-value list of columns.
-  Future<List<Portfolio>> getPortfolioWithImage() async {
-    final List<Map<String, dynamic>> result = await _db.rawQuery(
-        "SELECT portfolio.*, portfolio_images.portfolio_images_path as images FROM portfolio left join portfolio_images on portfolio.portfolio_id = portfolio_images.portfolio_images_portfolio_id GROUP BY portfolio.portfolio_id;");
+  /// Return all rows returned as a list of maps, where each map is
+  /// a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioWithImage(int offset,
+      {required String domains,
+      required String screens,
+      required String technologies,
+      String projectId = "",
+      bool filterApplied = false,
+      int limit = AppConstants.paginationPageLimit}) async {
+    const joinImages =
+        "left join ${DbConstants.tblPortfolioImages} on ${DbConstants.portfolioId} = ${DbConstants.portfolioImagePortfolioId}";
+
+    const joinTechnologyTable =
+        "left join ${DbConstants.tblPortfolioTechnologies} on ${DbConstants.portfolioId} = ${DbConstants.portfolioTableId}";
+
+    String filterAllDataQuery =
+        "SELECT ${DbConstants.tblPortfolio}.*, ${DbConstants.portfolioImagePath} as images, ${DbConstants.portfolioTechnologyId} as technologies FROM ${DbConstants.tblPortfolio} $joinImages $joinTechnologyTable";
+
+    String queryFilter =
+        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioAIId} LIMIT $limit OFFSET $offset";
+
+    String filterQuery = "WHERE";
+
+    if (domains.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${DbConstants.portfolioDomainId} in ($domains)";
+    }
+
+    if (screens.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} ${DbConstants.portfolioScreenType} in ($screens)";
+    }
+
+    if (technologies.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} technologies in ($technologies)";
+    }
+
+    if (projectId.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} ${DbConstants.caseStudyId} = '$projectId'";
+    }
+
+    String finalQuery =
+        "$filterAllDataQuery ${filterApplied ? filterQuery : ""}$queryFilter";
+
+    final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 
     return List<Portfolio>.generate(
         result.length, (index) => Portfolio.fromJson(result[index]),
         growable: true);
   }
 
-  // Return all rows returned as a list of maps, where each map is
-  // a key-value list of columns.
-  Future<List<Portfolio>> getPortfolioWithImageOffset({required int offset}) async {
-    final List<Map<String, dynamic>> result = await _db.rawQuery(
-        "SELECT portfolio.*, portfolio_images.portfolio_images_path as images FROM portfolio left join portfolio_images on portfolio.portfolio_id = portfolio_images.portfolio_images_portfolio_id GROUP BY portfolio.portfolio_id;");
+  /// Return all rows returned as a list of maps, where each map is
+  /// a key-value list of columns.
+  Future<List<CaseStudy>> getCaseStudyWithImage(int offset,
+      {required String domains,
+      required String technologies,
+      bool filterApplied = false,
+      int limit = AppConstants.paginationPageLimit}) async {
+    const joinImages =
+        "left join ${DbConstants.tblCaseStudyImages} on ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} = ${DbConstants.caseStudyImageCaseStudyId}";
 
-    return List<Portfolio>.generate(
-        result.length, (index) => Portfolio.fromJson(result[index]),
+    const joinTechnologyTable =
+        "left join ${DbConstants.tblCaseStudiesTechnologies} on ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} = ${DbConstants.caseStudyTechnologyId}";
+
+    String filterAllDataQuery =
+        "SELECT ${DbConstants.tblCaseStudies}.*, ${DbConstants.caseStudyImagePath} as images, ${DbConstants.caseStudyTechnologyId} as technologies FROM ${DbConstants.tblCaseStudies} $joinImages $joinTechnologyTable";
+
+    String queryFilter =
+        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyAIId} LIMIT $limit OFFSET $offset";
+
+    String filterQuery = "WHERE";
+
+    if (domains.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${DbConstants.caseStudyDomainId} in ($domains)";
+    }
+
+    if (technologies.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} technologies in ($technologies)";
+    }
+
+    String finalQuery =
+        "$filterAllDataQuery ${filterApplied ? filterQuery : ""}$queryFilter";
+
+    Get.log("Get case study from ${finalQuery}");
+    final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
+
+    return List<CaseStudy>.generate(
+        result.length, (index) => CaseStudy.fromJson(result[index]),
         growable: true);
   }
 
   // Return first row matched by portfolioId returned as a list of maps, where each map is
   // a key-value list of columns.
-  Future<List<Portfolio>> getPortfolioById({required String portfolioId}) async {
+  Future<List<Portfolio>> getPortfolioById(
+      {required String portfolioId}) async {
     final List<Map<String, dynamic>> result = await _db.rawQuery(
         "SELECT portfolio.* FROM portfolio WHERE portfolio.portfolio_id = '$portfolioId' LIMIT 1;");
 
@@ -138,9 +216,21 @@ mixin DbConfig {
         result.length, (index) => Portfolio.fromJson(result[index]),
         growable: true);
   }
+
+  /// Prepare team leaders stored in db.
+  Future<List<Leadership>> getAllTeamLeaders() async {
+    final List<Map<String, dynamic>> result =
+        await _db.rawQuery("SELECT * FROM ${DbConstants.tblLeaders}");
+
+    return List<Leadership>.generate(
+        result.length, (index) => Leadership.fromJson(result[index]),
+        growable: true);
+  }
+
   // Return first row matched by caseStudyId returned as a list of maps, where each map is
   // a key-value list of columns.
-  Future<List<CaseStudy>> getCaseStudyById({required String caseStudyId}) async {
+  Future<List<CaseStudy>> getCaseStudyById(
+      {required String caseStudyId}) async {
     final List<Map<String, dynamic>> result = await _db.rawQuery(
         "SELECT * FROM case_study WHERE case_study.case_study_id = '$caseStudyId' LIMIT 1;");
 
@@ -152,8 +242,8 @@ mixin DbConfig {
   // Return first row matched by portfolioId returned as a list of maps, where each map is
   // a key-value list of columns.
   Future<List<Portfolio>> getPortfolioByOffset({required int offset}) async {
-    final List<Map<String, dynamic>> result = await _db.rawQuery(
-        "SELECT portfolio.* FROM portfolio OFFSET $offset LIMIT 1;");
+    final List<Map<String, dynamic>> result = await _db
+        .rawQuery("SELECT portfolio.* FROM portfolio OFFSET $offset LIMIT 1;");
 
     return List<Portfolio>.generate(
         result.length, (index) => Portfolio.fromJson(result[index]),

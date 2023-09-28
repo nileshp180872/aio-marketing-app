@@ -59,6 +59,9 @@ dependencies:
   # for preventing unwanted deadlock during synchronisation.
   synchronized: ^3.1.0
 
+  # Pagination library
+  infinite_scroll_pagination: ^4.0.0
+
   flutter:
     sdk: flutter
 

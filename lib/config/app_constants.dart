@@ -8,4 +8,7 @@ class AppConstants{
 
   static const portfolio=1;
   static const caseStudy=2;
+
+  /// Page limit for portfolios and case studies
+  static const paginationPageLimit=2;
 }

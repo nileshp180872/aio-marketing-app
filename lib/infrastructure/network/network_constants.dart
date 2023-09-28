@@ -9,19 +9,19 @@ abstract class NetworkConstants {
 
 abstract class NetworkAPIs {
   // Domains
-  static const kDomains = "list/domain";
+  static const kDomains = "lookup/domain";
 
   // Technologies
-  static const kTechnologies = "list/tech";
+  static const kTechnologies = "lookup/tech";
 
   // Leadership
-  static const kLeadershipRole = "list/leader";
+  static const kLeadershipRole = "lookup/leader";
 
   // leaders
   static const kLeaders = "leader/list";
 
   // Platform
-  static const kPlatform = "list/screen";
+  static const kPlatform = "lookup/screen";
 
   // Enquiry
   static const kEnquiry = "enquiry/new";

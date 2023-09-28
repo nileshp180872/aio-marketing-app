@@ -12,19 +12,19 @@ class ProjectListGridTileWidget extends StatelessWidget {
   int index;
 
   ProjectListGridTileWidget(
-      {required this.projectListModel, required this.onClick,required this.index, super.key});
+      {required this.projectListModel,
+      required this.onClick,
+      required this.index,
+      super.key});
 
   late TextTheme _textTheme;
 
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
-    return InkWell(
-      onTap: () => onClick(projectListModel, index),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.cardBackground,
-        ),
+    return Card(
+      child: InkWell(
+        onTap: () => onClick(projectListModel, index),
         child: Column(
           children: [
             Expanded(

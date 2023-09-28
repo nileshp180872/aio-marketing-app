@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../db_constants.dart';
 
 class CaseStudy {
+  int? caseStudyAutoIncrementId;
   String? caseStudyId;
   String? caseStudyDomainId;
   String? caseStudyDomainName;
@@ -12,7 +13,7 @@ class CaseStudy {
   List<String>? caseStudyProjectImages;
 
   CaseStudy(
-      {this.caseStudyId,
+      {this.caseStudyAutoIncrementId,this.caseStudyId,
       this.caseStudyDomainId,
       this.caseStudyDomainName,
       this.caseStudyProjectImages,
@@ -21,6 +22,7 @@ class CaseStudy {
       this.caseStudyProjectDescription});
 
   CaseStudy.fromJson(Map<String, dynamic> json) {
+    caseStudyAutoIncrementId = json[DbConstants.caseStudyAIId];
     caseStudyId = json[DbConstants.caseStudyId];
     caseStudyDomainId = json[DbConstants.caseStudyDomainId];
     caseStudyDomainName = json[DbConstants.caseStudyDomainName];
@@ -37,13 +39,12 @@ class CaseStudy {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data[DbConstants.caseStudyAIId] = caseStudyAutoIncrementId;
     data[DbConstants.caseStudyId] = caseStudyId;
     data[DbConstants.caseStudyDomainId] = caseStudyDomainId;
     data[DbConstants.caseStudyDomainName] = caseStudyDomainName;
     data[DbConstants.caseStudyProjectName] = caseStudyProjectName;
     data[DbConstants.caseStudyDescription] = caseStudyProjectDescription;
-    data[DbConstants.images] = images;
-
     if (caseStudyProjectImages != null) {
       var json =
           jsonEncode(caseStudyProjectImages, toEncodable: (e) => e!.toString());

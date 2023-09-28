@@ -1,17 +1,14 @@
 import 'package:aio/infrastructure/db/database_helper.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
+import 'package:aio/presentation/filter/model/filter_menu.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../config/app_strings.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
-import '../../project_list/controllers/project_list.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
 class ProjectDetailController extends GetxController {
-  /// Project list view type enum
-  ProjectListTypeEnum _projectListTypeEnum = ProjectListTypeEnum.DOMAIN;
-
   /// Screen viewing type enum
   PortfolioEnum _portfolioEnum = PortfolioEnum.PORTFOLIO;
 
@@ -28,12 +25,26 @@ class ProjectDetailController extends GetxController {
   /// technologies
   RxString technologies = "".obs;
 
+  /// Store active image index from current project.
   RxInt activeImageIndex = 0.obs;
 
+  /// Stores active project index from the list.
   RxInt activeProjectIndex = 0.obs;
 
-  // Project images
+  /// Store true if next item available from the list.
+  RxBool enableNext = false.obs;
+
+  /// Shoes previous project available from the list.
+  RxBool enablePrevious = false.obs;
+
+  /// Project images
   RxList<String> images = RxList();
+
+  /// Store true if filter is applied otherwise false.
+  bool filterApplied = false;
+
+  /// Filter menu model.
+  FilterMenu filterModel = FilterMenu();
 
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
@@ -50,15 +61,17 @@ class ProjectDetailController extends GetxController {
   void _getArguments() {
     if (Get.arguments != null) {
       screenTitle.value = Get.arguments[RouteArguments.screenName] ?? "";
+
       _projectId = Get.arguments[RouteArguments.projectId] ?? "";
+
+      filterModel = Get.arguments[RouteArguments.filterData] ?? FilterMenu();
+
+      filterApplied = Get.arguments[RouteArguments.filterApplied] ?? false;
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
       _portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
-
-      _projectListTypeEnum = Get.arguments[RouteArguments.projectListType] ??
-          ProjectListTypeEnum.DOMAIN;
 
       _prepareProjectDetails();
     }
@@ -66,16 +79,16 @@ class ProjectDetailController extends GetxController {
 
   /// Navigate to next page.
   void goToNextPage() {
-    if (activeImageIndex.value != projectList.length - 1) {
-      activeImageIndex.value++;
+    if (enableNext.isTrue) {
+      activeProjectIndex.value++;
       _prepareProjectDetails();
     }
   }
 
   /// Navigate to previous page.
   void goToPreviousPage() {
-    if (activeImageIndex.value > 0) {
-      activeImageIndex.value--;
+    if (enablePrevious.isTrue) {
+      activeProjectIndex.value--;
       _prepareProjectDetails();
     }
   }
@@ -87,46 +100,106 @@ class ProjectDetailController extends GetxController {
     } else {
       _prepareCaseStudyData();
     }
+    _checkForActionButtons();
   }
 
   /// Prepare portfolio data for screen.
   void _preparePortfolioData() async {
-    projectData.value = projectList[activeProjectIndex.value];
+    String strSelectedDomains = "";
+    String strSelectedScreens = "";
+    String strSelectedTechnologies = "";
+    if (filterApplied) {
+      strSelectedDomains = filterModel.domains.join(",");
+      strSelectedScreens = filterModel.platform.join(",");
+      strSelectedTechnologies = filterModel.technologies.join(",");
+    }
 
-    _projectId = projectData.value.id ?? "";
+    final projectDetail = await _dbHelper.getPortfolioWithImage(
+        0,
+        domains: strSelectedDomains,
+        screens: strSelectedScreens,
+        filterApplied: filterApplied,
+        projectId: _projectId,
+        limit: 1,
+        technologies: strSelectedTechnologies);
 
-    // fetch current portfolio technologies.
-    technologies.value =
-        await _dbHelper.getPortfolioTechnologies(id: _projectId);
+    if (projectDetail.isNotEmpty) {
+      ProjectListModel model = ProjectListModel();
+      model.id = projectDetail.first.portfolioId;
+      model.projectName = projectDetail.first.portfolioProjectName;
+      model.description = projectDetail.first.portfolioProjectDescription;
+      model.overView = projectDetail.first.portfolioDomainName;
+      model.technologies = projectDetail.first.portfolioScreenTypeName;
+      activeProjectIndex.value =
+          projectDetail.first.portfolioAutoIncrementId ?? -1;
 
-    // fetch current portfolio technologies.
-    final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
+      projectData.value = model;
 
-    images.value =
-        projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+      // fetch current portfolio technologies.
+      technologies.value =
+          await _dbHelper.getPortfolioTechnologies(id: _projectId);
+
+      // fetch current portfolio technologies.
+      final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
+
+      images.value =
+          projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+    }
   }
 
   /// Prepare case study data for screen.
   void _prepareCaseStudyData() async {
-    projectData.value = projectList[activeProjectIndex.value];
+    String strSelectedDomains = "";
+    String strSelectedScreens = "";
+    String strSelectedTechnologies = "";
+    if (filterApplied) {
+      strSelectedDomains = filterModel.domains.join(",");
+      strSelectedScreens = filterModel.platform.join(",");
+      strSelectedTechnologies = filterModel.technologies.join(",");
+    }
 
-    screenTitle.value = projectData.value.projectName ?? "";
+    final projectDetail = await _dbHelper.getCaseStudyWithImage(
+        activeProjectIndex.value,
+        domains: strSelectedDomains,
+        filterApplied: filterApplied,
+        limit: 1,
+        technologies: strSelectedTechnologies);
 
-    _projectId = projectData.value.id ?? "";
+    if (projectDetail.isNotEmpty) {
+      ProjectListModel model = ProjectListModel();
+      Get.log("projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
+      model.id = projectDetail.first.caseStudyId;
+      model.projectName = projectDetail.first.caseStudyProjectName;
+      model.description = projectDetail.first.caseStudyProjectDescription;
+      model.overView = projectDetail.first.caseStudyDomainName;
+      activeProjectIndex.value =
+          projectDetail.first.caseStudyAutoIncrementId ?? -1;
 
-    // fetch current case study technologies.
-    technologies.value =
-        await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+      projectData.value = model;
 
-    // fetch current case study images.
-    final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
+      _projectId = projectData.value.id ?? "";
 
-    images.value =
-        projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+      // fetch current case study technologies.
+      technologies.value =
+      await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+
+      // fetch current case study images.
+      final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
+
+      images.value =
+          projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+    }
   }
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
     activeImageIndex.value = index;
+  }
+
+  /// Enable/Disable action buttons.
+  void _checkForActionButtons() {
+    enableNext.value = activeProjectIndex.value != projectList.length - 1;
+
+    enablePrevious.value = activeProjectIndex.value > 0;
   }
 }

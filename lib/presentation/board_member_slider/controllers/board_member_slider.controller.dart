@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
+import '../../../infrastructure/db/database_helper.dart';
+import '../../../infrastructure/db/schema/leadership.dart';
 import '../model/member_model.dart';
 
 class BoardMemberSliderController extends GetxController {
+  // Database helper
+  late DatabaseHelper _dbHelper;
+
+  // Logger
+  final logger = Logger();
+
   /// List of board members.
   RxList<MemberModel> lstMembers = RxList();
 
@@ -16,14 +26,22 @@ class BoardMemberSliderController extends GetxController {
   }
 
   /// Prepare members.
-  void _prepareMembers() {
-    lstMembers.addAll([
-      MemberModel(),
-      MemberModel(),
-      MemberModel(),
-      MemberModel(),
-      MemberModel(),
-    ]);
+  void _prepareMembers() async {
+    _dbHelper = GetIt.I<DatabaseHelper>();
+
+    final teamLeaders = await _dbHelper.getAllTeamLeaders();
+
+    lstMembers.clear();
+
+    for (Leadership leadership in teamLeaders) {
+      lstMembers.add(MemberModel(
+        introduction: leadership.description,
+        position: leadership.designation,
+        memberName: leadership.leaderName,
+      ));
+    }
+
+    lstMembers.refresh();
   }
 
   /// Navigate to next page.

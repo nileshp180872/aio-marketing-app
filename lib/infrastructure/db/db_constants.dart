@@ -47,6 +47,7 @@ abstract class DbConstants {
   //------------- Portfolio ---------
   static const tblPortfolio = 'portfolio';
 
+  static const portfolioAIId = 'portfolio_autoincrement_id';
   static const portfolioId = 'portfolio_id';
   static const portfolioDomainId = 'portfolio_domain_id';
   static const portfolioDomainName = 'portfolio_domain_name';
@@ -74,6 +75,7 @@ abstract class DbConstants {
   //------------- Case studies ---------
   static const tblCaseStudies = 'case_study';
 
+  static const caseStudyAIId = 'casestudy_autoincrement_id';
   static const caseStudyId = 'case_study_id';
   static const caseStudyDomainId = 'case_study_domain_id';
   static const caseStudyDomainName = 'case_study_domain_name';

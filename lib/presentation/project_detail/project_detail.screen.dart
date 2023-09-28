@@ -47,10 +47,18 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
       child: Row(
         children: [
           InkWell(
-            onTap: _controller.goToPreviousPage,
-            child: const SizedBox(
+            onTap: _controller.enablePrevious.isTrue
+                ? _controller.goToPreviousPage
+                : null,
+            child: SizedBox(
                 width: AppValues.sideMargin,
-                child: Center(child: Icon(Icons.arrow_back_ios_new))),
+                child: Center(
+                    child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: _controller.enablePrevious.isTrue
+                      ? AppColors.colorSecondary
+                      : AppColors.colorSecondary.withOpacity(0.5),
+                ))),
           ),
           Expanded(
             child: Row(
@@ -65,10 +73,17 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             ),
           ),
           InkWell(
-            onTap: _controller.goToNextPage,
-            child: const SizedBox(
+            onTap:
+                _controller.enableNext.isTrue ? _controller.goToNextPage : null,
+            child: SizedBox(
                 width: AppValues.sideMargin,
-                child: Center(child: Icon(Icons.arrow_forward_ios_rounded))),
+                child: Center(
+                    child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: _controller.enableNext.isTrue
+                      ? AppColors.colorSecondary
+                      : AppColors.colorSecondary.withOpacity(0.5),
+                ))),
           ),
         ],
       ),
@@ -83,7 +98,6 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             height: AppValues.projectDetailImagePreview,
             width: double.infinity,
             color: AppColors.colorSecondary.withOpacity(0.15),
-            padding: const EdgeInsets.only(top: 20),
             child: _buildImagePreview()),
         const SizedBox(
           height: 30,
@@ -168,9 +182,15 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
 
   /// Build image preview.
   Widget _buildImagePreview() {
-    return _controller.images.isNotEmpty
-        ? Image.file(
-            File(_controller.images[_controller.activeImageIndex.value]))
-        : Image.asset(AppAssets.kNoImage);
+    try {
+      return _controller.images.isNotEmpty
+          ? Image.file(
+              File(_controller.images[_controller.activeImageIndex.value]),
+              fit: BoxFit.cover,
+            )
+          : Image.asset(AppAssets.kNoImage);
+    } catch (ex) {
+      return Image.asset(AppAssets.kNoImage);
+    }
   }
 }

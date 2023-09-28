@@ -81,6 +81,7 @@ mixin SchemaConfig {
   void _createPortfolioTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblPortfolio} (
+            ${DbConstants.portfolioAIId} INTEGER PRIMARY KEY AUTOINCREMENT,
             ${DbConstants.portfolioId} TEXT NOT NULL,
             ${DbConstants.portfolioDomainId} TEXT,
             ${DbConstants.portfolioDomainName} TEXT,
@@ -110,6 +111,7 @@ mixin SchemaConfig {
   void _createCaseStudiesTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblCaseStudies} (
+          ${DbConstants.caseStudyAIId} INTEGER PRIMARY KEY AUTOINCREMENT,
             ${DbConstants.caseStudyId} TEXT NOT NULL,
             ${DbConstants.caseStudyDomainId} TEXT,
             ${DbConstants.caseStudyDomainName} TEXT,
@@ -124,8 +126,7 @@ mixin SchemaConfig {
   void _createPortfolioImagesTable() async {
     await _db.execute('''
           CREATE TABLE ${DbConstants.tblPortfolioImages} (
-            ${DbConstants.portfolioImageId} TEXT
-            ,
+            ${DbConstants.portfolioImageId} TEXT,
             ${DbConstants.portfolioImagePath} TEXT,
             ${DbConstants.portfolioImagePortfolioId} TEXT
           )

@@ -11,6 +11,7 @@ class ProjectListWidget extends StatelessWidget {
 
 
   Function(ProjectListModel model, int index) onClick;
+
   late TextTheme _textTheme;
 
   bool isLoading;

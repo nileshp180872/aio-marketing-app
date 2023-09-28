@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../db_constants.dart';
 
 class Portfolio {
+  int? portfolioAutoIncrementId;
   String? portfolioId;
   String? portfolioDomainId;
   String? portfolioDomainName;
@@ -14,7 +15,8 @@ class Portfolio {
   List<String>? projectImages;
 
   Portfolio(
-      {this.portfolioId,
+      {this.portfolioAutoIncrementId,
+      this.portfolioId,
       this.portfolioDomainId,
       this.portfolioDomainName,
       this.portfolioScreenTypeId,
@@ -25,6 +27,7 @@ class Portfolio {
       this.portfolioProjectDescription});
 
   Portfolio.fromJson(Map<String, dynamic> json) {
+    portfolioAutoIncrementId = json[DbConstants.portfolioAIId];
     portfolioId = json[DbConstants.portfolioId];
     portfolioDomainId = json[DbConstants.portfolioDomainId];
     portfolioDomainName = json[DbConstants.portfolioDomainName];
@@ -43,15 +46,14 @@ class Portfolio {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data[DbConstants.portfolioAIId] = portfolioAutoIncrementId;
     data[DbConstants.portfolioId] = portfolioId;
-    data[DbConstants.portfolioDomainId] = portfolioDomainId;
     data[DbConstants.portfolioDomainId] = portfolioDomainId;
     data[DbConstants.portfolioDomainName] = portfolioDomainName;
     data[DbConstants.portfolioScreenType] = portfolioScreenTypeId;
     data[DbConstants.portfolioScreenName] = portfolioScreenTypeName;
     data[DbConstants.portfolioProjectName] = portfolioProjectName;
     data[DbConstants.portfolioProjectDescription] = portfolioProjectDescription;
-    data[DbConstants.images] = images;
 
     if (projectImages != null) {
       var json = jsonEncode(projectImages, toEncodable: (e) => e!.toString());
