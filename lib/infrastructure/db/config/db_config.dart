@@ -92,7 +92,7 @@ mixin DbConfig {
   Future<List<dynamic>> filterDataForSearchValue(
       {required String searchString}) async {
     return await _db.rawQuery(
-        "SELECT * FROM portfolio where portfolio.portfolio_project_name LIKE '$searchString' OR portfolio.portfolio_domain_name LIKE '$searchString';");
+        "SELECT * FROM portfolio where portfolio.portfolio_project_name LIKE '%$searchString%' OR portfolio.portfolio_domain_name LIKE '%$searchString%';");
   }
 
   // first row returned as a list of maps, where each map is
@@ -162,6 +162,41 @@ mixin DbConfig {
         result.length, (index) => Portfolio.fromJson(result[index]),
         growable: true);
   }
+
+  /// Return all rows returned as a list of maps, where each map is
+  /// a key-value list of columns.
+  Future<List<Portfolio>> getPortfolioBySearch(int offset,
+      {required String search,
+      int limit = AppConstants.paginationPageLimit}) async {
+    const joinImages =
+        "left join ${DbConstants.tblPortfolioImages} on ${DbConstants.portfolioId} = ${DbConstants.portfolioImagePortfolioId}";
+
+    const joinTechnologyTable =
+        "left join ${DbConstants.tblPortfolioTechnologies} on ${DbConstants.portfolioId} = ${DbConstants.portfolioTableId}";
+
+    String filterAllDataQuery =
+        "SELECT ${DbConstants.tblPortfolio}.*, ${DbConstants.portfolioImagePath} as images, ${DbConstants.portfolioTechnologyId} as technologies FROM ${DbConstants.tblPortfolio} $joinImages $joinTechnologyTable";
+
+    String queryFilter =
+        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioAIId} LIMIT $limit OFFSET $offset";
+
+    String filterQuery = "WHERE";
+
+    if (search.isNotEmpty) {
+      filterQuery =
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} portfolio.portfolio_project_name LIKE ''$search'' OR portfolio.portfolio_domain_name LIKE '$search'";
+    }
+
+    String finalQuery =
+        "$filterAllDataQuery $queryFilter";
+
+    final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
+
+    return List<Portfolio>.generate(
+        result.length, (index) => Portfolio.fromJson(result[index]),
+        growable: true);
+  }
+
 
   /// Return all rows returned as a list of maps, where each map is
   /// a key-value list of columns.

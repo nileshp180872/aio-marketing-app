@@ -57,7 +57,7 @@ class GlobalSearchController extends GetxController {
   /// Search data based on user input.
   void _searchDataBasedOnUserInput(String search) async {
     projectList.clear();
-    final portfolio = await _dbHelper.getAllPortfolios();
+    final portfolio = await _dbHelper.getPortfolioBySearch(0, search: search);
     for (Portfolio element in portfolio) {
       projectList.add(ProjectListModel(
         id: element.portfolioId,
