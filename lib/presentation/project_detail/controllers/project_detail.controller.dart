@@ -33,9 +33,6 @@ class ProjectDetailController extends GetxController {
   /// technologies
   RxString technologies = "".obs;
 
-  /// Store active image index from current project.
-  RxInt activeImageIndex = 0.obs;
-
   /// Stores active project index from the list.
   RxInt activeProjectIndex = 0.obs;
 
@@ -47,6 +44,10 @@ class ProjectDetailController extends GetxController {
 
   /// Project images
   RxList<String> images = RxList();
+
+  RxList<String> listImages = RxList();
+
+  RxString activeImage = "".obs;
 
   /// Store true if filter is applied otherwise false.
   bool filterApplied = false;
@@ -163,6 +164,13 @@ class ProjectDetailController extends GetxController {
 
       images.value =
           projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+
+      activeImage.value = images.first;
+      if (images.length > 1) {
+        listImages = images..removeAt(0);
+      } else {
+        listImages = images;
+      }
     }
   }
 
@@ -208,12 +216,24 @@ class ProjectDetailController extends GetxController {
 
       images.value =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+
+      activeImage.value = images.first;
+      if (images.length > 1) {
+        listImages = images..removeAt(0);
+      } else {
+        listImages = images;
+      }
     }
   }
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
-    activeImageIndex.value = index;
+    var imageData = activeImage.value;
+    activeImage.value = listImages.elementAt(index);
+    listImages.remove(listImages[index]);
+    listImages.add(imageData);
+    listImages.refresh();
+    update();
   }
 
   /// Enable/Disable action buttons.

@@ -47,11 +47,14 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
       child: Row(
         children: [
           InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
             onTap: _controller.enablePrevious.isTrue
                 ? _controller.goToPreviousPage
                 : null,
             child: SizedBox(
                 width: AppValues.sideMargin,
+                height: AppValues.sideMargin,
                 child: Center(
                     child: Icon(
                   Icons.arrow_back_ios_new,
@@ -73,6 +76,8 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             ),
           ),
           InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
             onTap:
                 _controller.enableNext.isTrue ? _controller.goToNextPage : null,
             child: SizedBox(
@@ -102,7 +107,9 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         const SizedBox(
           height: 30,
         ),
-        _buildProjectImagesList()
+        Visibility(
+            visible: _controller.images.length > 1 ? true : false,
+            child: _buildProjectImagesList())
       ],
     );
   }
@@ -159,23 +166,24 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
     return SizedBox(
       height: 100,
       child: IntrinsicHeight(
-        child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (_, index) {
-              return ProjectImageTileWidget(
-                itemWidth: finalListItemWidth,
-                index: index,
-                selected: index == _controller.activeImageIndex.value,
-                selectImage: _controller.onSelectImage,
-                imagePath: _controller.images[index],
-              );
-            },
-            separatorBuilder: (_, index) {
-              return Container(
-                width: 30,
-              );
-            },
-            itemCount: _controller.images.length),
+        child: Obx(
+          () => ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, index) {
+                return ProjectImageTileWidget(
+                  itemWidth: finalListItemWidth,
+                  index: index,
+                  selectImage: _controller.onSelectImage,
+                  imagePath: _controller.listImages[index],
+                );
+              },
+              separatorBuilder: (_, index) {
+                return Container(
+                  width: 30,
+                );
+              },
+              itemCount: _controller.listImages.length),
+        ),
       ),
     );
   }
@@ -184,9 +192,11 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
   Widget _buildImagePreview() {
     try {
       return _controller.images.isNotEmpty
-          ? Image.file(
-              File(_controller.images[_controller.activeImageIndex.value]),
-              fit: BoxFit.cover,
+          ? Obx(
+              () => Image.file(
+                File(_controller.activeImage.value),
+                fit: BoxFit.cover,
+              ),
             )
           : Image.asset(AppAssets.kNoImage);
     } catch (ex) {
