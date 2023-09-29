@@ -73,19 +73,7 @@ class ProjectDetailController extends GetxController {
     if (Get.arguments != null) {
       screenTitle.value = Get.arguments[RouteArguments.screenName] ?? "";
 
-      _projectId = Get.arguments[RouteArguments.projectId] ?? "";
-
-      activeProjectIndex.value =
-          Get.arguments[RouteArguments.autoIncrementValue] ?? "";
-
-      _searchValue = Get.arguments[RouteArguments.projectId] ?? "";
-
-      detailType =
-          Get.arguments[RouteArguments.detailType] ?? DetailType.listing;
-
-      filterModel = Get.arguments[RouteArguments.filterData] ?? FilterMenu();
-
-      filterApplied = Get.arguments[RouteArguments.filterApplied] ?? false;
+      activeProjectIndex.value = Get.arguments[RouteArguments.index] ?? "";
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
@@ -114,118 +102,33 @@ class ProjectDetailController extends GetxController {
 
   /// Get project detail by id.
   void _prepareProjectDetails() async {
-    if (detailType == DetailType.search) {
-      _getAllData(activeProjectIndex.value);
-    } else {
-      if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
-        _preparePortfolioData();
-      } else {
-        _prepareCaseStudyData();
-      }
-    }
+    _preparePortfolioData();
     _checkForActionButtons();
   }
 
   /// Prepare portfolio data for screen.
   void _preparePortfolioData() async {
-    String strSelectedDomains = "";
-    String strSelectedScreens = "";
-    String strSelectedTechnologies = "";
-    if (filterApplied) {
-      strSelectedDomains = filterModel.domains.join(",");
-      strSelectedScreens = filterModel.platform.join(",");
-      strSelectedTechnologies = filterModel.technologies.join(",");
-    }
+    projectData.value = projectList[activeProjectIndex.value];
 
-    final projectDetail = await _dbHelper.getPortfolioWithImage(
-        activeProjectIndex.value,
-        domains: strSelectedDomains,
-        screens: strSelectedScreens,
-        filterApplied: filterApplied,
-        projectId: _projectId,
-        limit: 1,
-        technologies: strSelectedTechnologies);
+    _projectId = projectData.value.id ?? "";
 
-    if (projectDetail.isNotEmpty) {
-      ProjectListModel model = ProjectListModel();
-      model.id = projectDetail.first.portfolioId;
-      model.projectName = projectDetail.first.portfolioProjectName;
-      model.description = projectDetail.first.portfolioProjectDescription;
-      model.overView = projectDetail.first.portfolioDomainName;
-      model.technologies = projectDetail.first.portfolioScreenTypeName;
-      activeProjectIndex.value =
-          projectDetail.first.portfolioAutoIncrementId ?? -1;
+    screenTitle.value = projectData.value.projectName ?? "";
 
-      projectData.value = model;
+    // fetch current portfolio technologies.
+    technologies.value =
+        await _dbHelper.getPortfolioTechnologies(id: _projectId);
 
-      // fetch current portfolio technologies.
-      technologies.value =
-          await _dbHelper.getPortfolioTechnologies(id: _projectId);
+    // fetch current portfolio technologies.
+    final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
 
-      // fetch current portfolio technologies.
-      final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
+    images.value =
+        projectImages.map((e) => e.portfolioImagePath ?? "").toList();
 
-      images.value =
-          projectImages.map((e) => e.portfolioImagePath ?? "").toList();
-
-      activeImage.value = images.first;
-      if (images.length > 1) {
-        listImages = images..removeAt(0);
-      } else {
-        listImages = images;
-      }
-    }
-  }
-
-  /// Prepare case study data for screen.
-  void _prepareCaseStudyData() async {
-    String strSelectedDomains = "";
-    String strSelectedScreens = "";
-    String strSelectedTechnologies = "";
-    if (filterApplied) {
-      strSelectedDomains = filterModel.domains.join(",");
-      strSelectedScreens = filterModel.platform.join(",");
-      strSelectedTechnologies = filterModel.technologies.join(",");
-    }
-
-    final projectDetail = await _dbHelper.getCaseStudyWithImage(
-        activeProjectIndex.value,
-        domains: strSelectedDomains,
-        filterApplied: filterApplied,
-        limit: 1,
-        technologies: strSelectedTechnologies);
-
-    if (projectDetail.isNotEmpty) {
-      ProjectListModel model = ProjectListModel();
-      Get.log(
-          "projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
-      model.id = projectDetail.first.caseStudyId;
-      model.projectName = projectDetail.first.caseStudyProjectName;
-      model.description = projectDetail.first.caseStudyProjectDescription;
-      model.overView = projectDetail.first.caseStudyDomainName;
-      activeProjectIndex.value =
-          projectDetail.first.caseStudyAutoIncrementId ?? -1;
-
-      projectData.value = model;
-
-      _projectId = projectData.value.id ?? "";
-
-      // fetch current case study technologies.
-      technologies.value =
-          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
-
-      // fetch current case study images.
-      final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
-
-      images.value =
-          projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
-
-      activeImage.value = images.first;
-      if (images.length > 1) {
-        listImages = images..removeAt(0);
-      } else {
-        listImages = images;
-      }
+    activeImage.value = images.first;
+    if (images.length > 1) {
+      listImages = images..removeAt(0);
+    } else {
+      listImages = images;
     }
   }
 
@@ -249,8 +152,8 @@ class ProjectDetailController extends GetxController {
   /// Get data depend on [_portfolioEnum].
   void _getAllData(int pageKey) {
     Future.wait<List<dynamic>>([
-      _dbHelper.getPortfolioBySearch(pageKey, search: _searchValue, limit: 1),
-      _dbHelper.getCaseStudyBySearch(pageKey, search: _searchValue, limit: 1),
+      _dbHelper.getPortfolioBySearch(-1, search: _searchValue, limit: 1),
+      _dbHelper.getCaseStudyBySearch(-1, search: _searchValue, limit: 1),
     ]).then((value) {
       if (value.isNotEmpty) {
         try {
