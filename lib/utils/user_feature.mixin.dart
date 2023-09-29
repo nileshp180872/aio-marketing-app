@@ -161,6 +161,9 @@ mixin AppFeature {
                     width: 200,
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                           Radius.circular(8.0),
+                        ),
                         border: Border.all(
                             color: AppColors.colorSecondary.withOpacity(0.5))),
                     margin: const EdgeInsets.only(right: AppValues.sideMargin),
@@ -268,10 +271,15 @@ mixin AppFeature {
           child: Container(
               width: 200,
               height: 32,
+
               decoration: BoxDecoration(
                   border: Border.all(
                       width: 1,
-                      color: AppColors.colorSecondary.withOpacity(0.25))),
+                      color: AppColors.colorSecondary.withOpacity(0.25),
+                  ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8.0),
+                ),),
               child: Row(
                 children: [
                   const SizedBox(

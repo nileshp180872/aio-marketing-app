@@ -19,7 +19,7 @@ class AppConstants {
 
   static var countryData = CountryModel(
       id: '1',
-      countryName: 'AHMEDABAD,\n INDIA',
+      countryName: 'AHMEDABAD, INDIA',
       countryAddress: AppStrings.indiaOfficeAddress,
       countryFlag: SVGAssets.indianFlag);
 
@@ -45,4 +45,6 @@ class AppConstants {
         countryAddress: AppStrings.usaOfficeAddress,
         countryFlag: SVGAssets.usaFlag),
   ];
+
+
 }

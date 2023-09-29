@@ -199,21 +199,35 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(
-              data.countryFlag,
-              height: AppValues.size_94,
-            ).paddingOnly(right: AppValues.size_16),
-            Text(
-              data.countryName,
-              style: _textTheme.labelLarge?.copyWith(
-                  fontFamily: AppConstants.poppins,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.colorPrimary),
-            )
+            Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  AppStrings.headOfficelable,
+                  style: const TextStyle(
+                      color: AppColors.colorSecondary,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  data.countryName,
+                  textAlign: TextAlign.center,
+                  style: _textTheme.labelLarge?.copyWith(
+                      fontFamily: AppConstants.poppins,
+                      fontWeight: FontWeight.bold,
+                      fontSize: AppValues.size_22,
+                      color: AppColors.colorPrimary),
+                ),
+                SvgPicture.asset(
+                  data.countryFlag,
+                  height: AppValues.size_94,
+                ).paddingOnly(top: AppValues.size_10),
+              ],
+            ),
           ],
         ),
         const SizedBox(
-          height: 16,
+          height: 10,
         ),
         Text(
           data.countryAddress,
@@ -249,27 +263,25 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset(
-          data.countryFlag,
-          height: AppValues.size_68,
-        ).paddingOnly(bottom: AppValues.size_10),
         Text(
           data.countryName,
           textAlign: TextAlign.center,
-          style: _textTheme.labelMedium?.copyWith(
+          style: _textTheme.labelLarge?.copyWith(
               fontFamily: AppConstants.poppins,
               fontWeight: FontWeight.bold,
+              fontSize: AppValues.size_22,
               color: AppColors.colorPrimary),
         ),
-        const SizedBox(
-          height: 2,
-        ),
+        SvgPicture.asset(
+          data.countryFlag,
+          height: AppValues.size_68,
+        ).paddingOnly(bottom: AppValues.size_10,top: AppValues.size_10),
+
         Text(
           data.countryAddress,
           textAlign: TextAlign.center,
-          style: _textTheme.labelMedium?.copyWith(
+          style: _textTheme.labelLarge?.copyWith(
               fontFamily: AppConstants.poppins,
-              fontWeight: FontWeight.bold,
               color: AppColors.textColorContent),
         )
       ],
