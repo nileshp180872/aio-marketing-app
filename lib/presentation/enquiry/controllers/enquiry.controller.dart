@@ -93,6 +93,7 @@ class EnquiryController extends GetxController {
       enquiry.enquiryMemberPhone = _phoneNumber;
       enquiry.enquiryMemberCompany = _companyName;
       enquiry.enquiryMemberMessage = _message;
+      enquiry.enquirySyncStatus = 0;
       final enquiryResponse = await _dbHelper.addToEnquiry(enquiry);
       if (enquiryResponse != -1) {
         Utils.showSuccessDialog(message: 'Your enquiry is saved!');

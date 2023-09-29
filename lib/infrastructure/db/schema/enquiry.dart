@@ -26,6 +26,7 @@ class Enquiry {
     enquiryMemberPhone = json[DbConstants.enquiryMemberPhone];
     enquiryMemberCompany = json[DbConstants.enquiryMemberCompanyName];
     enquiryMemberMessage = json[DbConstants.enquiryMemberMessage];
+    enquirySyncStatus = json[DbConstants.enquirySyncStatus];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +37,7 @@ class Enquiry {
     data[DbConstants.enquiryMemberPhone] = enquiryMemberPhone;
     data[DbConstants.enquiryMemberCompanyName] = enquiryMemberCompany;
     data[DbConstants.enquiryMemberMessage] = enquiryMemberMessage;
+    data[DbConstants.enquirySyncStatus] = enquirySyncStatus;
     return data;
   }
 }

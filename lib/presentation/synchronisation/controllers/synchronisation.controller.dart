@@ -82,12 +82,13 @@ class SynchronisationController extends GetxController {
             _getLeaders(),
           ],
         ).then((value) async {
+          _synchronizeEnquiryWithServer();
           await Future.wait(
             [
               _syncPortfolio(),
               _syncCaseStudy(),
             ],
-          ).then((value) => _synchronizeEnquiryWithServer);
+          );
         });
       }).then((value) {
         Get.offAllNamed(Routes.HOME);
@@ -555,7 +556,7 @@ class SynchronisationController extends GetxController {
   void _synchronizeEnquiryWithServer() async {
     final storedEnquiries = await _dbHelper.getTotalInquiryCount();
     if (storedEnquiries > 0) {
-      for (int i = 0; i < storedEnquiries - 1; i++) {
+      for (int i = 0; i < storedEnquiries; i++) {
         await _syncWithServer();
       }
     }
