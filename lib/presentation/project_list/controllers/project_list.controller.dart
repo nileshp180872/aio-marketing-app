@@ -16,9 +16,6 @@ import '../../portfolio/controllers/portfolio.controller.dart';
 import '../model/project_list_model.dart';
 
 class ProjectListController extends GetxController with AppLoadingMixin {
-  /// Project list view type enum
-  ProjectListTypeEnum _projectListTypeEnum = ProjectListTypeEnum.DOMAIN;
-
   /// Screen viewing type enum
   PortfolioEnum _portfolioEnum = PortfolioEnum.PORTFOLIO;
 
@@ -65,9 +62,6 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     if (Get.arguments != null) {
       _portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
-
-      _projectListTypeEnum = Get.arguments[RouteArguments.projectListType] ??
-          ProjectListTypeEnum.DOMAIN;
 
       screenTitle.value = _portfolioEnum == PortfolioEnum.PORTFOLIO
           ? AppStrings.workPortfolio
@@ -175,6 +169,8 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     final selectedDomains = filterModel.domains;
     final selectedPlatforms = filterModel.platform;
     final selectedTechnologies = filterModel.technologies;
+
+    Get.log("selectedDomains ${selectedDomains.length}");
 
     filterApplied.value = selectedDomains.isNotEmpty ||
         selectedTechnologies.isNotEmpty ||

@@ -107,9 +107,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         const SizedBox(
           height: 30,
         ),
-        Visibility(
-            visible: _controller.images.length > 1 ? true : false,
-            child: _buildProjectImagesList())
+        _buildProjectImagesList()
       ],
     );
   }

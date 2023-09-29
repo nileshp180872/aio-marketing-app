@@ -7,8 +7,6 @@ import 'package:logger/logger.dart';
 
 import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
-import '../../../infrastructure/db/schema/case_study.dart';
-import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
@@ -27,8 +25,6 @@ class ProjectDetailController extends GetxController {
   late String _projectId;
 
   late String _searchValue;
-
-  DetailType detailType = DetailType.listing;
 
   /// technologies
   RxString technologies = "".obs;
@@ -114,22 +110,48 @@ class ProjectDetailController extends GetxController {
 
     screenTitle.value = projectData.value.projectName ?? "";
 
-    // fetch current portfolio technologies.
-    technologies.value =
-        await _dbHelper.getPortfolioTechnologies(id: _projectId);
+    if (projectData.value.viewType == AppConstants.portfolio) {
+      final portfolio = await _dbHelper.getPortfolioDetails(portfolioId: _projectId);
+      projectData.value.description = portfolio?.portfolioProjectDescription??"";
+      projectData.value.overView = portfolio?.portfolioDomainName??"";
+      // fetch current portfolio technologies.
+      technologies.value =
+          await _dbHelper.getPortfolioTechnologies(id: _projectId);
 
-    // fetch current portfolio technologies.
-    final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
+      // fetch current portfolio technologies.
+      final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
 
-    images.value =
-        projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+      Get.log("projectImages ${projectImages.length}");
+      images.value =
+          projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+    } else {
+      final portfolio = await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
+      projectData.value.description = portfolio?.caseStudyProjectDescription??"";
+      projectData.value.overView = portfolio?.caseStudyDomainName??"";
 
-    activeImage.value = images.first;
+
+      // fetch current portfolio technologies.
+      technologies.value =
+          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+
+      // fetch current case study images.
+      final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
+
+      images.value =
+          projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+    }
+
+    images.value.forEach((element) {
+      Get.log("emages ${element}");
+    });
+
+    activeImage.value = images.isNotEmpty?images.first:"";
     if (images.length > 1) {
       listImages = images..removeAt(0);
     } else {
       listImages = images;
     }
+    listImages.refresh();
   }
 
   /// Change currently visible image index.
@@ -148,53 +170,4 @@ class ProjectDetailController extends GetxController {
 
     enablePrevious.value = activeProjectIndex.value > 0;
   }
-
-  /// Get data depend on [_portfolioEnum].
-  void _getAllData(int pageKey) {
-    Future.wait<List<dynamic>>([
-      _dbHelper.getPortfolioBySearch(-1, search: _searchValue, limit: 1),
-      _dbHelper.getCaseStudyBySearch(-1, search: _searchValue, limit: 1),
-    ]).then((value) {
-      if (value.isNotEmpty) {
-        try {
-          List<ProjectListModel> projectList = [];
-          List<Portfolio> portfolioList = value[0] as List<Portfolio>;
-          List<CaseStudy> caseStudyList =
-              value.length > 1 ? value[1] as List<CaseStudy> : [];
-
-          for (Portfolio element in portfolioList) {
-            projectList.add(ProjectListModel(
-                id: element.portfolioId,
-                autoIncrementId: element.portfolioAutoIncrementId,
-                projectName: element.portfolioProjectName,
-                projectImage: element.images,
-                viewType: AppConstants.portfolio));
-          }
-
-          for (CaseStudy element in caseStudyList) {
-            projectList.add(ProjectListModel(
-                id: element.caseStudyId,
-                autoIncrementId: element.caseStudyAutoIncrementId,
-                projectName: element.caseStudyProjectName,
-                projectImage: element.images,
-                viewType: AppConstants.caseStudy));
-          }
-
-          // final isLastPage =
-          //     projectList.length < AppConstants.paginationPageLimit;
-          //
-          // if (isLastPage) {
-          //   pagingController.appendLastPage(projectList);
-          // } else {
-          //   final nextPageKey = pageKey + projectList.length;
-          //   pagingController.appendPage(projectList, nextPageKey);
-          // }
-        } catch (ex) {
-          logger.e(ex);
-        }
-      }
-    });
-  }
 }
-
-enum DetailType { listing, filter, search }

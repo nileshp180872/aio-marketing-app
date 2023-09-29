@@ -71,7 +71,7 @@ class FilterController extends GetxController {
           "check ${((Get.arguments[RouteArguments.filterData]) as FilterMenu).platform.length}");
 
       if (isFilterApplied) {
-        Future.delayed(const Duration(milliseconds: 400), () {
+        Future.delayed(const Duration(milliseconds: 50), () {
           FilterMenu selectedItems =
               Get.arguments[RouteArguments.filterData] ?? FilterMenu();
 
@@ -104,10 +104,10 @@ class FilterController extends GetxController {
                 lstMobileWeb[domainIndex].selected = true;
               }
             }
-            lstMobileWeb.refresh();
-            lstDomains.refresh();
-            lstTechnologies.refresh();
           }
+          lstMobileWeb.refresh();
+          lstDomains.refresh();
+          lstTechnologies.refresh();
         });
       }
     }
