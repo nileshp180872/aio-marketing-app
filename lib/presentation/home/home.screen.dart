@@ -24,9 +24,22 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
     _textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: buildAppBarWithSearch(),
+     // appBar: buildAppBarWithSearch(),
       floatingActionButton: _buildFAB(),
-      body: Obx(() => _buildBodyWidget()),
+      body: Obx(() =>
+          Column(
+            children: [
+              buildCustomAppBarWithoutTite(),
+              const SizedBox(
+                height: AppValues.size_34,
+              ),
+              Expanded(child:  _buildBodyWidget()),
+              const SizedBox(
+                height: AppValues.size_20,
+              ),
+            ],
+          ),
+         ),
     );
   }
 
@@ -83,6 +96,16 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
             child: _buildButton(
                 buttonText: AppStrings.teamLeadership,
                 onClick: _controller.navigateToLeadership)),
+        const SizedBox(
+          width: AppValues.size_30,
+        ),
+        // team leadership
+        Expanded(
+            child: _buildButton(
+                buttonText: AppStrings.clientele,
+                onClick: _controller.navigateToClientele
+            )),
+
       ],
     );
   }
@@ -93,9 +116,13 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.lightBlue,
-        elevation: 0,
+        elevation: 2,
         padding: const EdgeInsets.symmetric(vertical: AppValues.padding_44),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
       ),
+
       onPressed: onClick,
       child: Center(
         child: Text(
@@ -146,7 +173,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   /// Build overlay left side of the screen.
   Widget _buildOverlayLeftSide() {
     return Padding(
-      padding: const EdgeInsets.only(left: AppValues.homeOverlayContentSpacing),
+      padding: const EdgeInsets.only(left: AppValues.size_4),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,8 +232,11 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.colorPrimary,
-          elevation: 0,
+          elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
         ),
         onPressed: _controller.navigateToEnquiry,
         child: Text(

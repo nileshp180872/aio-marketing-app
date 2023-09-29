@@ -24,9 +24,53 @@ mixin AppFeature {
 
   /// Build custom appbar
   ///
+  Widget buildCustomAppBarWithoutTite({ bool enableSearch=false}) {
+    return buildCustomAppBarWithoutChild(enableSearch: enableSearch);
+  }
+
+  /// Build custom appbar
+  ///
   /// required[title] for title text
   Widget buildCustomAppBar({String title = "", bool enableSearch=true}) {
     return buildCustomAppBarWithChild(child: _buildTitleWithBack(title: title, ),enableSearch: enableSearch);
+  }
+
+  /// Build appbar widget with custom child below custom view.
+  ///
+  /// required [child] widget which needs to add below appbar.
+  Widget buildCustomAppBarWithoutChild(
+      { bool enableSearch = true}) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment(0, 0),
+          end: Alignment(0, 1),
+          colors: [Color(0xFFDEF8FF), Color(0xFFFFFFFF)],
+        ),
+      ),
+      padding: const EdgeInsets.only(left: AppValues.sideMargin),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 77,
+            child: Row(children: [
+              GestureDetector(
+                  onTap: () {
+                    Get.until((route) => route.settings.name == Routes.HOME);
+                  },
+                  child: SvgPicture.asset(SVGAssets.headerAppLogo,height: 50,)),
+              const Spacer(),
+              if (enableSearch) _buildSearchContainer()
+            ]),
+          ),
+          Container(height: 30,)
+        ],
+      ),
+    );
   }
 
   /// Build appbar widget with custom child below custom view.

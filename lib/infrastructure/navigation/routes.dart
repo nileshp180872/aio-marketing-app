@@ -13,4 +13,5 @@ class Routes {
   static const SPLASH = '/splash';
   static const SYNCHRONISATION = '/synchronisation';
   static const FILTER = '/filter';
+  static const CLIENTELE = '/clienttele';
 }

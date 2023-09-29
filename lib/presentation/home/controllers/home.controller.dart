@@ -42,6 +42,7 @@ class HomeController extends GetxController {
       showControlsOnInitialize: false,
       looping: true,
       allowFullScreen: true,
+
       hideControlsTimer: const Duration(seconds: 1),
       autoInitialize: true,
     );
@@ -95,4 +96,10 @@ class HomeController extends GetxController {
   void navigateToEnquiry() {
     Get.toNamed(Routes.ENQUIRY);
   }
+
+  /// on clientele click
+  void navigateToClientele() {
+    Get.toNamed(Routes.CLIENTELE);
+  }
+
 }
