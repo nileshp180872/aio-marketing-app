@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aio/infrastructure/db/schema/case_study.dart';
+import 'package:aio/presentation/project_detail/controllers/project_detail.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -64,7 +65,8 @@ class GlobalSearchController extends GetxController {
         try {
           List<ProjectListModel> projectList = [];
           List<Portfolio> portfolioList = value[0] as List<Portfolio>;
-          List<CaseStudy> caseStudyList = value.length>1?value[1] as List<CaseStudy>:[];
+          List<CaseStudy> caseStudyList =
+              value.length > 1 ? value[1] as List<CaseStudy> : [];
 
           for (Portfolio element in portfolioList) {
             projectList.add(ProjectListModel(
@@ -121,7 +123,9 @@ class GlobalSearchController extends GetxController {
 
   /// Search data based on user input.
   void _searchDataBasedOnUserInput(String search) async {
-    pagingController.refresh();
+    if (search.isNotEmpty && search.length > 2) {
+      pagingController.refresh();
+    }
   }
 
   /// on project click
@@ -131,6 +135,9 @@ class GlobalSearchController extends GetxController {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
+      RouteArguments.searchValue: _search,
+      RouteArguments.autoIncrementValue: model.autoIncrementId,
+      RouteArguments.detailType: DetailType.search,
     });
   }
 }

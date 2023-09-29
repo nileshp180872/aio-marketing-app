@@ -8,6 +8,7 @@
 
     <application
         android:label="AIO"
+        android:screenOrientation="sensorLandscape"
         android:requestLegacyExternalStorage="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

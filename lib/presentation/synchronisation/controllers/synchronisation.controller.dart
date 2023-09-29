@@ -96,15 +96,6 @@ class SynchronisationController extends GetxController {
       logger.i("Sync not processed due to internet connectivity.");
     }
   }
-  /// Check if getLastDbSyncDate is empty then update portfolio
-  /// otherwise call all the data API.
-  Future<void> _syncDomain() {
-    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
-      return _getPortfolios();
-    } else {
-      return _getUpdatedPortfolios();
-    }
-  }
 
   /// Get domains
   Future<void> _getDomains() async {
@@ -142,7 +133,7 @@ class SynchronisationController extends GetxController {
     }
   }
 
-  /// Check if getLastDbSyncDate is empty then update portfolio
+  /// Check if getLastDbSyncDate is empty then update portfolio.
   /// otherwise call all the data API.
   Future<void> _syncPortfolio() {
     if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
@@ -313,6 +304,10 @@ class SynchronisationController extends GetxController {
             await _addPortfolioData(element, isUpdate: true);
             await _addPortfolioImages(element, isUpdate: true);
             await _addPortfolioTechnologies(element, isUpdate: true);
+          } else if (update == true) {
+            await _addPortfolioData(element, isUpdate: true);
+            await _addPortfolioImages(element, isUpdate: true);
+            await _addPortfolioTechnologies(element, isUpdate: true);
           } else {
             await _addPortfolioData(element);
             await _addPortfolioImages(element);
@@ -327,7 +322,7 @@ class SynchronisationController extends GetxController {
 
   /// Save portfolio data
   Future<void> _addPortfolioData(PortfolioResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     final model = Portfolio(
         portfolioDomainId: element.domainID,
         portfolioDomainName: element.domainName,
@@ -338,6 +333,8 @@ class SynchronisationController extends GetxController {
         portfolioScreenTypeName: element.screenNAME);
     if (isUpdate) {
       await _dbHelper.updateToPortfolio(model);
+    } else if (isDelete) {
+      await _dbHelper.deletePortfolio(model);
     } else {
       await _dbHelper.addToPortfolio(model);
     }
@@ -345,7 +342,7 @@ class SynchronisationController extends GetxController {
 
   /// Portfolio images
   Future<void> _addPortfolioImages(PortfolioResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
       try {
         final fileName =
@@ -360,6 +357,8 @@ class SynchronisationController extends GetxController {
             portfolioImagePortfolioId: element.portfolioID);
         if (isUpdate) {
           await _dbHelper.updateToPortfolioImage(portfolioImage);
+        } else if (isDelete) {
+          await _dbHelper.deletePortfolioImages(portfolioImage);
         } else {
           await _dbHelper.addToPortfolioImage(portfolioImage);
         }
@@ -371,7 +370,7 @@ class SynchronisationController extends GetxController {
 
   /// Add portfolio technologies
   Future<void> _addPortfolioTechnologies(PortfolioResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     (element.techMapping ?? []).forEach((technologyMappingElement) async {
       try {
         final techMapping = PortfolioTechnologies(
@@ -380,6 +379,8 @@ class SynchronisationController extends GetxController {
             portfolioTechnologyPortfolioId: element.portfolioID);
         if (isUpdate) {
           await _dbHelper.updateToPortfolioTechnology(techMapping);
+        } else if (isDelete) {
+          await _dbHelper.deletePortfolioTechnologies(techMapping);
         } else {
           await _dbHelper.addToPortfolioTechnologies(techMapping);
         }
@@ -407,7 +408,7 @@ class SynchronisationController extends GetxController {
 
   /// Add case studies
   Future<void> _addCaseStudies(CaseStudiesResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     final model = CaseStudy(
       caseStudyId: element.casestudiesID,
       caseStudyDomainId: element.domainID,
@@ -417,6 +418,8 @@ class SynchronisationController extends GetxController {
     );
     if (isUpdate) {
       await _dbHelper.updateToCaseStudies(model);
+    } else if (isDelete) {
+      await _dbHelper.deleteCaseStudy(model);
     } else {
       await _dbHelper.addToCaseStudies(model);
     }
@@ -424,7 +427,7 @@ class SynchronisationController extends GetxController {
 
   /// Case study images
   Future<void> _addCaseStudyImages(CaseStudiesResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
       String imagePath = "";
       try {
@@ -442,6 +445,8 @@ class SynchronisationController extends GetxController {
             caseStudyImagePortfolioId: element.casestudiesID);
         if (isUpdate) {
           await _dbHelper.updateToCaseStudyImage(caseStudyImage);
+        } else if (isDelete) {
+          await _dbHelper.deleteCaseStudyImages(caseStudyImage);
         } else {
           await _dbHelper.addToCaseStudyImage(caseStudyImage);
         }
@@ -453,7 +458,7 @@ class SynchronisationController extends GetxController {
 
   /// Add case study technologies
   Future<void> _addCaseStudyTechnologies(CaseStudiesResponseData element,
-      {bool isUpdate = false}) async {
+      {bool isUpdate = false, bool isDelete = false}) async {
     try {
       (element.techMapping ?? []).forEach((technologyMappingElement) async {
         final techMapping = CaseStudyTechnologyMapping(
@@ -462,6 +467,8 @@ class SynchronisationController extends GetxController {
             caseStudyTableId: element.casestudiesID);
         if (isUpdate) {
           await _dbHelper.updateToCaseStudyTechnology(techMapping);
+        } else if (isDelete) {
+          await _dbHelper.deleteCaseStudyTechnologies(techMapping);
         } else {
           await _dbHelper.addToCaseStudyTechnologies(techMapping);
         }

@@ -1,5 +1,6 @@
 import 'package:aio/config/app_constants.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
+import 'package:aio/presentation/project_detail/controllers/project_detail.controller.dart';
 import 'package:aio/utils/app_loading.mixin.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -151,10 +152,13 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
+      RouteArguments.autoIncrementValue: model.autoIncrementId,
       RouteArguments.filterApplied: filterApplied.value,
       RouteArguments.filterData: filterModel,
       RouteArguments.projectListType: _projectListTypeEnum,
       RouteArguments.portfolioEnum: _portfolioEnum,
+      RouteArguments.detailType:
+          filterApplied.value ? DetailType.filter : DetailType.listing,
     });
   }
 

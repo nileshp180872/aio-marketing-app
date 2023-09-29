@@ -52,7 +52,7 @@ mixin DbConfig {
       required String columnName,
       required String id}) async {
     return await _db
-        .query(table, limit: 1, where: '$columnName = ?', whereArgs: [id]);
+        .query(table, where: '$columnName = ?', whereArgs: [id]);
   }
 
   // All of the methods (insert, query, update, delete) can also be done using
@@ -64,15 +64,21 @@ mixin DbConfig {
 
 // We are assuming here that the id column in the map is set. The other
 // column values will be used to update the row.
-Future<int> update(Map<String, dynamic> row, String columnId,String columnName, String tableName, ) async {
-  int id = row[columnId];
-  return await _db.update(
-    tableName,
-    row,
-    where: '$columnName = ?',
-    whereArgs: [id],
-  );
-}
+  Future<int> update(
+    Map<String, dynamic> row,
+    String columnId,
+    String columnName,
+    String tableName,
+  ) async {
+    int id = row[columnId];
+    return await _db.update(
+      tableName,
+      row,
+      where: '$columnName = ?',
+      whereArgs: [id],
+    );
+  }
+
 //
 // Deletes the row specified by the id. The number of affected rows is
 // returned. This should be 1 as long as the row exists.
@@ -168,6 +174,9 @@ Future<int> update(Map<String, dynamic> row, String columnId,String columnName, 
   Future<List<Portfolio>> getPortfolioBySearch(int offset,
       {required String search,
       int limit = AppConstants.paginationPageLimit}) async {
+    if (search.trim().isEmpty) {
+      return [];
+    }
     const joinImages =
         "left join ${DbConstants.tblPortfolioImages} on ${DbConstants.portfolioId} = ${DbConstants.portfolioImagePortfolioId}";
 
@@ -184,10 +193,12 @@ Future<int> update(Map<String, dynamic> row, String columnId,String columnName, 
 
     if (search.isNotEmpty) {
       filterQuery =
-          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} portfolio.portfolio_project_name LIKE ''$search'' OR portfolio.portfolio_domain_name LIKE '$search'";
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} portfolio.portfolio_project_name LIKE '$search%' OR portfolio.portfolio_domain_name LIKE '$search%'";
+    } else {
+      filterQuery = "";
     }
 
-    String finalQuery = "$filterAllDataQuery $queryFilter";
+    String finalQuery = "$filterAllDataQuery $filterQuery $queryFilter";
 
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 
@@ -225,6 +236,8 @@ Future<int> update(Map<String, dynamic> row, String columnId,String columnName, 
     if (technologies.isNotEmpty) {
       filterQuery =
           " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} technologies in ($technologies)";
+    } else {
+      filterQuery = "";
     }
 
     String finalQuery =
@@ -243,6 +256,9 @@ Future<int> update(Map<String, dynamic> row, String columnId,String columnName, 
   Future<List<CaseStudy>> getCaseStudyBySearch(int offset,
       {required String search,
       int limit = AppConstants.paginationPageLimit}) async {
+    if (search.trim().isEmpty) {
+      return [];
+    }
     const joinImages =
         "left join ${DbConstants.tblCaseStudyImages} on ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} = ${DbConstants.caseStudyImageCaseStudyId}";
 
@@ -259,7 +275,9 @@ Future<int> update(Map<String, dynamic> row, String columnId,String columnName, 
 
     if (search.isNotEmpty) {
       filterQuery =
-      " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} case_study.case_study_project_name LIKE ''$search'' OR case_study.case_study_domain_name LIKE '$search'";
+          " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} case_study.case_study_project_name LIKE '$search%' OR case_study.case_study_domain_name LIKE '$search%'";
+    } else {
+      filterQuery = "";
     }
 
     String finalQuery = "$filterAllDataQuery $queryFilter";

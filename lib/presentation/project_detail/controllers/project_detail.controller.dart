@@ -3,8 +3,12 @@ import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/presentation/filter/model/filter_menu.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
+import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
+import '../../../infrastructure/db/schema/case_study.dart';
+import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
@@ -21,6 +25,10 @@ class ProjectDetailController extends GetxController {
   late DatabaseHelper _dbHelper;
 
   late String _projectId;
+
+  late String _searchValue;
+
+  DetailType detailType = DetailType.listing;
 
   /// technologies
   RxString technologies = "".obs;
@@ -46,6 +54,8 @@ class ProjectDetailController extends GetxController {
   /// Filter menu model.
   FilterMenu filterModel = FilterMenu();
 
+  final logger = Logger();
+
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
 
@@ -63,6 +73,12 @@ class ProjectDetailController extends GetxController {
       screenTitle.value = Get.arguments[RouteArguments.screenName] ?? "";
 
       _projectId = Get.arguments[RouteArguments.projectId] ?? "";
+
+      activeProjectIndex.value = Get.arguments[RouteArguments.autoIncrementValue] ?? "";
+
+      _searchValue = Get.arguments[RouteArguments.projectId] ?? "";
+
+      detailType = Get.arguments[RouteArguments.detailType] ?? DetailType.listing;
 
       filterModel = Get.arguments[RouteArguments.filterData] ?? FilterMenu();
 
@@ -95,10 +111,14 @@ class ProjectDetailController extends GetxController {
 
   /// Get project detail by id.
   void _prepareProjectDetails() async {
-    if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
-      _preparePortfolioData();
-    } else {
-      _prepareCaseStudyData();
+    if(detailType == DetailType.search){
+      _getAllData(activeProjectIndex.value);
+    }else {
+      if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
+        _preparePortfolioData();
+      } else {
+        _prepareCaseStudyData();
+      }
     }
     _checkForActionButtons();
   }
@@ -114,8 +134,7 @@ class ProjectDetailController extends GetxController {
       strSelectedTechnologies = filterModel.technologies.join(",");
     }
 
-    final projectDetail = await _dbHelper.getPortfolioWithImage(
-        0,
+    final projectDetail = await _dbHelper.getPortfolioWithImage(activeProjectIndex.value,
         domains: strSelectedDomains,
         screens: strSelectedScreens,
         filterApplied: filterApplied,
@@ -167,7 +186,8 @@ class ProjectDetailController extends GetxController {
 
     if (projectDetail.isNotEmpty) {
       ProjectListModel model = ProjectListModel();
-      Get.log("projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
+      Get.log(
+          "projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
       model.id = projectDetail.first.caseStudyId;
       model.projectName = projectDetail.first.caseStudyProjectName;
       model.description = projectDetail.first.caseStudyProjectDescription;
@@ -181,7 +201,7 @@ class ProjectDetailController extends GetxController {
 
       // fetch current case study technologies.
       technologies.value =
-      await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
 
       // fetch current case study images.
       final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
@@ -202,4 +222,54 @@ class ProjectDetailController extends GetxController {
 
     enablePrevious.value = activeProjectIndex.value > 0;
   }
+
+  /// Get data depend on [_portfolioEnum].
+  void _getAllData(int pageKey) {
+    Future.wait<List<dynamic>>([
+      _dbHelper.getPortfolioBySearch(pageKey, search: _searchValue, limit: 1),
+      _dbHelper.getCaseStudyBySearch(pageKey, search: _searchValue, limit: 1),
+    ]).then((value) {
+      if (value.isNotEmpty) {
+        try {
+          List<ProjectListModel> projectList = [];
+          List<Portfolio> portfolioList = value[0] as List<Portfolio>;
+          List<CaseStudy> caseStudyList =
+          value.length > 1 ? value[1] as List<CaseStudy> : [];
+
+          for (Portfolio element in portfolioList) {
+            projectList.add(ProjectListModel(
+                id: element.portfolioId,
+                autoIncrementId: element.portfolioAutoIncrementId,
+                projectName: element.portfolioProjectName,
+                projectImage: element.images,
+                viewType: AppConstants.portfolio));
+          }
+
+          for (CaseStudy element in caseStudyList) {
+            projectList.add(ProjectListModel(
+                id: element.caseStudyId,
+                autoIncrementId: element.caseStudyAutoIncrementId,
+                projectName: element.caseStudyProjectName,
+                projectImage: element.images,
+                viewType: AppConstants.caseStudy));
+          }
+
+          // final isLastPage =
+          //     projectList.length < AppConstants.paginationPageLimit;
+          //
+          // if (isLastPage) {
+          //   pagingController.appendLastPage(projectList);
+          // } else {
+          //   final nextPageKey = pageKey + projectList.length;
+          //   pagingController.appendPage(projectList, nextPageKey);
+          // }
+        } catch (ex) {
+          logger.e(ex);
+        }
+      }
+    });
+  }
+}
+enum DetailType{
+  listing, filter, search
 }

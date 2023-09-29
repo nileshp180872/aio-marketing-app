@@ -1,10 +1,11 @@
 abstract class NetworkConstants {
   static const kProduction = "";
 
-  static const kDevelopment = "http://172.16.0.33:4000/$kApiVersion";
+  static const kDevelopment = "http://172.16.0.33:4041/$kApiVersion";
+
   static const kApiVersion = "api/v1/";
 
-  static const kImageBasePath = "http://172.16.0.33:4000/";
+  static const kImageBasePath = "http://172.16.0.33:4041/";
 }
 
 abstract class NetworkAPIs {

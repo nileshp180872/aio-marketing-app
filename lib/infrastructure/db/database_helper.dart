@@ -68,14 +68,13 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   Future<int> addToCaseStudies(CaseStudy caseStudy) async {
     return insert(caseStudy.toJson(), DbConstants.tblCaseStudies);
   }
+
   /// Update portfolio image to db.
   Future<int> updateToCaseStudies(CaseStudy caseStudy) async {
-    return update(
-        caseStudy.toJson(),
-        caseStudy.caseStudyId ?? "",
-        DbConstants.caseStudyId,
-        DbConstants.tblCaseStudies);
+    return update(caseStudy.toJson(), caseStudy.caseStudyId ?? "",
+        DbConstants.caseStudyId, DbConstants.tblCaseStudies);
   }
+
   /// Return all domains.
   Future<List<Technologies>> getAllTechnologies() async {
     List<dynamic> result = await queryAllRows(DbConstants.tblTechnologies);
@@ -112,6 +111,56 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   Future<int> updateToPortfolio(Portfolio portfolio) async {
     return update(portfolio.toJson(), portfolio.portfolioId ?? "",
         DbConstants.portfolioId, DbConstants.tblPortfolio);
+  }
+
+  /// Delete portfolio to db.
+  Future<int> deletePortfolio(Portfolio portfolio) async {
+    return delete(
+        id: portfolio.portfolioId ?? "",
+        table: DbConstants.tblPortfolio,
+        columnName: DbConstants.portfolioId);
+  }
+
+  /// Delete portfolio to db.
+  Future<int> deletePortfolioImages(PortfolioImages portfolio) async {
+    return delete(
+        id: portfolio.portfolioImageId ?? "",
+        table: DbConstants.tblPortfolioImages,
+        columnName: DbConstants.portfolioImageId);
+  }
+
+  /// Delete portfolio to db.
+  Future<int> deletePortfolioTechnologies(
+      PortfolioTechnologies portfolio) async {
+    return delete(
+        id: portfolio.portfolioTechnologyId ?? "",
+        table: DbConstants.tblPortfolioTechnologies,
+        columnName: DbConstants.portfolioTechnologyId);
+  }
+
+  /// Delete portfolio to db.
+  Future<int> deleteCaseStudy(CaseStudy caseStudy) async {
+    return delete(
+        id: caseStudy.caseStudyId ?? "",
+        table: DbConstants.tblCaseStudies,
+        columnName: DbConstants.caseStudyId);
+  }
+
+  /// Delete case study to db.
+  Future<int> deleteCaseStudyImages(CaseStudyImages portfolio) async {
+    return delete(
+        id: portfolio.caseStudyImageId ?? "",
+        table: DbConstants.tblCaseStudyImages,
+        columnName: DbConstants.caseStudyImageId);
+  }
+
+  /// Delete case study to db.
+  Future<int> deleteCaseStudyTechnologies(
+      CaseStudyTechnologyMapping portfolio) async {
+    return delete(
+        id: portfolio.caseStudyTechnologyId ?? "",
+        table: DbConstants.tblCaseStudiesTechnologies,
+        columnName: DbConstants.caseStudyTechnologyId);
   }
 
   /// Add portfolio images to db.
