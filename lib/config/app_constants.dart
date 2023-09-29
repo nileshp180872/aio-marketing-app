@@ -14,12 +14,15 @@ class AppConstants {
   static const portfolio = 1;
   static const caseStudy = 2;
 
+  /// Page limit for portfolios and case studies APIs.
+  static const projectListPaginationLimit = 50;
+
   /// Page limit for portfolios and case studies
-  static const paginationPageLimit = 2;
+  static const paginationPageLimit = 10;
 
   static var countryData = CountryModel(
       id: '1',
-      countryName: 'AHMEDABAD,\n INDIA',
+      countryName: 'AHMEDABAD, INDIA',
       countryAddress: AppStrings.indiaOfficeAddress,
       countryFlag: SVGAssets.indianFlag);
 
@@ -45,4 +48,6 @@ class AppConstants {
         countryAddress: AppStrings.usaOfficeAddress,
         countryFlag: SVGAssets.usaFlag),
   ];
+
+
 }

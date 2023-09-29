@@ -19,10 +19,11 @@ class ClientteleCotroller extends GetxController {
   }
 
   void addClientData() {
-    ClientData clientOrix = new ClientData();
-    clientOrix.name="orix";
-    clientOrix.logo=ClientAssets.client1;
-    clientList.add(clientOrix);
+
+    ClientData clientMahindra = new ClientData();
+    clientMahindra.name="mahindra";
+    clientMahindra.logo=ClientAssets.client7;
+    clientList.add(clientMahindra);
 
     ClientData clientTrianz = new ClientData();
     clientTrianz.name="trianz";
@@ -49,10 +50,11 @@ class ClientteleCotroller extends GetxController {
     clientLT.logo=ClientAssets.client6;
     clientList.add(clientLT);
 
-    ClientData clientMahindra = new ClientData();
-    clientMahindra.name="mahindra";
-    clientMahindra.logo=ClientAssets.client7;
-    clientList.add(clientMahindra);
+    ClientData clientOrix = new ClientData();
+    clientOrix.name="orix";
+    clientOrix.logo=ClientAssets.client1;
+    clientList.add(clientOrix);
+
 
     ClientData clientPetronas = new ClientData();
     clientPetronas.name="petronas";
@@ -79,11 +81,5 @@ class ClientteleCotroller extends GetxController {
     clientTechMahindra.logo=ClientAssets.client12;
     clientList.add(clientTechMahindra);
 
-
-
-    for(int i =0;i<clientList.length;i++){
-      print("Client data"+clientList.elementAt(i).name.toString());
-    }
-    // print("object"+clientList.elementAt(0).name.toString());
   }
 }

@@ -56,7 +56,9 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
           ),
           Expanded(
             flex: 3,
-            child: Container(child: _buildRightSliderList()),
+            child: Container(
+              child: _buildRightSliderList(),
+            ),
           )
         ],
       ),

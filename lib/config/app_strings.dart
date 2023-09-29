@@ -48,9 +48,10 @@ abstract class AppStrings {
       '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
 
 // ------------------- Validation ---------------------
-  static const nameValidationMsg = 'Full Name cannot be empty';
-  static const emailValidationMsg = 'Email ID cannot be empty';
-  static const phoneValidationMsg = 'Phone No. cannot be empty';
-  static const companyNameValidationMsg = 'Company Name cannot be empty';
-  static const msgValidationMsg = 'Message cannot be empty';
+  static const nameValidationMsg ='Full Name cannot be empty';
+  static const emailValidationMsg ='Email ID cannot be empty';
+  static const phoneValidationMsg ='Phone No. cannot be empty';
+  static const companyNameValidationMsg ='Company Name cannot be empty';
+  static const msgValidationMsg ='Message cannot be empty';
+
 }

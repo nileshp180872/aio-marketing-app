@@ -403,11 +403,5 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     await truncateTable(DbConstants.tblTechnologies);
     await truncateTable(DbConstants.tblLeadership);
     await truncateTable(DbConstants.tblPlatform);
-    await truncateTable(DbConstants.tblPortfolio);
-    await truncateTable(DbConstants.tblPortfolioTechnologies);
-    await truncateTable(DbConstants.tblPortfolioImages);
-    await truncateTable(DbConstants.tblCaseStudies);
-    await truncateTable(DbConstants.tblCaseStudiesTechnologies);
-    await truncateTable(DbConstants.tblCaseStudyImages);
   }
 }

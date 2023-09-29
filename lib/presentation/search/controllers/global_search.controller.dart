@@ -136,9 +136,8 @@ class GlobalSearchController extends GetxController {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
-      RouteArguments.searchValue: _search,
-      RouteArguments.autoIncrementValue: model.autoIncrementId,
-      RouteArguments.detailType: DetailType.search,
+      RouteArguments.index: index,
+      RouteArguments.projectList: pagingController.itemList,
     });
   }
 }

@@ -1,6 +1,5 @@
 import 'package:aio/config/app_constants.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
-import 'package:aio/presentation/project_detail/controllers/project_detail.controller.dart';
 import 'package:aio/utils/app_loading.mixin.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -17,9 +16,6 @@ import '../../portfolio/controllers/portfolio.controller.dart';
 import '../model/project_list_model.dart';
 
 class ProjectListController extends GetxController with AppLoadingMixin {
-  /// Project list view type enum
-  ProjectListTypeEnum _projectListTypeEnum = ProjectListTypeEnum.DOMAIN;
-
   /// Screen viewing type enum
   PortfolioEnum _portfolioEnum = PortfolioEnum.PORTFOLIO;
 
@@ -66,9 +62,6 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     if (Get.arguments != null) {
       _portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
-
-      _projectListTypeEnum = Get.arguments[RouteArguments.projectListType] ??
-          ProjectListTypeEnum.DOMAIN;
 
       screenTitle.value = _portfolioEnum == PortfolioEnum.PORTFOLIO
           ? AppStrings.workPortfolio
@@ -152,13 +145,8 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
       RouteArguments.screenName: model.projectName,
       RouteArguments.projectId: model.id,
-      RouteArguments.autoIncrementValue: model.autoIncrementId,
-      RouteArguments.filterApplied: filterApplied.value,
-      RouteArguments.filterData: filterModel,
-      RouteArguments.projectListType: _projectListTypeEnum,
-      RouteArguments.portfolioEnum: _portfolioEnum,
-      RouteArguments.detailType:
-          filterApplied.value ? DetailType.filter : DetailType.listing,
+      RouteArguments.index: index,
+      RouteArguments.projectList: pagingController.itemList,
     });
   }
 
@@ -181,6 +169,8 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     final selectedDomains = filterModel.domains;
     final selectedPlatforms = filterModel.platform;
     final selectedTechnologies = filterModel.technologies;
+
+    Get.log("selectedDomains ${selectedDomains.length}");
 
     filterApplied.value = selectedDomains.isNotEmpty ||
         selectedTechnologies.isNotEmpty ||

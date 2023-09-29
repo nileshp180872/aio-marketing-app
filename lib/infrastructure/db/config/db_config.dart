@@ -200,6 +200,7 @@ mixin DbConfig {
 
     String finalQuery = "$filterAllDataQuery $filterQuery $queryFilter";
 
+    Get.log("search portfolio $finalQuery");
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 
     return List<Portfolio>.generate(
