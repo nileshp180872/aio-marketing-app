@@ -30,8 +30,8 @@ class Enquiry {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data[DbConstants.technologicalId] = enquiryId;
-    data[DbConstants.technologicalName] = enquiryMemberName;
+    data[DbConstants.enquiryId] = enquiryId;
+    data[DbConstants.enquiryMemberName] = enquiryMemberName;
     data[DbConstants.enquiryMemberEmail] = enquiryMemberEmail;
     data[DbConstants.enquiryMemberPhone] = enquiryMemberPhone;
     data[DbConstants.enquiryMemberCompanyName] = enquiryMemberCompany;

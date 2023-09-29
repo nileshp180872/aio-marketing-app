@@ -196,7 +196,7 @@ class SynchronisationController extends GetxController {
         date: GetIt.I<SharedPreference>().getLastDbSyncDate);
     if (response.data != null) {
       if (response.statusCode == 200) {
-        _portfolioUpdateAPISuccess(response);
+        _caseStudyUpdateAPISuccess(response);
       } else {
         _domainAPIError(response);
       }
@@ -299,12 +299,11 @@ class SynchronisationController extends GetxController {
     if ((leadershipResponse.data ?? []).isNotEmpty) {
       for (PortfolioResponseData element in (leadershipResponse.data ?? [])) {
         try {
-          /// TODO add condition to check if data need to update or add.
-          if (update == true) {
-            await _addPortfolioData(element, isUpdate: true);
-            await _addPortfolioImages(element, isUpdate: true);
-            await _addPortfolioTechnologies(element, isUpdate: true);
-          } else if (update == true) {
+          if ((element.isDeleted ?? false)) {
+            await _addPortfolioData(element, isDelete: true);
+            await _addPortfolioImages(element, isDelete: true);
+            await _addPortfolioTechnologies(element, isDelete: true);
+          } else if ((element.modifiedOn ?? "").isNotEmpty) {
             await _addPortfolioData(element, isUpdate: true);
             await _addPortfolioImages(element, isUpdate: true);
             await _addPortfolioTechnologies(element, isUpdate: true);
@@ -312,6 +311,34 @@ class SynchronisationController extends GetxController {
             await _addPortfolioData(element);
             await _addPortfolioImages(element);
             await _addPortfolioTechnologies(element);
+          }
+        } catch (ex) {
+          logger.e(ex);
+        }
+      }
+    }
+  }
+
+  /// Portfolio Update API success
+  ///
+  /// required [response] response.
+  void _caseStudyUpdateAPISuccess(dio.Response response) async {
+    final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (CaseStudiesResponseData element in (leadershipResponse.data ?? [])) {
+        try {
+          if ((element.isDeleted ?? false)) {
+            await _addCaseStudies(element, isDelete: true);
+            await _addCaseStudyImages(element, isDelete: true);
+            await _addCaseStudyTechnologies(element, isDelete: true);
+          } else if ((element.modifiedOn ?? "").isNotEmpty) {
+            await _addCaseStudies(element, isUpdate: true);
+            await _addCaseStudyImages(element, isUpdate: true);
+            await _addCaseStudyTechnologies(element, isUpdate: true);
+          } else {
+            await _addCaseStudies(element);
+            await _addCaseStudyImages(element);
+            await _addCaseStudyTechnologies(element);
           }
         } catch (ex) {
           logger.e(ex);

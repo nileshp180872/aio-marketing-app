@@ -202,9 +202,9 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
             Column(
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   AppStrings.headOfficelable,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: AppColors.colorSecondary,
                       fontSize: 34,
                       fontWeight: FontWeight.w700),

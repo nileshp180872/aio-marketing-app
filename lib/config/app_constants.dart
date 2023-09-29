@@ -10,6 +10,7 @@ class AppConstants {
 
   static const multiLineMaxLength = 500;
   static const textFieldMaxLength = 100;
+  static const phoneMaxLength =15;
 
   static const portfolio = 1;
   static const caseStudy = 2;

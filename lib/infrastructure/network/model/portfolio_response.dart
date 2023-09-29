@@ -43,6 +43,9 @@ class PortfolioResponseData {
   String? screenNAME;
   String? projectName;
   String? description;
+  String? modifiedOn;
+  bool? isEnabled;
+  bool? isDeleted;
   List<TechMapping>? techMapping;
   List<ImageMapping>? imageMapping;
 
@@ -53,6 +56,9 @@ class PortfolioResponseData {
       this.domainName,
       this.screenTYPE,
       this.screenNAME,
+      this.isEnabled,
+      this.isDeleted,
+      this.modifiedOn,
       this.projectName,
       this.description,
       this.techMapping});
@@ -63,6 +69,9 @@ class PortfolioResponseData {
     domainName = json['DomainName'];
     screenTYPE = json['ScreenType'];
     screenNAME = json['ScreenName'];
+    isEnabled = json['is_enabled'];
+    isDeleted = json['is_deleted'];
+    modifiedOn = json['modified_on'];
     projectName = json['ProjectName'];
     description = json['Description'];
     if (json['TechMapping'] != null) {
@@ -81,6 +90,9 @@ class PortfolioResponseData {
     data['DomainID'] = this.domainID;
     data['DomainName'] = this.domainName;
     data['ScreenType'] = this.screenTYPE;
+    data['is_enabled'] = this.isEnabled;
+    data['is_deleted'] = this.isDeleted;
+    data['modified_on'] = this.modifiedOn;
     data['ScreenName'] = this.screenNAME;
     data['ProjectName'] = this.projectName;
     data['Description'] = this.description;
