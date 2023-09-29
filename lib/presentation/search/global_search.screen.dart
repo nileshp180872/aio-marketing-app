@@ -26,15 +26,13 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
           buildCustomAppBarWithChild(
               child: _buildHeaderRow(), enableSearch: false),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: AppValues.sideMargin,
-                  vertical: AppValues.size_30),
-              child: PaginationProjectGridWidget(
-                pagingController: _controller.pagingController,
-                onClick: _controller.onProjectClick,
-              ),
-            ),
+            child: PaginationProjectGridWidget(
+                    pagingController: _controller.pagingController,
+                    onClick: _controller.onProjectClick,
+                    isForSearch: true)
+                .marginSymmetric(
+                    horizontal: AppValues.sideMargin,
+                    vertical: AppValues.size_30),
           ),
         ],
       ),

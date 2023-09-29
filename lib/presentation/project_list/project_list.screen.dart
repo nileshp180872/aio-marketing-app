@@ -1,5 +1,3 @@
-import 'package:aio/config/app_colors.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_list/view/pagination_project_grid_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
@@ -40,37 +38,10 @@ class ProjectListScreen extends GetView<ProjectListController> with AppFeature {
 
   /// build screen body
   Widget _buildScreenBody() {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: AppValues.sideMargin, vertical: 34),
-      child: PaginationProjectGridWidget(
-        pagingController: _controller.pagingController,
-        isLoading: _controller.isLoading,
-        onClick: _controller.onProjectClick,
-      ),
-    );
-  }
-
-  /// Build project list header widget.
-  Widget _buildProjectListHeader() {
-    return Container(
-      color: AppColors.headerBackground,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-      child: Text(
-        AppStrings.project.toUpperCase(),
-        style: _textTheme.titleSmall?.copyWith(
-          letterSpacing: 1.0,
-        ),
-      ),
-    );
-  }
-
-  /// Build list title container
-  Widget buildListTitleContainer() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppValues.size_10),
-      color: AppColors.colorPrimary,
-    );
+    return PaginationProjectGridWidget(
+      pagingController: _controller.pagingController,
+      isLoading: _controller.isLoading,
+      onClick: _controller.onProjectClick,
+    ).marginOnly(right: AppValues.sideMargin, left: AppValues.sideMargin);
   }
 }
