@@ -36,7 +36,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
   Widget _buildBody() {
     return Padding(
       padding: const EdgeInsets.only(
-        top: AppValues.sideMargin,
+        top: AppValues.size_22,
         right: AppValues.sideMargin,
         left: AppValues.sideMargin,
       ),
@@ -178,11 +178,11 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
   Widget _buildRightContainer() {
     return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _mainCountryWidget(AppConstants.countryData),
           const SizedBox(
-            height: 36,
+            height: 20,
           ),
           _countryGridWidget()
         ],
@@ -247,7 +247,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.6,
+            childAspectRatio: 1.2,
             mainAxisSpacing: 12,
             crossAxisSpacing: 12),
         itemCount: AppConstants.otherCountryData.length,
