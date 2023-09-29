@@ -1,3 +1,4 @@
+import 'package:aio/config/app_constants.dart';
 import 'package:aio/infrastructure/db/schema/enquiry.dart';
 import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:dio/dio.dart';
@@ -33,14 +34,19 @@ class SynchronisationProvider {
 
   /// Returns list of portfolios.
   Future<Response> getAllPortfolios() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPortfolio);
+    Map<String, dynamic> queryParams = {
+      NetworkParams.limit: AppConstants.projectListPaginationLimit
+    };
+    return GetIt.I<DioProvider>()
+        .getBaseAPI(url: NetworkAPIs.kPortfolio, queryParams: queryParams);
   }
 
   /// Returns list of portfolios.
   Future<Response> getUpdatedPortfolios({required String date}) async {
     Map<String, dynamic> queryParams = {
       NetworkParams.startDate: date,
-      NetworkParams.endDate: date
+      NetworkParams.endDate: date,
+      NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
     return GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kPortfolio, queryParams: queryParams);
@@ -48,19 +54,23 @@ class SynchronisationProvider {
 
   /// Returns list of case studies.
   Future<Response> getCaseStudies() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kCaseStudies);
+    Map<String, dynamic> queryParams = {
+      NetworkParams.limit: AppConstants.projectListPaginationLimit
+    };
+    return GetIt.I<DioProvider>()
+        .getBaseAPI(url: NetworkAPIs.kCaseStudies, queryParams: queryParams);
   }
 
   /// Returns list of case study.
   Future<Response> getUpdatedCaseStudy({required String date}) async {
     Map<String, dynamic> queryParams = {
       NetworkParams.startDate: date,
-      NetworkParams.endDate: date
+      NetworkParams.endDate: date,
+      NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
     return GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kCaseStudies, queryParams: queryParams);
   }
-
 
   /// Returns add enquiry response.
   Future<Response> addInquiry(Enquiry enquiry) async {
