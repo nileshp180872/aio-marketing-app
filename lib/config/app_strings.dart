@@ -46,6 +46,7 @@ abstract class AppStrings {
       'Level 36 Riparian Plaza, 71 Eagle Street, Brisbane, QLD 4000';
   static const usaOfficeAddress =
       '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
+  static const headOfficelable ='Head Office';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
