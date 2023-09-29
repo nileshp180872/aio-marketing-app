@@ -280,7 +280,7 @@ mixin DbConfig {
       filterQuery = "";
     }
 
-    String finalQuery = "$filterAllDataQuery $queryFilter";
+    String finalQuery = "$filterAllDataQuery $filterQuery $queryFilter";
 
     Get.log("Get case study from ${finalQuery}");
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);

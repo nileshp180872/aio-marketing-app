@@ -123,7 +123,7 @@ class GlobalSearchController extends GetxController {
 
   /// Search data based on user input.
   void _searchDataBasedOnUserInput(String search) async {
-    if (search.isNotEmpty && search.length > 2) {
+    if (search.isNotEmpty) {
       pagingController.refresh();
     }
   }

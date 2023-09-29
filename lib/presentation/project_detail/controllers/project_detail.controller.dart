@@ -75,11 +75,13 @@ class ProjectDetailController extends GetxController {
 
       _projectId = Get.arguments[RouteArguments.projectId] ?? "";
 
-      activeProjectIndex.value = Get.arguments[RouteArguments.autoIncrementValue] ?? "";
+      activeProjectIndex.value =
+          Get.arguments[RouteArguments.autoIncrementValue] ?? "";
 
       _searchValue = Get.arguments[RouteArguments.projectId] ?? "";
 
-      detailType = Get.arguments[RouteArguments.detailType] ?? DetailType.listing;
+      detailType =
+          Get.arguments[RouteArguments.detailType] ?? DetailType.listing;
 
       filterModel = Get.arguments[RouteArguments.filterData] ?? FilterMenu();
 
@@ -112,9 +114,9 @@ class ProjectDetailController extends GetxController {
 
   /// Get project detail by id.
   void _prepareProjectDetails() async {
-    if(detailType == DetailType.search){
+    if (detailType == DetailType.search) {
       _getAllData(activeProjectIndex.value);
-    }else {
+    } else {
       if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
         _preparePortfolioData();
       } else {
@@ -135,7 +137,8 @@ class ProjectDetailController extends GetxController {
       strSelectedTechnologies = filterModel.technologies.join(",");
     }
 
-    final projectDetail = await _dbHelper.getPortfolioWithImage(activeProjectIndex.value,
+    final projectDetail = await _dbHelper.getPortfolioWithImage(
+        activeProjectIndex.value,
         domains: strSelectedDomains,
         screens: strSelectedScreens,
         filterApplied: filterApplied,
@@ -254,7 +257,7 @@ class ProjectDetailController extends GetxController {
           List<ProjectListModel> projectList = [];
           List<Portfolio> portfolioList = value[0] as List<Portfolio>;
           List<CaseStudy> caseStudyList =
-          value.length > 1 ? value[1] as List<CaseStudy> : [];
+              value.length > 1 ? value[1] as List<CaseStudy> : [];
 
           for (Portfolio element in portfolioList) {
             projectList.add(ProjectListModel(
@@ -290,6 +293,5 @@ class ProjectDetailController extends GetxController {
     });
   }
 }
-enum DetailType{
-  listing, filter, search
-}
+
+enum DetailType { listing, filter, search }
