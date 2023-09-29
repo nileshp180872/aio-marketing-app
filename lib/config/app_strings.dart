@@ -6,10 +6,10 @@ abstract class AppStrings {
   static const homeOverlayContent2 = 'Enable for Enterprises';
   static const homeOverlayContent3 =
       'Sculpting the success of enterprises with the building\nblocks of technology and innovation.';
-  static const letsDiscussYourIdea = 'Let’s Discuss your Idea';
+  static const letsDiscussYourIdea = 'Let’s discuss your Idea';
   static const searchInputText = 'Search...';
   static const workPortfolio = 'Work/Portfolio';
-  static const caseStudy = 'Case study';
+  static const caseStudy = 'Case Study';
   static const teamLeadership = 'Team/Leadership';
   static const domainIndustry = 'Domains/Industries';
   static const mobileWeb = 'Mobile/Web';
@@ -31,6 +31,8 @@ abstract class AppStrings {
   static const apply = 'Apply';
   static const clearAll = 'Clear All';
   static const recordNotFound = 'Record not found!';
+  static const clientele = 'Clientele';
+  static const clientelecontent1 = 'Trusted by 350 + companies worldwide';
 
 
 }

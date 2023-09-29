@@ -1,3 +1,5 @@
+import 'package:aio/infrastructure/navigation/bindings/controllers/clientele.binding.dart';
+import 'package:aio/presentation/clientele/view/clientele.screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -69,6 +71,11 @@ class Nav {
       name: Routes.FILTER,
       page: () => FilterScreen(),
       binding: FilterControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CLIENTELE,
+      page: () => ClienteleScreen(),
+      binding: ClienteleBinding(),
     ),
   ];
 }

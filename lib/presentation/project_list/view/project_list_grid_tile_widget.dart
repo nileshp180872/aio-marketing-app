@@ -23,16 +23,23 @@ class ProjectListGridTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: InkWell(
         onTap: () => onClick(projectListModel, index),
         child: Column(
           children: [
             Expanded(
               child: (projectListModel.projectImage ?? "").isNotEmpty
-                  ? Image.file(
-                      File(projectListModel.projectImage ?? ""),
-                      fit: BoxFit.cover,
-                    )
+                  ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.file(
+                        File(projectListModel.projectImage ?? ""),
+                        fit: BoxFit.cover,
+                      ),
+                  )
                   : Image.asset(
                       AppAssets.kNoImage,
                       fit: BoxFit.cover,
