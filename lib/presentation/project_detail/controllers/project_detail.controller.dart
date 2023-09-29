@@ -25,9 +25,6 @@ class ProjectDetailController extends GetxController {
   /// technologies
   RxString technologies = "".obs;
 
-  /// Store active image index from current project.
-  RxInt activeImageIndex = 0.obs;
-
   /// Stores active project index from the list.
   RxInt activeProjectIndex = 0.obs;
 
@@ -39,6 +36,10 @@ class ProjectDetailController extends GetxController {
 
   /// Project images
   RxList<String> images = RxList();
+
+  RxList<String> listImages = RxList();
+
+  RxString activeImage = "".obs;
 
   /// Store true if filter is applied otherwise false.
   bool filterApplied = false;
@@ -114,8 +115,7 @@ class ProjectDetailController extends GetxController {
       strSelectedTechnologies = filterModel.technologies.join(",");
     }
 
-    final projectDetail = await _dbHelper.getPortfolioWithImage(
-        0,
+    final projectDetail = await _dbHelper.getPortfolioWithImage(0,
         domains: strSelectedDomains,
         screens: strSelectedScreens,
         filterApplied: filterApplied,
@@ -144,6 +144,13 @@ class ProjectDetailController extends GetxController {
 
       images.value =
           projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+
+      activeImage.value = images.first;
+      if (images.length > 1) {
+        listImages = images..removeAt(0);
+      } else {
+        listImages = images;
+      }
     }
   }
 
@@ -167,7 +174,8 @@ class ProjectDetailController extends GetxController {
 
     if (projectDetail.isNotEmpty) {
       ProjectListModel model = ProjectListModel();
-      Get.log("projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
+      Get.log(
+          "projectDetail.first.caseStudyId ${projectDetail.first.caseStudyId}");
       model.id = projectDetail.first.caseStudyId;
       model.projectName = projectDetail.first.caseStudyProjectName;
       model.description = projectDetail.first.caseStudyProjectDescription;
@@ -181,19 +189,31 @@ class ProjectDetailController extends GetxController {
 
       // fetch current case study technologies.
       technologies.value =
-      await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
 
       // fetch current case study images.
       final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
 
       images.value =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+
+      activeImage.value = images.first;
+      if (images.length > 1) {
+        listImages = images..removeAt(0);
+      } else {
+        listImages = images;
+      }
     }
   }
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
-    activeImageIndex.value = index;
+    var imageData = activeImage.value;
+    activeImage.value = listImages.elementAt(index);
+    listImages.remove(listImages[index]);
+    listImages.add(imageData);
+    listImages.refresh();
+    update();
   }
 
   /// Enable/Disable action buttons.

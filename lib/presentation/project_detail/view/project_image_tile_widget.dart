@@ -8,14 +8,12 @@ class ProjectImageTileWidget extends StatelessWidget {
   double itemWidth;
   String imagePath;
   int index;
-  bool selected;
   Function(int index) selectImage;
 
   ProjectImageTileWidget(
       {required this.itemWidth,
       this.imagePath = "",
       required this.index,
-      required this.selected,
       required this.selectImage,
       super.key});
 
@@ -27,10 +25,7 @@ class ProjectImageTileWidget extends StatelessWidget {
         width: itemWidth,
         height: 100,
         decoration: BoxDecoration(
-            color: AppColors.colorSecondary.withOpacity(0.15),
-            border: Border.all(
-                color:
-                    selected ? AppColors.colorSecondary : Colors.transparent)),
+            color: AppColors.colorSecondary.withOpacity(0.15),),
         padding: const EdgeInsets.all(16),
         child: Image.file(File(imagePath)),
       ),

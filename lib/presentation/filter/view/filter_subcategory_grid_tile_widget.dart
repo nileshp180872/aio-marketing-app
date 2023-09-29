@@ -37,10 +37,14 @@ class FilterSubCategoryGridTileWidget extends StatelessWidget {
                 onChanged: (ds) {
                   onTapItem(index);
                 }),
-            Text(
-              model.title ?? "",
-              style: textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.normal),
+            Flexible(
+              child: Text(
+                model.title ?? "",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.headlineSmall
+                    ?.copyWith(fontWeight: FontWeight.normal),
+              ),
             )
           ],
         ),
