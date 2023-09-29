@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aio/infrastructure/cache/shared_cofig.dart';
 import 'package:aio/infrastructure/db/db_constants.dart';
 import 'package:aio/infrastructure/db/schema/case_study_images.dart';
 import 'package:aio/infrastructure/db/schema/case_study_technology_mapping.dart';
@@ -83,8 +84,8 @@ class SynchronisationController extends GetxController {
         ).then((value) async {
           await Future.wait(
             [
-              _getPortfolios(),
-              _getCaseStudies(),
+              _syncPortfolio(),
+              _syncCaseStudy(),
             ],
           ).then((value) => _synchronizeEnquiryWithServer);
         });
@@ -93,6 +94,15 @@ class SynchronisationController extends GetxController {
       });
     } else {
       logger.i("Sync not processed due to internet connectivity.");
+    }
+  }
+  /// Check if getLastDbSyncDate is empty then update portfolio
+  /// otherwise call all the data API.
+  Future<void> _syncDomain() {
+    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
+      return _getPortfolios();
+    } else {
+      return _getUpdatedPortfolios();
     }
   }
 
@@ -132,6 +142,26 @@ class SynchronisationController extends GetxController {
     }
   }
 
+  /// Check if getLastDbSyncDate is empty then update portfolio
+  /// otherwise call all the data API.
+  Future<void> _syncPortfolio() {
+    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
+      return _getPortfolios();
+    } else {
+      return _getUpdatedPortfolios();
+    }
+  }
+
+  /// Check if getLastDbSyncDate is empty then update case study
+  /// otherwise call all the data API.
+  Future<void> _syncCaseStudy() {
+    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
+      return _getCaseStudies();
+    } else {
+      return _getUpdatedCaseStudies();
+    }
+  }
+
   /// Get portfolio API.
   Future<void> _getPortfolios() async {
     final response = await _provider.getAllPortfolios();
@@ -150,6 +180,32 @@ class SynchronisationController extends GetxController {
     if (response.data != null) {
       if (response.statusCode == 200) {
         _caseStudyAPISuccess(response);
+      } else {
+        _domainAPIError(response);
+      }
+    }
+  }
+
+  /// Get portfolio API.
+  Future<void> _getUpdatedPortfolios() async {
+    final response = await _provider.getUpdatedPortfolios(
+        date: GetIt.I<SharedPreference>().getLastDbSyncDate);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _portfolioUpdateAPISuccess(response);
+      } else {
+        _domainAPIError(response);
+      }
+    }
+  }
+
+  /// Get portfolio API.
+  Future<void> _getUpdatedCaseStudies() async {
+    final response = await _provider.getUpdatedCaseStudy(
+        date: GetIt.I<SharedPreference>().getLastDbSyncDate);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _portfolioUpdateAPISuccess(response);
       } else {
         _domainAPIError(response);
       }
@@ -244,8 +300,34 @@ class SynchronisationController extends GetxController {
     }
   }
 
+  /// Portfolio Update API success
+  ///
+  /// required [response] response.
+  void _portfolioUpdateAPISuccess(dio.Response response) async {
+    final leadershipResponse = PortfolioResponse.fromJson(response.data);
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (PortfolioResponseData element in (leadershipResponse.data ?? [])) {
+        try {
+          /// TODO add condition to check if data need to update or add.
+          if (update == true) {
+            await _addPortfolioData(element, isUpdate: true);
+            await _addPortfolioImages(element, isUpdate: true);
+            await _addPortfolioTechnologies(element, isUpdate: true);
+          } else {
+            await _addPortfolioData(element);
+            await _addPortfolioImages(element);
+            await _addPortfolioTechnologies(element);
+          }
+        } catch (ex) {
+          logger.e(ex);
+        }
+      }
+    }
+  }
+
   /// Save portfolio data
-  Future<void> _addPortfolioData(PortfolioResponseData element) async {
+  Future<void> _addPortfolioData(PortfolioResponseData element,
+      {bool isUpdate = false}) async {
     final model = Portfolio(
         portfolioDomainId: element.domainID,
         portfolioDomainName: element.domainName,
@@ -254,11 +336,16 @@ class SynchronisationController extends GetxController {
         portfolioProjectName: element.projectName,
         portfolioScreenTypeId: element.screenTYPE,
         portfolioScreenTypeName: element.screenNAME);
-    await _dbHelper.addToPortfolio(model);
+    if (isUpdate) {
+      await _dbHelper.updateToPortfolio(model);
+    } else {
+      await _dbHelper.addToPortfolio(model);
+    }
   }
 
   /// Portfolio images
-  Future<void> _addPortfolioImages(PortfolioResponseData element) async {
+  Future<void> _addPortfolioImages(PortfolioResponseData element,
+      {bool isUpdate = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
       try {
         final fileName =
@@ -271,7 +358,11 @@ class SynchronisationController extends GetxController {
             portfolioImageId: imageMappingElement.portfolioID,
             portfolioImagePath: imagePath,
             portfolioImagePortfolioId: element.portfolioID);
-        await _dbHelper.addToPortfolioImage(portfolioImage);
+        if (isUpdate) {
+          await _dbHelper.updateToPortfolioImage(portfolioImage);
+        } else {
+          await _dbHelper.addToPortfolioImage(portfolioImage);
+        }
       } catch (ex) {
         logger.e(ex);
       }
@@ -279,14 +370,19 @@ class SynchronisationController extends GetxController {
   }
 
   /// Add portfolio technologies
-  Future<void> _addPortfolioTechnologies(PortfolioResponseData element) async {
+  Future<void> _addPortfolioTechnologies(PortfolioResponseData element,
+      {bool isUpdate = false}) async {
     (element.techMapping ?? []).forEach((technologyMappingElement) async {
       try {
         final techMapping = PortfolioTechnologies(
             portfolioTechnologyId: technologyMappingElement.techID,
             portfolioTechnologyName: technologyMappingElement.techName,
             portfolioTechnologyPortfolioId: element.portfolioID);
-        await _dbHelper.addToPortfolioTechnologies(techMapping);
+        if (isUpdate) {
+          await _dbHelper.updateToPortfolioTechnology(techMapping);
+        } else {
+          await _dbHelper.addToPortfolioTechnologies(techMapping);
+        }
       } catch (ex) {
         logger.e(ex);
       }
@@ -310,7 +406,8 @@ class SynchronisationController extends GetxController {
   }
 
   /// Add case studies
-  Future<void> _addCaseStudies(CaseStudiesResponseData element) async {
+  Future<void> _addCaseStudies(CaseStudiesResponseData element,
+      {bool isUpdate = false}) async {
     final model = CaseStudy(
       caseStudyId: element.casestudiesID,
       caseStudyDomainId: element.domainID,
@@ -318,12 +415,16 @@ class SynchronisationController extends GetxController {
       caseStudyDomainName: element.domainName,
       caseStudyProjectDescription: element.description,
     );
-
-    await _dbHelper.addToCaseStudies(model);
+    if (isUpdate) {
+      await _dbHelper.updateToCaseStudies(model);
+    } else {
+      await _dbHelper.addToCaseStudies(model);
+    }
   }
 
   /// Case study images
-  Future<void> _addCaseStudyImages(CaseStudiesResponseData element) async {
+  Future<void> _addCaseStudyImages(CaseStudiesResponseData element,
+      {bool isUpdate = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
       String imagePath = "";
       try {
@@ -339,7 +440,11 @@ class SynchronisationController extends GetxController {
             caseStudyImageId: imageMappingElement.casestudiesID,
             caseStudyImagePath: imagePath,
             caseStudyImagePortfolioId: element.casestudiesID);
-        await _dbHelper.addToCaseStudyImage(caseStudyImage);
+        if (isUpdate) {
+          await _dbHelper.updateToCaseStudyImage(caseStudyImage);
+        } else {
+          await _dbHelper.addToCaseStudyImage(caseStudyImage);
+        }
       } catch (ex) {
         logger.e(ex);
       }
@@ -347,15 +452,19 @@ class SynchronisationController extends GetxController {
   }
 
   /// Add case study technologies
-  Future<void> _addCaseStudyTechnologies(
-      CaseStudiesResponseData element) async {
+  Future<void> _addCaseStudyTechnologies(CaseStudiesResponseData element,
+      {bool isUpdate = false}) async {
     try {
       (element.techMapping ?? []).forEach((technologyMappingElement) async {
         final techMapping = CaseStudyTechnologyMapping(
             caseStudyTechnologyId: technologyMappingElement.techId,
             caseStudyTechnologyName: technologyMappingElement.techName,
             caseStudyTableId: element.casestudiesID);
-        await _dbHelper.addToCaseStudyTechnologies(techMapping);
+        if (isUpdate) {
+          await _dbHelper.updateToCaseStudyTechnology(techMapping);
+        } else {
+          await _dbHelper.addToCaseStudyTechnologies(techMapping);
+        }
       });
     } catch (ex) {
       logger.e(ex);
@@ -426,7 +535,7 @@ class SynchronisationController extends GetxController {
     final queryList = await _dbHelper.getFirstColumn();
     final response = await _provider.addInquiry(queryList.first);
     if (response.statusCode == 200) {
-      final deleteResponse = _dbHelper.delete(
+      final deleteResponse = await _dbHelper.delete(
           id: queryList.first.enquiryId ?? "",
           table: DbConstants.tblEnquiry,
           columnName: DbConstants.enquiryId);

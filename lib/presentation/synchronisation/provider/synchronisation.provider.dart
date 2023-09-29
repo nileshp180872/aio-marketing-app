@@ -30,14 +30,35 @@ class SynchronisationProvider {
   Future<Response> getPlatforms() async {
     return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPlatform);
   }
+
   /// Returns list of portfolios.
   Future<Response> getAllPortfolios() async {
     return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPortfolio);
   }
 
+  /// Returns list of portfolios.
+  Future<Response> getUpdatedPortfolios({required String date}) async {
+    Map<String, dynamic> queryParams = {
+      NetworkParams.startDate: date,
+      NetworkParams.endDate: date
+    };
+    return GetIt.I<DioProvider>()
+        .getBaseAPI(url: NetworkAPIs.kPortfolio, queryParams: queryParams);
+  }
+
   /// Returns list of case studies.
   Future<Response> getCaseStudies() async {
     return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kCaseStudies);
+  }
+
+  /// Returns list of case study.
+  Future<Response> getUpdatedCaseStudy({required String date}) async {
+    Map<String, dynamic> queryParams = {
+      NetworkParams.startDate: date,
+      NetworkParams.endDate: date
+    };
+    return GetIt.I<DioProvider>()
+        .getBaseAPI(url: NetworkAPIs.kCaseStudies, queryParams: queryParams);
   }
 
 

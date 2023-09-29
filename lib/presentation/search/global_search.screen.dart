@@ -1,5 +1,6 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
+import 'package:aio/presentation/project_list/view/pagination_project_grid_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,6 @@ import '../../config/app_assets.dart';
 import '../../config/app_colors.dart';
 import '../../config/app_constants.dart';
 import '../../infrastructure/navigation/routes.dart';
-import '../project_list/view/project_list_widget.dart';
 import 'controllers/global_search.controller.dart';
 
 class GlobalSearchScreen extends GetView<GlobalSearchController>
@@ -30,11 +30,9 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
               padding: const EdgeInsets.symmetric(
                   horizontal: AppValues.sideMargin,
                   vertical: AppValues.size_30),
-              child: Obx(
-                () => ProjectListWidget(
-                  projectList: _controller.projectList.value,
-                  onClick: _controller.onProjectClick,
-                ),
+              child: PaginationProjectGridWidget(
+                pagingController: _controller.pagingController,
+                onClick: _controller.onProjectClick,
               ),
             ),
           ),

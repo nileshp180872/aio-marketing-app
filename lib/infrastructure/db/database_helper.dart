@@ -68,7 +68,14 @@ class DatabaseHelper with DbConfig, SchemaConfig {
   Future<int> addToCaseStudies(CaseStudy caseStudy) async {
     return insert(caseStudy.toJson(), DbConstants.tblCaseStudies);
   }
-
+  /// Update portfolio image to db.
+  Future<int> updateToCaseStudies(CaseStudy caseStudy) async {
+    return update(
+        caseStudy.toJson(),
+        caseStudy.caseStudyId ?? "",
+        DbConstants.caseStudyId,
+        DbConstants.tblCaseStudies);
+  }
   /// Return all domains.
   Future<List<Technologies>> getAllTechnologies() async {
     List<dynamic> result = await queryAllRows(DbConstants.tblTechnologies);
@@ -101,9 +108,24 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     return insert(portfolio.toJson(), DbConstants.tblPortfolio);
   }
 
+  /// Update portfolio to db.
+  Future<int> updateToPortfolio(Portfolio portfolio) async {
+    return update(portfolio.toJson(), portfolio.portfolioId ?? "",
+        DbConstants.portfolioId, DbConstants.tblPortfolio);
+  }
+
   /// Add portfolio images to db.
   Future<int> addToPortfolioImage(PortfolioImages portfolioImage) async {
     return insert(portfolioImage.toJson(), DbConstants.tblPortfolioImages);
+  }
+
+  /// Update portfolio image to db.
+  Future<int> updateToPortfolioImage(PortfolioImages portfolioImage) async {
+    return update(
+        portfolioImage.toJson(),
+        portfolioImage.portfolioImageId ?? "",
+        DbConstants.portfolioImageId,
+        DbConstants.tblPortfolioImages);
   }
 
   /// Add portfolio technologies to db.
@@ -113,15 +135,44 @@ class DatabaseHelper with DbConfig, SchemaConfig {
         portfolioTechnologies.toJson(), DbConstants.tblPortfolioTechnologies);
   }
 
+  /// Update portfolio technology to db.
+  Future<int> updateToPortfolioTechnology(
+      PortfolioTechnologies portfolioTechnologies) async {
+    return update(
+        portfolioTechnologies.toJson(),
+        portfolioTechnologies.portfolioTechnologyId ?? "",
+        DbConstants.portfolioTechnologyId,
+        DbConstants.tblPortfolioTechnologies);
+  }
+
   /// Add case study images to db.
   Future<int> addToCaseStudyImage(CaseStudyImages caseStudyImages) async {
     return insert(caseStudyImages.toJson(), DbConstants.tblCaseStudyImages);
+  }
+
+  /// Update portfolio image to db.
+  Future<int> updateToCaseStudyImage(CaseStudyImages caseStudyImages) async {
+    return update(
+        caseStudyImages.toJson(),
+        caseStudyImages.caseStudyImageId ?? "",
+        DbConstants.caseStudyImageId,
+        DbConstants.tblCaseStudyImages);
   }
 
   /// Add case study technologies to db.
   Future<int> addToCaseStudyTechnologies(
       CaseStudyTechnologyMapping caseStudyTechnologyMapping) async {
     return insert(caseStudyTechnologyMapping.toJson(),
+        DbConstants.tblCaseStudiesTechnologies);
+  }
+
+  /// Update portfolio technology to db.
+  Future<int> updateToCaseStudyTechnology(
+      CaseStudyTechnologyMapping caseStudyTechnologyMapping) async {
+    return update(
+        caseStudyTechnologyMapping.toJson(),
+        caseStudyTechnologyMapping.caseStudyTechnologyId ?? "",
+        DbConstants.caseStudyTechnologyId,
         DbConstants.tblCaseStudiesTechnologies);
   }
 
@@ -304,7 +355,6 @@ class DatabaseHelper with DbConfig, SchemaConfig {
     await truncateTable(DbConstants.tblLeadership);
     await truncateTable(DbConstants.tblPlatform);
     await truncateTable(DbConstants.tblPortfolio);
-    await truncateTable(DbConstants.tblEnquiry);
     await truncateTable(DbConstants.tblPortfolioTechnologies);
     await truncateTable(DbConstants.tblPortfolioImages);
     await truncateTable(DbConstants.tblCaseStudies);

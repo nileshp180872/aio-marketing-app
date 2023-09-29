@@ -39,4 +39,6 @@ abstract class NetworkParams {
   static const message = "message";
   static const phoneNumber = "phone_no";
   static const userName = "users_name";
+  static const startDate = "startDate";
+  static const endDate = "endDate";
 }

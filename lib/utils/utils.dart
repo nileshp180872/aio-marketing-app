@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../infrastructure/navigation/routes.dart';
 import '../presentation/enquiry/view/success_dialog_widget.dart';
@@ -74,5 +75,13 @@ class Utils {
         Get.until((route) => route.settings.name == Routes.HOME);
       },
     ));
+  }
+
+  /// Return string date with yyyy-MM-dd format.
+  static String getTodayDate() {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    return formattedDate;
   }
 }

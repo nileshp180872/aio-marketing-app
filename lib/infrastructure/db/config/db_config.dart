@@ -62,17 +62,17 @@ mixin DbConfig {
     return Sqflite.firstIntValue(results) ?? 0;
   }
 
-// // We are assuming here that the id column in the map is set. The other
-// // column values will be used to update the row.
-// Future<int> update(Map<String, dynamic> row) async {
-//   int id = row[columnId];
-//   return await _db.update(
-//     table,
-//     row,
-//     where: '$columnId = ?',
-//     whereArgs: [id],
-//   );
-// }
+// We are assuming here that the id column in the map is set. The other
+// column values will be used to update the row.
+Future<int> update(Map<String, dynamic> row, String columnId,String columnName, String tableName, ) async {
+  int id = row[columnId];
+  return await _db.update(
+    tableName,
+    row,
+    where: '$columnName = ?',
+    whereArgs: [id],
+  );
+}
 //
 // Deletes the row specified by the id. The number of affected rows is
 // returned. This should be 1 as long as the row exists.
@@ -187,8 +187,7 @@ mixin DbConfig {
           " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} portfolio.portfolio_project_name LIKE ''$search'' OR portfolio.portfolio_domain_name LIKE '$search'";
     }
 
-    String finalQuery =
-        "$filterAllDataQuery $queryFilter";
+    String finalQuery = "$filterAllDataQuery $queryFilter";
 
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 
@@ -196,7 +195,6 @@ mixin DbConfig {
         result.length, (index) => Portfolio.fromJson(result[index]),
         growable: true);
   }
-
 
   /// Return all rows returned as a list of maps, where each map is
   /// a key-value list of columns.
@@ -231,6 +229,40 @@ mixin DbConfig {
 
     String finalQuery =
         "$filterAllDataQuery ${filterApplied ? filterQuery : ""}$queryFilter";
+
+    Get.log("Get case study from ${finalQuery}");
+    final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
+
+    return List<CaseStudy>.generate(
+        result.length, (index) => CaseStudy.fromJson(result[index]),
+        growable: true);
+  }
+
+  /// Return all rows returned as a list of maps, where each map is
+  /// a key-value list of columns.
+  Future<List<CaseStudy>> getCaseStudyBySearch(int offset,
+      {required String search,
+      int limit = AppConstants.paginationPageLimit}) async {
+    const joinImages =
+        "left join ${DbConstants.tblCaseStudyImages} on ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} = ${DbConstants.caseStudyImageCaseStudyId}";
+
+    const joinTechnologyTable =
+        "left join ${DbConstants.tblCaseStudiesTechnologies} on ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} = ${DbConstants.caseStudyTechnologyId}";
+
+    String filterAllDataQuery =
+        "SELECT ${DbConstants.tblCaseStudies}.*, ${DbConstants.caseStudyImagePath} as images, ${DbConstants.caseStudyTechnologyId} as technologies FROM ${DbConstants.tblCaseStudies} $joinImages $joinTechnologyTable";
+
+    String queryFilter =
+        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyAIId} LIMIT $limit OFFSET $offset";
+
+    String filterQuery = "WHERE";
+
+    if (search.isNotEmpty) {
+      filterQuery =
+      " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} case_study.case_study_project_name LIKE ''$search'' OR case_study.case_study_domain_name LIKE '$search'";
+    }
+
+    String finalQuery = "$filterAllDataQuery $queryFilter";
 
     Get.log("Get case study from ${finalQuery}");
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);

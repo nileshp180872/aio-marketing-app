@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../network_constants.dart';
 import '../../cache/shared_cofig.dart';
+import '../network_constants.dart';
 
 class DioProvider {
   late Dio mDio;
@@ -26,7 +26,8 @@ class DioProvider {
   }
 
   /// Get base API.
-  Future<Response> getBaseAPI({required String url}) => mDio.get(url);
+  Future<Response> getBaseAPI({required String url, Map<String, dynamic>? queryParams}) =>
+      mDio.get(url, queryParameters: queryParams);
 
   /// Post base API.
   Future<Response> postBaseAPI({required String url, dynamic data}) =>
