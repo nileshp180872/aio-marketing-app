@@ -30,6 +30,7 @@ class Utils {
     bool isEmail = false,
     bool isPhoneNumber = false,
     bool isMultiline = false,
+    required String? Function(String?)? onValidate,
   }) {
     const textStyle = TextStyle(
         color: AppColors.colorSecondary,
@@ -45,6 +46,7 @@ class Utils {
       onTapOutside: (_) {
         focusNode.unfocus();
       },
+      validator: onValidate,
       onChanged: onChange,
       keyboardType: isEmail
           ? TextInputType.emailAddress
@@ -56,12 +58,14 @@ class Utils {
       style: textStyle,
       maxLines: isMultiline ? 3 : 1,
       enableSuggestions: true,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       textInputAction:
           isMultiline ? TextInputAction.newline : TextInputAction.next,
       decoration: InputDecoration(
         label: Text(label),
+        // errorStyle: textStyle.copyWith(color: Colors.red[900], fontSize: 14),
         alignLabelWithHint: true,
-        counter: Container(),
+        counter: const Offstage(),
         labelStyle: textStyle,
       ),
     );

@@ -17,6 +17,7 @@ mixin AppFeature {
       elevation: 0,
       backgroundColor: Colors.white,
       title: _buildLeftLogo(),
+      centerTitle: false,
       actions: [_buildSearchContainer()],
     );
   }
