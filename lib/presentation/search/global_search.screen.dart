@@ -80,10 +80,12 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
       textInputAction: TextInputAction.search,
       onFieldSubmitted: (_) {},
       decoration: InputDecoration(
+
         hintText: AppStrings.searchInputText,
         alignLabelWithHint: true,
         counter: Container(),
         hintStyle: textStyle,
+
       ),
     );
   }

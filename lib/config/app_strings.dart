@@ -36,11 +36,12 @@ abstract class AppStrings {
 
 
 // ------------------- Enquiry ---------------------
-  static const indiaOfficeAddress = '401, One World West, Nr. Ambli T-Junction 200, S P Ring Road, Bopal, Ahmedabad, Gujarat 380058';
-  static const ukOfficeAddress = 'Kemp House 160 City Road, London, United Kingdom EC1V 2NX';
-  static const germanyOfficeAddress = 'Nürnberger Str. 46 90579 Langenzenn Deutschland';
-  static const australiaOfficeAddress = 'Level 36 Riparian Plaza, 71 Eagle Street, Brisbane, QLD 4000';
-  static const usaOfficeAddress = '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
+  static const indiaOfficeAddress = '401, One World West, Nr. Ambli T-Junction 200,\n S P Ring Road, Bopal, Ahmedabad, Gujarat 380058';
+  static const ukOfficeAddress = 'Kemp House 160 City Road, London,\n United Kingdom EC1V 2NX';
+  static const germanyOfficeAddress = 'Nürnberger Str. 46 90579 Langenzenn\n Deutschland';
+  static const australiaOfficeAddress = 'Level 36 Riparian Plaza, 71 Eagle Street,\n Brisbane, QLD 4000';
+  static const usaOfficeAddress = '4411 Suwanee Dam road, Bld. 300 Ste. \n350 Suwanee GA, 30024';
+  static const headOfficelable ='Head Office';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg ='Full Name cannot be empty';
