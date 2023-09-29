@@ -33,4 +33,18 @@ abstract class AppStrings {
   static const recordNotFound = 'Record not found!';
 
 
+// ------------------- Enquiry ---------------------
+  static const indiaOfficeAddress = '401, One World West, Nr. Ambli T-Junction 200, S P Ring Road, Bopal, Ahmedabad, Gujarat 380058';
+  static const ukOfficeAddress = 'Kemp House 160 City Road, London, United Kingdom EC1V 2NX';
+  static const germanyOfficeAddress = 'Nürnberger Str. 46 90579 Langenzenn Deutschland';
+  static const australiaOfficeAddress = 'Level 36 Riparian Plaza, 71 Eagle Street, Brisbane, QLD 4000';
+  static const usaOfficeAddress = '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
+
+// ------------------- Validation ---------------------
+  static const nameValidationMsg ='Full Name cannot be empty';
+  static const emailValidationMsg ='Email ID cannot be empty';
+  static const phoneValidationMsg ='Phone No. cannot be empty';
+  static const companyNameValidationMsg ='Company Name cannot be empty';
+  static const msgValidationMsg ='Message cannot be empty';
+
 }
