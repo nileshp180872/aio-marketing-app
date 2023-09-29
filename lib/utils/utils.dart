@@ -43,7 +43,9 @@ class Utils {
       inputFormatters: inputFormatters,
       maxLength: isMultiline
           ? AppConstants.multiLineMaxLength
-          : AppConstants.textFieldMaxLength,
+          : isPhoneNumber
+              ? AppConstants.phoneMaxLength
+              : AppConstants.textFieldMaxLength,
       onTapOutside: (_) {
         focusNode.unfocus();
       },

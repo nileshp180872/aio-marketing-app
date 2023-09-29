@@ -38,6 +38,9 @@ class CaseStudiesResponseData {
   String? projectName;
   String? description;
   String? domainName;
+  String? modifiedOn;
+  bool? isEnabled;
+  bool? isDeleted;
   List<CaseStudyTechMapping>? techMapping;
   List<CaseStudyImageMapping>? imageMapping;
 
@@ -46,6 +49,9 @@ class CaseStudiesResponseData {
       this.domainID,
       this.projectName,
       this.description,
+        this.isEnabled,
+        this.isDeleted,
+        this.modifiedOn,
       this.imageMapping,
       this.domainName,
       this.techMapping});
@@ -56,6 +62,10 @@ class CaseStudiesResponseData {
     projectName = json['ProjectName'];
     description = json['Description'];
     domainName = json['DomainName'];
+
+    isEnabled = json['is_enabled'];
+    isDeleted = json['is_deleted'];
+    modifiedOn = json['modified_on'];
     if (json['TechMapping'] != null) {
       techMapping = <CaseStudyTechMapping>[];
       json['TechMapping'].forEach((v) {
@@ -77,6 +87,9 @@ class CaseStudiesResponseData {
     data['ProjectName'] = projectName;
     data['Description'] = description;
     data['DomainName'] = domainName;
+    data['is_enabled'] = this.isEnabled;
+    data['is_deleted'] = this.isDeleted;
+    data['modified_on'] = this.modifiedOn;
     if (techMapping != null) {
       data['TechMapping'] = techMapping!.map((v) => v.toJson()).toList();
     }
