@@ -1,3 +1,5 @@
+import 'package:aio/config/app_strings.dart';
+import 'package:aio/config/app_values.dart';
 import 'package:aio/presentation/project_list/model/project_list_model.dart';
 import 'package:aio/presentation/project_list/view/project_list_grid_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +8,13 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class PaginationProjectGridWidget extends StatelessWidget {
   PagingController<int, ProjectListModel> pagingController;
   bool isLoading;
+  bool isForSearch;
   Function(ProjectListModel model, int index) onClick;
 
   PaginationProjectGridWidget(
       {required this.pagingController,
       this.isLoading = false,
+      this.isForSearch = false,
       required this.onClick,
       super.key});
 
@@ -22,12 +26,14 @@ class PaginationProjectGridWidget extends StatelessWidget {
   /// Build paged grid view.
   Widget _buildPagedGridView() {
     return PagedGridView<int, ProjectListModel>(
+      padding: const EdgeInsets.only(bottom: AppValues.size_34, top: 24),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<ProjectListModel>(
         itemBuilder: (context, item, index) => ProjectListGridTileWidget(
           projectListModel: item,
           onClick: onClick,
           index: index,
+          isForSearch: isForSearch,
         ),
         noItemsFoundIndicatorBuilder: (_) => _buildNoDataWidget(),
         firstPageProgressIndicatorBuilder: (_) => _buildLoadingIndicator(),
@@ -50,8 +56,6 @@ class PaginationProjectGridWidget extends StatelessWidget {
 
   /// Build no data widget
   Widget _buildNoDataWidget() {
-    return Container(
-      child: Text("No data Found"),
-    );
+    return const Center(child: Text(AppStrings.noDataFound));
   }
 }

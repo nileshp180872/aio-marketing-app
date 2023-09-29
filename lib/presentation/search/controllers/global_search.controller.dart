@@ -28,6 +28,9 @@ class GlobalSearchController extends GetxController {
   /// search text
   String _search = "";
 
+  /// search text
+  RxString _searchMsg = "".obs;
+
   /// timer to check when user stops typing.
   Timer? searchOnStoppedTyping;
 
@@ -123,9 +126,7 @@ class GlobalSearchController extends GetxController {
 
   /// Search data based on user input.
   void _searchDataBasedOnUserInput(String search) async {
-    if (search.isNotEmpty) {
-      pagingController.refresh();
-    }
+    pagingController.refresh();
   }
 
   /// on project click
