@@ -168,7 +168,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
                   model: _controller.lstTechnologies[index]);
             },
             itemCount: _controller.lstTechnologies.length,
-          )
+          ).paddingOnly(bottom: AppValues.size_68)
         : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
