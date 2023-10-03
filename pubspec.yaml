@@ -68,6 +68,11 @@ dependencies:
   # intl
   intl: ^0.18.1
 
+  # awesome snackbar content
+  awesome_snackbar_content: ^0.1.3
+
+
+
   flutter:
     sdk: flutter
 

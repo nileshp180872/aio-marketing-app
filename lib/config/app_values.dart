@@ -9,6 +9,7 @@ abstract class AppValues {
   static const size_4 = 4.0;
   static const size_8 = 8.0;
   static const size_10 = 10.0;
+  static const size_14 = 14.0;
   static const size_16 = 16.0;
   static const size_24 = 24.0;
   static const size_20 = 20.0;

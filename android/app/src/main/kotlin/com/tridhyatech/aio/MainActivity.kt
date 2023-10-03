@@ -1,4 +1,4 @@
-package com.tridhyatech.aio.aio
+package com.tridhyatech.aio
 
 import io.flutter.embedding.android.FlutterActivity
 

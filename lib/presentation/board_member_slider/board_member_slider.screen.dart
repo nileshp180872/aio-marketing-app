@@ -39,6 +39,7 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
   Widget _buildPagedView() {
     return Row(
       children: [
+        if(_controller.lstMembers.isNotEmpty)
         InkWell(
           onTap: _controller.goToPreviousPage,
           child: const SizedBox(
@@ -46,15 +47,16 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
               child: Center(child: Icon(Icons.arrow_back_ios_new))),
         ),
         Expanded(
-          child: PageView.builder(
+          child: _controller.lstMembers.isNotEmpty?PageView.builder(
               controller: _controller.pageController,
               itemCount: _controller.lstMembers.length,
               itemBuilder: (_, index) {
                 return MemberTileWidget(
                   memberModel: _controller.lstMembers[index],
                 );
-              }),
+              }):_buildNoDataWidget(),
         ),
+        if(_controller.lstMembers.isNotEmpty)
         InkWell(
           onTap: _controller.goToNextPage,
           child: const SizedBox(
@@ -63,5 +65,10 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
         ),
       ],
     );
+  }
+
+  /// Build no data widget
+  Widget _buildNoDataWidget() {
+    return const Center(child: Text(AppStrings.noDataFound));
   }
 }

@@ -12,6 +12,7 @@ class DioProvider {
     mDio = Dio(
       BaseOptions(
         baseUrl: NetworkConstants.kDevelopment,
+        connectTimeout: const Duration(seconds: 3),
         headers: {
           if (GetIt.I<SharedPreference>().token.isNotEmpty)
             "Authorization": "Bearer ${GetIt.I<SharedPreference>().token}",
@@ -26,8 +27,15 @@ class DioProvider {
   }
 
   /// Get base API.
-  Future<Response> getBaseAPI({required String url, Map<String, dynamic>? queryParams}) =>
-      mDio.get(url, queryParameters: queryParams);
+  Future<Response> getBaseAPI({required String url, Map<String, dynamic>? queryParams}) async{
+    try{
+      return mDio.get(url, queryParameters: queryParams);
+    } on DioException catch(ex) {
+      return Response(
+          data:  ex.message, statusMessage: ex.message,statusCode: 500, requestOptions: RequestOptions());
+    }
+  }
+
 
   /// Post base API.
   Future<Response> postBaseAPI({required String url, dynamic data}) =>

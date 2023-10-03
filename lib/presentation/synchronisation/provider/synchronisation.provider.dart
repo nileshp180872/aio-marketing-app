@@ -9,27 +9,27 @@ import '../../../infrastructure/network/config/dio_provider.dart';
 class SynchronisationProvider {
   /// Returns list of domains.
   Future<Response> getDomains() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kDomains);
+    return await GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kDomains);
   }
 
   /// Returns list of technologies.
   Future<Response> getTechnologies() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kTechnologies);
+    return await GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kTechnologies);
   }
 
   /// Returns list of leadership.
   Future<Response> getLeadership() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeadershipRole);
+    return await GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeadershipRole);
   }
 
   /// Returns list of leaders.
   Future<Response> getLeaders() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeaders);
+    return await GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kLeaders);
   }
 
   /// Returns list of platform.
   Future<Response> getPlatforms() async {
-    return GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPlatform);
+    return await GetIt.I<DioProvider>().getBaseAPI(url: NetworkAPIs.kPlatform);
   }
 
   /// Returns list of portfolios.
@@ -37,7 +37,7 @@ class SynchronisationProvider {
     Map<String, dynamic> queryParams = {
       NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
-    return GetIt.I<DioProvider>()
+    return await GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kPortfolio, queryParams: queryParams);
   }
 
@@ -48,7 +48,7 @@ class SynchronisationProvider {
       NetworkParams.endDate: date,
       NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
-    return GetIt.I<DioProvider>()
+    return await GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kPortfolio, queryParams: queryParams);
   }
 
@@ -57,7 +57,7 @@ class SynchronisationProvider {
     Map<String, dynamic> queryParams = {
       NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
-    return GetIt.I<DioProvider>()
+    return await GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kCaseStudies, queryParams: queryParams);
   }
 
@@ -68,7 +68,7 @@ class SynchronisationProvider {
       NetworkParams.endDate: date,
       NetworkParams.limit: AppConstants.projectListPaginationLimit
     };
-    return GetIt.I<DioProvider>()
+    return await GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kCaseStudies, queryParams: queryParams);
   }
 
@@ -81,7 +81,7 @@ class SynchronisationProvider {
       NetworkParams.userName: enquiry.enquiryMemberName,
       NetworkParams.message: enquiry.enquiryMemberMessage,
     };
-    return GetIt.I<DioProvider>()
+    return await GetIt.I<DioProvider>()
         .postBaseAPI(url: NetworkAPIs.kEnquiry, data: body);
   }
 }

@@ -9,6 +9,7 @@ import 'package:aio/infrastructure/db/schema/leadership.dart';
 import 'package:aio/infrastructure/db/schema/portfolio.dart';
 import 'package:aio/infrastructure/db/schema/portfolio_images.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -107,6 +108,8 @@ class SynchronisationController extends GetxController {
       } else {
         _domainAPIError(response);
       }
+    }else{
+      _domainAPIError(response);
     }
   }
 
@@ -550,7 +553,21 @@ class SynchronisationController extends GetxController {
   /// Domain error
   ///
   /// required [response] response.
-  void _domainAPIError(dio.Response response) {}
+  void _domainAPIError(dio.Response response) {
+    Get.log("domain error called");
+    final snackBar = SnackBar(
+      elevation: 4,
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      content: Text(response.statusMessage??""),
+    );
+
+    ScaffoldMessenger.of(Get.context!)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+
+  }
 
   /// Synchronize enquiry with server.
   void _synchronizeEnquiryWithServer() async {

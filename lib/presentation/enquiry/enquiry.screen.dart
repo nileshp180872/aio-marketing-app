@@ -234,8 +234,10 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
           textAlign: TextAlign.center,
           style: _textTheme.labelLarge?.copyWith(
               fontFamily: AppConstants.poppins,
+              fontWeight: FontWeight.w400,
+              fontSize: AppValues.size_16,
               color: AppColors.textColorContent),
-        )
+        ).paddingSymmetric(horizontal: AppValues.size_20)
       ],
     ).paddingAll(AppValues.size_10);
   }
@@ -247,7 +249,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.2,
+            childAspectRatio: 1.05,
             mainAxisSpacing: 12,
             crossAxisSpacing: 12),
         itemCount: AppConstants.otherCountryData.length,
@@ -282,6 +284,8 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
           textAlign: TextAlign.center,
           style: _textTheme.labelLarge?.copyWith(
               fontFamily: AppConstants.poppins,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
               color: AppColors.textColorContent),
         )
       ],

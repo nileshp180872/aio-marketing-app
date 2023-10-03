@@ -17,29 +17,31 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
 
   final HomeController _controller = Get.find(tag: Routes.HOME);
 
+  late BuildContext _buildContext;
   late TextTheme _textTheme;
 
   @override
   Widget build(BuildContext context) {
+    _buildContext = context;
     _textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-     // appBar: buildAppBarWithSearch(),
+      // appBar: buildAppBarWithSearch(),
       floatingActionButton: _buildFAB(),
-      body: Obx(() =>
-          Column(
-            children: [
-              buildCustomAppBarWithoutTite(),
-              const SizedBox(
-                height: AppValues.size_34,
-              ),
-              Expanded(child:  _buildBodyWidget()),
-              const SizedBox(
-                height: AppValues.size_20,
-              ),
-            ],
-          ),
-         ),
+      body: Obx(
+        () => Column(
+          children: [
+            buildCustomAppBarWithoutTite(),
+            const SizedBox(
+              height: AppValues.size_34,
+            ),
+            Expanded(child: _buildBodyWidget()),
+            const SizedBox(
+              height: AppValues.size_20,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -103,9 +105,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
         Expanded(
             child: _buildButton(
                 buttonText: AppStrings.clientele,
-                onClick: _controller.navigateToClientele
-            )),
-
+                onClick: _controller.navigateToClientele)),
       ],
     );
   }
@@ -113,6 +113,8 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   /// Build action button.
   Widget _buildButton(
       {required String buttonText, required Function() onClick}) {
+    final screenSize = MediaQuery.of(_buildContext).size;
+    final fontSize = screenSize.width > 1024 ? 24.0 : 20.0;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.lightBlue,
@@ -122,7 +124,6 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
-
       onPressed: onClick,
       child: Center(
         child: Text(
@@ -130,7 +131,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
           style: _textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               fontFamily: AppConstants.poppins,
-              fontSize: 24,
+              fontSize: fontSize,
               color: AppColors.colorSecondary),
         ),
       ),
@@ -148,12 +149,8 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   Widget _stackIntroContainer() {
     return Row(
       children: [
-        Expanded(
-            flex: 6,
-            child: _buildOverlayLeftSide()),
-        Expanded(
-          flex: 8,
-            child: _buildVideoPlayer()),
+        Expanded(flex: 6, child: _buildOverlayLeftSide()),
+        Expanded(flex: 8, child: _buildVideoPlayer()),
       ],
     );
   }
