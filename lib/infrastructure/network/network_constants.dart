@@ -1,5 +1,5 @@
 abstract class NetworkConstants {
-  static const kProduction = "";
+  static const kProduction = "http://137.184.19.129/$kApiVersion";
 
   static const kDevelopment = "http://172.16.0.33:4041/$kApiVersion";
 

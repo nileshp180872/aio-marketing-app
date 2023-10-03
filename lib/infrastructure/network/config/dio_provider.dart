@@ -11,7 +11,7 @@ class DioProvider {
   void initialise() {
     mDio = Dio(
       BaseOptions(
-        baseUrl: NetworkConstants.kDevelopment,
+        baseUrl: NetworkConstants.kProduction,
         connectTimeout: const Duration(seconds: 3),
         headers: {
           if (GetIt.I<SharedPreference>().token.isNotEmpty)
