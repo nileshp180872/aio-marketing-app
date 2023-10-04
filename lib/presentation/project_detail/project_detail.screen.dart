@@ -6,6 +6,7 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_detail/view/project_image_tile_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 
 import '../../config/app_values.dart';
@@ -131,7 +132,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
             height: 38,
           ),
           _buildSectionHeader(title: AppStrings.description),
-          _buildContentText(
+          _buildLinkableText(
               content: _controller.projectData.value.description ?? "")
         ],
       ),
@@ -150,6 +151,14 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
   Widget _buildContentText({required String content}) {
     return Text(
       content,
+      style: _textTheme.bodyMedium,
+    );
+  }
+
+  Widget _buildLinkableText({required String content}) {
+    return Linkify(
+      onOpen: (link) => _controller.onLinkClick(link),
+      text: content,
       style: _textTheme.bodyMedium,
     );
   }

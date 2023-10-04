@@ -1,9 +1,11 @@
 import 'package:aio/infrastructure/db/database_helper.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/presentation/filter/model/filter_menu.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
@@ -111,9 +113,11 @@ class ProjectDetailController extends GetxController {
     screenTitle.value = projectData.value.projectName ?? "";
 
     if (projectData.value.viewType == AppConstants.portfolio) {
-      final portfolio = await _dbHelper.getPortfolioDetails(portfolioId: _projectId);
-      projectData.value.description = portfolio?.portfolioProjectDescription??"";
-      projectData.value.overView = portfolio?.portfolioDomainName??"";
+      final portfolio =
+          await _dbHelper.getPortfolioDetails(portfolioId: _projectId);
+      projectData.value.description =
+          portfolio?.portfolioProjectDescription ?? "";
+      projectData.value.overView = portfolio?.portfolioDomainName ?? "";
       // fetch current portfolio technologies.
       technologies.value =
           await _dbHelper.getPortfolioTechnologies(id: _projectId);
@@ -125,10 +129,11 @@ class ProjectDetailController extends GetxController {
       images.value =
           projectImages.map((e) => e.portfolioImagePath ?? "").toList();
     } else {
-      final portfolio = await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
-      projectData.value.description = portfolio?.caseStudyProjectDescription??"";
-      projectData.value.overView = portfolio?.caseStudyDomainName??"";
-
+      final portfolio =
+          await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
+      projectData.value.description =
+          portfolio?.caseStudyProjectDescription ?? "";
+      projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
 
       // fetch current portfolio technologies.
       technologies.value =
@@ -145,7 +150,7 @@ class ProjectDetailController extends GetxController {
       Get.log("emages ${element}");
     });
 
-    activeImage.value = images.isNotEmpty?images.first:"";
+    activeImage.value = images.isNotEmpty ? images.first : "";
     if (images.length > 1) {
       listImages = images..removeAt(0);
     } else {
@@ -169,5 +174,14 @@ class ProjectDetailController extends GetxController {
     enableNext.value = activeProjectIndex.value != projectList.length - 1;
 
     enablePrevious.value = activeProjectIndex.value > 0;
+  }
+
+  /// open URL in device browser.
+  void onLinkClick(LinkableElement link) async {
+    if (await canLaunchUrl(Uri.parse(link.url))) {
+      launchUrl(Uri.parse(link.url));
+    }else{
+    print("not able to open ${link.url}");
+    }
   }
 }

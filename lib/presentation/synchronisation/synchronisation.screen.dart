@@ -49,10 +49,8 @@ class SynchronisationScreen extends GetView<SynchronisationController>
 
   /// Build success animation.
   Widget _buildSuccessAnimationWidget() {
-    return Lottie.asset(
-      LottieAssets.syncAnimation,
-      animate: _controller.enableAnimation.isTrue
-    );
+    return Lottie.asset(LottieAssets.syncAnimation,
+        animate: _controller.enableAnimation.isTrue);
   }
 
   /// Build synchronisation text

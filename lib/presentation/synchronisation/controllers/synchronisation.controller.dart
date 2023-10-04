@@ -394,7 +394,8 @@ class SynchronisationController extends GetxController {
         final imagePath = await getImageFilePath(
             '${NetworkConstants.kImageBasePath}${imageMappingElement.portfolioImage}',
             "portfolio",
-            fileName);
+            fileName,
+            deleteFile: isDelete);
         final portfolioImage = PortfolioImages(
             portfolioImageId: imageMappingElement.portfolioID,
             portfolioImagePath: imagePath,
@@ -483,7 +484,8 @@ class SynchronisationController extends GetxController {
           imagePath = await getImageFilePath(
               '${NetworkConstants.kImageBasePath}${imageMappingElement.casestudiesImage}',
               "casestudy",
-              fileName);
+              fileName,
+              deleteFile: isDelete);
         }
         final caseStudyImage = CaseStudyImages(
             caseStudyImageId: imageMappingElement.casestudiesID,
@@ -629,7 +631,8 @@ class SynchronisationController extends GetxController {
   ///
   /// required [imageUrl] as image need to downloaded.
   Future<String> getImageFilePath(
-      String imageUrl, String subPath, String fileName) async {
+      String imageUrl, String subPath, String fileName,
+      {bool deleteFile = false}) async {
     var response = await dio.Dio().get(imageUrl,
         options: dio.Options(responseType: dio.ResponseType.bytes));
     var documentDirectory = await getApplicationDocumentsDirectory();
@@ -638,6 +641,13 @@ class SynchronisationController extends GetxController {
 
     var filePathAndName = '$firstPath/$fileName.jpg';
 
+    File file = File(filePathAndName);
+    if (await file.exists()) {
+      file.delete(recursive: true);
+      if (deleteFile) {
+        return "";
+      }
+    }
     //comment out the next three lines to prevent the image from being saved
     //to the device to show that it's coming from the internet
     await Directory(firstPath).create(recursive: true);

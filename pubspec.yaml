@@ -71,7 +71,11 @@ dependencies:
   # awesome snackbar content
   awesome_snackbar_content: ^0.1.3
 
+  # linkify: hyperlink text.
+  flutter_linkify: ^6.0.0
 
+  # Launch URL in the browser
+  url_launcher: ^6.1.14
 
   flutter:
     sdk: flutter
