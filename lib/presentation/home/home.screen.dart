@@ -26,7 +26,6 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
     _textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      // appBar: buildAppBarWithSearch(),
       floatingActionButton: _buildFAB(),
       body: Obx(
         () => Column(

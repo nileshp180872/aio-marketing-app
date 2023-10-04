@@ -31,6 +31,7 @@ class Utils {
     bool isEmail = false,
     bool isPhoneNumber = false,
     bool isMultiline = false,
+    bool enableCapital = false,
     required String? Function(String?)? onValidate,
   }) {
     const textStyle = TextStyle(
@@ -51,6 +52,7 @@ class Utils {
       },
       validator: onValidate,
       onChanged: onChange,
+      textCapitalization: enableCapital?TextCapitalization.sentences:TextCapitalization.none,
       keyboardType: isEmail
           ? TextInputType.emailAddress
           : isPhoneNumber

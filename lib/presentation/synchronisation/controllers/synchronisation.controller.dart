@@ -45,6 +45,8 @@ class SynchronisationController extends GetxController {
   // prevent concurrent access to data
   var lock = Lock();
 
+  RxBool enableAnimation = true.obs;
+
   /// is network enable
   RxBool isNetworkEnable = false.obs;
 
@@ -108,7 +110,7 @@ class SynchronisationController extends GetxController {
       } else {
         _domainAPIError(response);
       }
-    }else{
+    } else {
       _domainAPIError(response);
     }
   }
@@ -236,13 +238,15 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _domainAPISuccess(dio.Response response) async {
     final domainResponse = DomainResponse.fromJson(response.data);
-    for (DomainResponseData element in (domainResponse.data ?? [])) {
-      try {
-        final model =
-            Domain(domainId: element.id, domainName: element.domainName);
-        await _dbHelper.addToDomain(model);
-      } catch (ex) {
-        logger.e(ex);
+    if ((domainResponse.data ?? []).isNotEmpty) {
+      for (DomainResponseData element in (domainResponse.data ?? [])) {
+        try {
+          final model = Domain(
+              domainId: element.id ?? "", domainName: element.domainName ?? "");
+          await _dbHelper.addToDomain(model);
+        } catch (ex) {
+          logger.e(ex);
+        }
       }
     }
   }
@@ -252,13 +256,16 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _technologiesAPISuccess(dio.Response response) async {
     final technologyResponse = TechnologyResponse.fromJson(response.data);
-    for (TechnologyResponseData element in (technologyResponse.data ?? [])) {
-      try {
-        final model = Technologies(
-            technologyId: element.id, technologyName: element.techName);
-        await _dbHelper.addToTechnologies(model);
-      } catch (ex) {
-        logger.e(ex);
+    if ((technologyResponse.data ?? []).isNotEmpty) {
+      for (TechnologyResponseData element in (technologyResponse.data ?? [])) {
+        try {
+          final model = Technologies(
+              technologyId: element.id ?? "",
+              technologyName: element.techName ?? "");
+          await _dbHelper.addToTechnologies(model);
+        } catch (ex) {
+          logger.e(ex);
+        }
       }
     }
   }
@@ -268,13 +275,16 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _platformAPISuccess(dio.Response response) async {
     final leadershipResponse = PlatformResponse.fromJson(response.data);
-    for (PlatformData element in (leadershipResponse.data ?? [])) {
-      try {
-        final model =
-            Platform(platformId: element.id, platformName: element.screenType);
-        await _dbHelper.addToPlatform(model);
-      } catch (ex) {
-        logger.e(ex);
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (PlatformData element in (leadershipResponse.data ?? [])) {
+        try {
+          final model = Platform(
+              platformId: element.id ?? "",
+              platformName: element.screenType ?? "");
+          await _dbHelper.addToPlatform(model);
+        } catch (ex) {
+          logger.e(ex);
+        }
       }
     }
   }
@@ -284,13 +294,16 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _portfolioAPISuccess(dio.Response response) async {
     final leadershipResponse = PortfolioResponse.fromJson(response.data);
-    for (PortfolioResponseData element in (leadershipResponse.data ?? [])) {
-      try {
-        await _addPortfolioData(element);
-        await _addPortfolioImages(element);
-        await _addPortfolioTechnologies(element);
-      } catch (ex) {
-        logger.e(ex);
+
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (PortfolioResponseData element in (leadershipResponse.data ?? [])) {
+        try {
+          await _addPortfolioData(element);
+          await _addPortfolioImages(element);
+          await _addPortfolioTechnologies(element);
+        } catch (ex) {
+          logger.e(ex);
+        }
       }
     }
   }
@@ -426,15 +439,17 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _caseStudyAPISuccess(dio.Response response) async {
     final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
-    (leadershipResponse.data ?? []).forEach((element) async {
-      try {
-        await _addCaseStudies(element);
-        await _addCaseStudyImages(element);
-        await _addCaseStudyTechnologies(element);
-      } catch (ex) {
-        logger.e(ex);
-      }
-    });
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      (leadershipResponse.data ?? []).forEach((element) async {
+        try {
+          await _addCaseStudies(element);
+          await _addCaseStudyImages(element);
+          await _addCaseStudyTechnologies(element);
+        } catch (ex) {
+          logger.e(ex);
+        }
+      });
+    }
   }
 
   /// Add case studies
@@ -514,14 +529,16 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _leadershipTypeAPISuccess(dio.Response response) async {
     final leadershipResponse = LeadershipTypeResponse.fromJson(response.data);
-    for (LeadershipTypeData element in (leadershipResponse.data ?? [])) {
-      try {
-        final model = LeadershipType(
-            leadershipTypeId: element.id,
-            leadershipTypeName: element.leaderType);
-        await _dbHelper.addToLeadershipTypes(model);
-      } catch (ex) {
-        logger.e(ex);
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (LeadershipTypeData element in (leadershipResponse.data ?? [])) {
+        try {
+          final model = LeadershipType(
+              leadershipTypeId: element.id,
+              leadershipTypeName: element.leaderType);
+          await _dbHelper.addToLeadershipTypes(model);
+        } catch (ex) {
+          logger.e(ex);
+        }
       }
     }
   }
@@ -531,21 +548,24 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _leaderAPISuccess(dio.Response response) async {
     final leadershipResponse = LeadersResponse.fromJson(response.data);
-    for (LeadersResponseData element in (leadershipResponse.data ?? [])) {
-      try {
-        String leaderImage = "";
-        if ((element.imageMapping ?? []).isNotEmpty) {
-          leaderImage = (element.imageMapping ?? []).first.leaderImage ?? "";
+
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (LeadersResponseData element in (leadershipResponse.data ?? [])) {
+        try {
+          String leaderImage = "";
+          if ((element.imageMapping ?? []).isNotEmpty) {
+            leaderImage = (element.imageMapping ?? []).first.leaderImage ?? "";
+          }
+          final model = Leadership(
+              leaderId: element.leadershipID,
+              description: element.description,
+              leaderName: element.leaderNAME,
+              image: leaderImage,
+              designation: element.designation);
+          await _dbHelper.addToLeaders(model);
+        } catch (ex) {
+          logger.e(ex);
         }
-        final model = Leadership(
-            leaderId: element.leadershipID,
-            description: element.description,
-            leaderName: element.leaderNAME,
-            image: leaderImage,
-            designation: element.designation);
-        await _dbHelper.addToLeaders(model);
-      } catch (ex) {
-        logger.e(ex);
       }
     }
   }
@@ -554,19 +574,19 @@ class SynchronisationController extends GetxController {
   ///
   /// required [response] response.
   void _domainAPIError(dio.Response response) {
-    Get.log("domain error called");
+    enableAnimation.value = false;
     final snackBar = SnackBar(
       elevation: 4,
       duration: const Duration(seconds: 5),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.red,
-      content: Text(response.statusMessage??""),
+      content: Text(response.statusMessage ?? ""),
     );
 
     ScaffoldMessenger.of(Get.context!)
       ..hideCurrentSnackBar()
+      ..clearSnackBars()
       ..showSnackBar(snackBar);
-
   }
 
   /// Synchronize enquiry with server.

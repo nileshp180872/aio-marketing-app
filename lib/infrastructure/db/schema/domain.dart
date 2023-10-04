@@ -4,7 +4,7 @@ class Domain {
   String? domainId;
   String? domainName;
 
-  Domain({this.domainId, this.domainName});
+    Domain({this.domainId, this.domainName});
 
   Domain.fromJson(Map<String, dynamic> json) {
     domainId = json[DbConstants.domainId];

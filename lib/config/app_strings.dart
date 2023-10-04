@@ -34,6 +34,10 @@ abstract class AppStrings {
   static const noDataFound = 'Data not available';
   static const clientele = 'Clientele';
   static const clientelecontent1 = 'Trusted by 350 + companies worldwide';
+  static const synchroniseData = 'Synchronise data';
+  static const youAreOffline = 'You are offline!';
+  static const synchronisationMessage = 'Please do not close this screen. You will automatically redirect to home screen after this synchronisation completes.';
+  static const offlineInfoMessage = 'Please connect to internet to synchronize data.';
 
 // ------------------- Enquiry ---------------------
   static const indiaOfficeAddress =
@@ -54,4 +58,8 @@ abstract class AppStrings {
   static const phoneValidationMsg = 'Phone No. cannot be empty';
   static const companyNameValidationMsg = 'Company Name cannot be empty';
   static const msgValidationMsg = 'Message cannot be empty';
+
+// ------------------- Validation ---------------------
+    static const connectionTimeoutMessage = 'Unable to reach server.';
+
 }

@@ -24,8 +24,8 @@ final appTheme = ThemeData(
         fontSize: 16.0,
         fontWeight: FontWeight.normal,
         color: AppColors.textColorContent),
-    headlineSmall: TextStyle(
-        fontSize: 24.0,
+      headlineSmall: TextStyle(
+            fontSize: 24.0,
         fontWeight: FontWeight.bold,
         color: AppColors.colorSecondary),
     headlineLarge: TextStyle(

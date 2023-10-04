@@ -1,5 +1,6 @@
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_strings.dart';
+import 'package:get/get.dart';
 
 import '../presentation/enquiry/model/country_model.dart';
 
@@ -20,6 +21,7 @@ class AppConstants {
 
   /// Page limit for portfolios and case studies
   static const paginationPageLimit = 10;
+
 
   static var countryData = CountryModel(
       id: '1',

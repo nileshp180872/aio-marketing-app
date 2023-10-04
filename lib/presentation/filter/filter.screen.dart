@@ -109,7 +109,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
         ? GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 3.0,
+                childAspectRatio: 2.8,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20),
             itemBuilder: (_, index) {
@@ -129,7 +129,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
         ? GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 3.0,
+                childAspectRatio: 2.8,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20),
             itemBuilder: (_, index) {
@@ -158,7 +158,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
         ? GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 3.0,
+                childAspectRatio: 2.8,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20),
             itemBuilder: (_, index) {

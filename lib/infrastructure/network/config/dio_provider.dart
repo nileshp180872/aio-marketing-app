@@ -1,3 +1,4 @@
+import 'package:aio/config/app_strings.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -11,12 +12,10 @@ class DioProvider {
   void initialise() {
     mDio = Dio(
       BaseOptions(
-        baseUrl: NetworkConstants.kProduction,
+        baseUrl: NetworkConstants.kDevelopment,
         connectTimeout: const Duration(seconds: 3),
-        headers: {
-          if (GetIt.I<SharedPreference>().token.isNotEmpty)
-            "Authorization": "Bearer ${GetIt.I<SharedPreference>().token}",
-        },
+        receiveTimeout: const Duration(seconds: 30),
+        receiveDataWhenStatusError: true,
       ),
     );
     mDio.interceptors.add(PrettyDioLogger(
@@ -27,20 +26,43 @@ class DioProvider {
   }
 
   /// Get base API.
-  Future<Response> getBaseAPI({required String url, Map<String, dynamic>? queryParams}) async{
-    try{
-      return mDio.get(url, queryParameters: queryParams);
-    } on DioException catch(ex) {
+  Future<Response> getBaseAPI(
+      {required String url, Map<String, dynamic>? queryParams}) async {
+    try {
+      return await mDio.get(url, queryParameters: queryParams);
+    } on DioException catch (ex) {
+      if (ex.type == DioExceptionType.connectionTimeout) {
+        return Response(
+            data: AppStrings.connectionTimeoutMessage,
+            statusMessage: AppStrings.connectionTimeoutMessage,
+            statusCode: 500,
+            requestOptions: RequestOptions());
+      }
       return Response(
-          data:  ex.message, statusMessage: ex.message,statusCode: 500, requestOptions: RequestOptions());
+          data: ex.message,
+          statusMessage: ex.message,
+          statusCode: 500,
+          requestOptions: RequestOptions());
     }
   }
 
-
   /// Post base API.
-  Future<Response> postBaseAPI({required String url, dynamic data}) =>
-      mDio.post(url, data: data);
-
-  /// Delete base API.
-  Future<Response> deleteBaseAPI({required String url}) => mDio.delete(url);
+  Future<Response> postBaseAPI({required String url, dynamic data}) async {
+    try {
+      return await mDio.post(url, data: data);
+    } on DioException catch (ex) {
+      if (ex.type == DioExceptionType.connectionTimeout) {
+        return Response(
+            data: AppStrings.connectionTimeoutMessage,
+            statusMessage:  AppStrings.connectionTimeoutMessage,
+            statusCode: 500,
+            requestOptions: RequestOptions());
+      }
+      return Response(
+          data: ex.message,
+          statusMessage: ex.message,
+          statusCode: 500,
+          requestOptions: RequestOptions());
+    }
+  }
 }

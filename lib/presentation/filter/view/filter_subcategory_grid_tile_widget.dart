@@ -43,7 +43,7 @@ class FilterSubCategoryGridTileWidget extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: textTheme.headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.normal),
+                    ?.copyWith(fontWeight: FontWeight.normal, fontSize: 22),
               ),
             )
           ],

@@ -51,13 +51,14 @@ class SynchronisationScreen extends GetView<SynchronisationController>
   Widget _buildSuccessAnimationWidget() {
     return Lottie.asset(
       LottieAssets.syncAnimation,
+      animate: _controller.enableAnimation.isTrue
     );
   }
 
   /// Build synchronisation text
   Widget _buildSynchroniseText() {
     return Text(
-      "Synchronise data",
+      AppStrings.synchroniseData,
       style: _textTheme.headlineLarge,
     );
   }
@@ -65,20 +66,20 @@ class SynchronisationScreen extends GetView<SynchronisationController>
   /// Build synchronisation text
   Widget _buildNoInternetText() {
     return Text(
-      "You are offline!",
+      AppStrings.youAreOffline,
       style: _textTheme.headlineLarge,
     );
   }
 
   /// Build warning text
   Widget _buildWarningText() => Text(
-        "Please do not close this screen. You will automatically redirect to home screen after this synchronisation completes.",
+        AppStrings.synchronisationMessage,
         style: _textTheme.bodyMedium,
       );
 
   /// Build offline data text
   Widget _buildOfflineDataText() => Text(
-        "Please connect to internet to synchronize data.",
+        AppStrings.offlineInfoMessage,
         style: _textTheme.bodyMedium,
       );
 

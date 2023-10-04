@@ -97,6 +97,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         controller: _controller.nameController,
         label: AppStrings.fullNameMandatory,
         onChange: _controller.setName,
+        enableCapital: true,
         focusNode: _controller.nameFocusNode,
         onValidate: (value) {
           if (value == null || value.isEmpty) {
@@ -148,6 +149,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         label: AppStrings.companyNameMandatory,
         onChange: _controller.setCompanyName,
         focusNode: _controller.companyNameFocusNode,
+        enableCapital: true,
         onValidate: (value) {
           if (value == null || value.isEmpty) {
             return AppStrings.companyNameValidationMsg;
@@ -163,6 +165,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         controller: _controller.messageController,
         label: AppStrings.messageMandatory,
         isMultiline: true,
+        enableCapital: true,
         onChange: _controller.setMessage,
         focusNode: _controller.messageFocusNode,
         onValidate: (value) {
