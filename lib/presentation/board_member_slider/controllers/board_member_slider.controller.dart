@@ -21,6 +21,12 @@ class BoardMemberSliderController extends GetxController {
   PageController pageController =
       PageController(keepPage: true, initialPage: 0);
 
+  /// Store true if next item available from the list.
+  RxBool enableNext = false.obs;
+
+  /// Shoes previous project available from the list.
+  RxBool enablePrevious = false.obs;
+
   @override
   void onInit() {
     _prepareMembers();
@@ -44,19 +50,38 @@ class BoardMemberSliderController extends GetxController {
     }
 
     lstMembers.refresh();
+    await Future.delayed(Duration(milliseconds: 300),);
+    _checkForActionButtons();
   }
 
   /// Navigate to next page.
   void goToNextPage() {
-    pageController.nextPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.linearToEaseOut);
+    if (enableNext.isTrue) {
+      pageController.nextPage(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.linearToEaseOut);
+      _checkForActionButtons();
+    }
+  }
+
+  void onPageChange(int page){
+    _checkForActionButtons();
   }
 
   /// Navigate to previous page.
   void goToPreviousPage() {
-    pageController.previousPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.linearToEaseOut);
+    if (enablePrevious.isTrue) {
+      pageController.previousPage(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.linearToEaseOut);
+      _checkForActionButtons();
+    }
+  }
+
+  /// Enable/Disable action buttons.
+  void _checkForActionButtons() {
+    enableNext.value =( pageController.page??0).round() < lstMembers.length - 1;
+
+    enablePrevious.value = (pageController.page??0).round() > 0;
   }
 }

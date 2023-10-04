@@ -4,6 +4,7 @@ import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../config/app_colors.dart';
 import '../../config/app_values.dart';
 import '../../infrastructure/navigation/routes.dart';
 import 'controllers/board_member_slider.controller.dart';
@@ -40,16 +41,28 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
     return Row(
       children: [
         if(_controller.lstMembers.isNotEmpty)
-        InkWell(
-          onTap: _controller.goToPreviousPage,
-          child: const SizedBox(
-              width: AppValues.sideMargin,
-              child: Center(child: Icon(Icons.arrow_back_ios_new))),
-        ),
+          InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            onTap: _controller.enablePrevious.isTrue
+                ? _controller.goToPreviousPage
+                : null,
+            child: SizedBox(
+                width: AppValues.sideMargin,
+                height: AppValues.sideMargin,
+                child: Center(
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: _controller.enablePrevious.isTrue
+                          ? AppColors.colorSecondary
+                          : AppColors.colorSecondary.withOpacity(0.5),
+                    ))),
+          ),
         Expanded(
           child: _controller.lstMembers.isNotEmpty?PageView.builder(
               controller: _controller.pageController,
               itemCount: _controller.lstMembers.length,
+              onPageChanged: _controller.onPageChange,
               itemBuilder: (_, index) {
                 return MemberTileWidget(
                   memberModel: _controller.lstMembers[index],
@@ -57,12 +70,21 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
               }):_buildNoDataWidget(),
         ),
         if(_controller.lstMembers.isNotEmpty)
-        InkWell(
-          onTap: _controller.goToNextPage,
-          child: const SizedBox(
-              width: AppValues.sideMargin,
-              child: Center(child: Icon(Icons.arrow_forward_ios_rounded))),
-        ),
+          InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            onTap:
+            _controller.enableNext.isTrue ? _controller.goToNextPage : null,
+            child: SizedBox(
+                width: AppValues.sideMargin,
+                child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: _controller.enableNext.isTrue
+                          ? AppColors.colorSecondary
+                          : AppColors.colorSecondary.withOpacity(0.5),
+                    ))),
+          ),
       ],
     );
   }
