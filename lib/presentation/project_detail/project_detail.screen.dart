@@ -177,6 +177,10 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
           () => ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (_, index) {
+                if (_controller.activeImage.value ==
+                    _controller.listImages[index]) {
+                  return const SizedBox();
+                }
                 return ProjectImageTileWidget(
                   itemWidth: finalListItemWidth,
                   index: index,

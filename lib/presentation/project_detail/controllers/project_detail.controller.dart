@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
+import '../../../infrastructure/db/schema/portfolio_images.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
@@ -123,9 +124,10 @@ class ProjectDetailController extends GetxController {
           await _dbHelper.getPortfolioTechnologies(id: _projectId);
 
       // fetch current portfolio technologies.
-      final projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
-
-      Get.log("projectImages ${projectImages.length}");
+      List<PortfolioImages> projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
+      if(projectImages.length>4){
+        projectImages = projectImages.sublist(0,4);
+      }
       images.value =
           projectImages.map((e) => e.portfolioImagePath ?? "").toList();
     } else {
@@ -146,10 +148,6 @@ class ProjectDetailController extends GetxController {
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
 
-    images.value.forEach((element) {
-      Get.log("emages ${element}");
-    });
-
     activeImage.value = images.isNotEmpty ? images.first : "";
     if (images.length > 1) {
       listImages = images..removeAt(0);
@@ -157,6 +155,10 @@ class ProjectDetailController extends GetxController {
       listImages = images;
     }
     listImages.refresh();
+
+    if(listImages.isNotEmpty) {
+      onSelectImage(0);
+    }
   }
 
   /// Change currently visible image index.
@@ -164,7 +166,7 @@ class ProjectDetailController extends GetxController {
     var imageData = activeImage.value;
     activeImage.value = listImages.elementAt(index);
     listImages.remove(listImages[index]);
-    listImages.add(imageData);
+    listImages.insert(index, imageData);
     listImages.refresh();
     update();
   }
