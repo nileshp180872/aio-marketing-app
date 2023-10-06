@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:aio/infrastructure/network/network_constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../config/app_assets.dart';
 
@@ -13,17 +15,21 @@ class ProjectImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final file = File(imageURL);
     if(imageURL.isEmpty){
-      return Image.asset(AppAssets.kNoImage);
-    }else if (imageURL.contains("com.tridhyatech.aio/app_flutter/")) {
+      return _buildNoImage();
+    }else if (file.existsSync()) {
       return _buildFileImage();
     } else {
       return _buildNetworkImage();
     }
   }
 
+  Widget _buildNoImage() =>Image.asset(AppAssets.kNoImage);
   Widget _buildNetworkImage() {
-    return Image.network("${NetworkConstants.kImageBasePath}$imageURL",  fit: BoxFit.cover,);
+    return CachedNetworkImage(imageUrl:"${NetworkConstants.kImageBasePath}$imageURL",
+      errorWidget: (_,__,___)=>_buildNoImage(),
+      fit: BoxFit.cover,);
   }
 
   Widget _buildFileImage() {

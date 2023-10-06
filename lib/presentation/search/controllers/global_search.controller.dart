@@ -81,8 +81,8 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
   /// Get data depend on [_portfolioEnum].
   void _getAllDataFromDb(int pageKey) {
     Future.wait<List<dynamic>>([
-      _dbHelper.getPortfolioBySearch(pageKey, search: _search),
-      _dbHelper.getCaseStudyBySearch(pageKey, search: _search),
+      _dbHelper.getPortfolioBySearch(pageKey-1, search: _search),
+      _dbHelper.getCaseStudyBySearch(pageKey-1, search: _search),
     ]).then((value) {
       if (value.isNotEmpty) {
         try {
@@ -115,7 +115,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
           if (isLastPage) {
             pagingController.appendLastPage(projectList);
           } else {
-            final nextPageKey = pageKey + 1;
+            final nextPageKey = pageKey + AppConstants.paginationPageLimit;
             pagingController.appendPage(projectList, nextPageKey);
           }
         } catch (ex) {
