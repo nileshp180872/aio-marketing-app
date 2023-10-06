@@ -9,9 +9,9 @@ import 'package:aio/infrastructure/db/schema/leadership.dart';
 import 'package:aio/infrastructure/db/schema/portfolio.dart';
 import 'package:aio/infrastructure/db/schema/portfolio_images.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:synchronized/synchronized.dart';
@@ -94,6 +94,10 @@ class SynchronisationController extends GetxController {
           );
         });
       }).then((value) {
+        var now = DateTime.now();
+        var formatter = DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(now);
+        GetIt.I<SharedPreference>().setLastDbSyncDate(formattedDate);
         Get.offAllNamed(Routes.HOME);
       });
     } else {

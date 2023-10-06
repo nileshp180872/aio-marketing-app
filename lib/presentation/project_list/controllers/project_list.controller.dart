@@ -206,7 +206,11 @@ class ProjectListController extends GetxController with AppLoadingMixin {
 
   /// Get portfolio API.
   Future<void> _getPortfolios(int pageKey) async {
-    final response = await _provider.getAllPortfolios(offset: pageKey);
+    final response = await _provider.getAllPortfolios(
+        offset: pageKey,
+        technologies: filterModel.technologies,
+        screens: filterModel.platform,
+        domains: filterModel.domains);
     if (response.data != null) {
       if (response.statusCode == 200) {
         _portfolioAPISuccess(response, pageKey);
@@ -241,7 +245,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
                 networkImages: images,
                 overView: element.domainName,
                 description: element.description,
-                technologies: technologies.join(","),
+                technologies: technologies.join(", "),
                 viewType: AppConstants.portfolio);
             newItems.add(model);
           } catch (ex) {
@@ -254,7 +258,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           final nextPageKey = pageKey + 1;
           pagingController.appendPage(newItems, nextPageKey);
         }
-      }else{
+      } else {
         pagingController.appendLastPage([]);
       }
     } catch (ex) {
@@ -264,9 +268,12 @@ class ProjectListController extends GetxController with AppLoadingMixin {
 
   /// Get case studies API.
   Future<void> _getCaseStudies(int pageKey) async {
-    try{
+    try {
       showLoading();
-      final response = await _provider.getCaseStudies(offset: pageKey);
+      final response = await _provider.getCaseStudies(
+          offset: pageKey,
+          domains: filterModel.domains,
+          technologies: filterModel.technologies);
       hideLoading();
       if (response.data != null) {
         if (response.statusCode == 200) {
@@ -274,10 +281,10 @@ class ProjectListController extends GetxController with AppLoadingMixin {
         } else {
           _domainAPIError(response);
         }
-      }else{
+      } else {
         pagingController.appendLastPage([]);
       }
-    }catch(ex){
+    } catch (ex) {
       pagingController.error = ex.toString();
       hideLoading();
     }
@@ -320,7 +327,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           final nextPageKey = pageKey + 1;
           pagingController.appendPage(newItems, nextPageKey);
         }
-      }else{
+      } else {
         pagingController.appendLastPage([]);
       }
     } catch (ex) {

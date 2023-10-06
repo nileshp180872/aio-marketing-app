@@ -57,7 +57,7 @@ class FilterController extends GetxController {
   }
 
   /// Receive arguments from previous screen.
-  void _getArguments() {
+  void _getArguments() async {
     if (Get.arguments != null) {
       portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
@@ -67,17 +67,21 @@ class FilterController extends GetxController {
         lstSectionCategory
             .removeWhere((element) => element == AppStrings.mobileWeb);
       } else {
-        _prepareMobileWeb();
+        if (await Utils.isConnected()) {
+          await _getPlatforms();
+        } else {
+          _prepareMobileWeb();
+        }
       }
-
-      _prepareDomains();
-      _prepareTechnologies();
-
+      if (await Utils.isConnected()) {
+        await _getDomains();
+        await _getTechnologies();
+      } else {
+        _prepareDomains();
+        _prepareTechnologies();
+      }
       final isFilterApplied =
           Get.arguments[RouteArguments.filterApplied] ?? false;
-
-      Get.log(
-          "check ${((Get.arguments[RouteArguments.filterData]) as FilterMenu).platform.length}");
 
       if (isFilterApplied) {
         Future.delayed(const Duration(milliseconds: 50), () {

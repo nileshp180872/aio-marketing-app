@@ -162,8 +162,12 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
 
   /// Get portfolio API.
   Future<List<ProjectListModel>> _getPortfolios(int pageKey) async {
-    final response =
-        await _provider.getAllPortfolios(offset: pageKey, search: _search);
+    final response = await _provider.getAllPortfolios(
+        offset: pageKey,
+        search: _search,
+        technologies: [],
+        domains: [],
+        screens: []);
     if (response.data != null) {
       if (response.statusCode == 200) {
         return await _portfolioAPISuccess(response, pageKey);
@@ -238,11 +242,17 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
             final images = (element.imageMapping ?? [])
                 .map((e) => e.portfolioImage ?? "")
                 .toList();
+            final technologies = (element.techMapping ?? [])
+                .map((e) => e.techName ?? "")
+                .toList();
             final model = ProjectListModel(
                 id: element.portfolioID,
                 projectName: element.projectName,
                 networkImages: images,
-                viewType: AppConstants.caseStudy);
+                overView: element.domainName,
+                description: element.description,
+                technologies: technologies.join(","),
+                viewType: AppConstants.portfolio);
             newItems.add(model);
           } catch (ex) {
             logger.e(ex);
@@ -259,8 +269,8 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
 
   /// Get case studies API.
   Future<List<ProjectListModel>> _getCaseStudies(int pageKey) async {
-    final response =
-        await _provider.getCaseStudies(offset: pageKey, search: _search);
+    final response = await _provider.getCaseStudies(
+        offset: pageKey, search: _search, domains: [], technologies: []);
     if (response.data != null) {
       if (response.statusCode == 200) {
         return await _caseStudyAPISuccess(response, pageKey);
@@ -286,9 +296,15 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
             final images = (element.imageMapping ?? [])
                 .map((e) => e.casestudiesImage ?? "")
                 .toList();
+            final technologies = (element.techMapping ?? [])
+                .map((e) => e.techName ?? "")
+                .toList();
             final model = ProjectListModel(
                 id: element.casestudiesID,
                 projectName: element.projectName,
+                overView: element.domainName,
+                description: element.description,
+                technologies: technologies.join(","),
                 networkImages: images,
                 viewType: AppConstants.caseStudy);
             newItems.add(model);
