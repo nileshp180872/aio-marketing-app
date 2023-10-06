@@ -325,16 +325,6 @@ mixin DbConfig {
         growable: true);
   }
 
-  // Return first row matched by portfolioId returned as a list of maps, where each map is
-  // a key-value list of columns.
-  Future<List<Portfolio>> getPortfolioByOffset({required int offset}) async {
-    final List<Map<String, dynamic>> result = await _db
-        .rawQuery("SELECT portfolio.* FROM portfolio OFFSET $offset LIMIT 1;");
-
-    return List<Portfolio>.generate(
-        result.length, (index) => Portfolio.fromJson(result[index]),
-        growable: true);
-  }
 
   //delete all the rows from the table.
   Future<int> truncateTable(String tableName) async {

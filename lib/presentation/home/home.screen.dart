@@ -153,7 +153,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
     );
   }
 
-  /// Build overlay widget
+  /*/// Build overlay widget
   Widget _buildOverlayContainer() {
     return Container(
       child: Row(
@@ -163,7 +163,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
         ],
       ),
     );
-  }
+  }*/
 
   /// Build overlay left side of the screen.
   Widget _buildOverlayLeftSide() {
