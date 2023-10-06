@@ -558,11 +558,20 @@ class SynchronisationController extends GetxController {
           if ((element.imageMapping ?? []).isNotEmpty) {
             leaderImage = (element.imageMapping ?? []).first.leaderImage ?? "";
           }
+          final fileName = (leaderImage ?? "").split(".")[0];
+
+          final imagePath = leaderImage.isNotEmpty
+              ? await getImageFilePath(
+                  '${NetworkConstants.kImageBasePath}${leaderImage}',
+                  "leaders",
+                  fileName,
+                )
+              : "";
           final model = Leadership(
               leaderId: element.leadershipID,
               description: element.description,
               leaderName: element.leaderNAME,
-              image: leaderImage,
+              image: imagePath,
               designation: element.designation);
           await _dbHelper.addToLeaders(model);
         } catch (ex) {
@@ -577,18 +586,7 @@ class SynchronisationController extends GetxController {
   /// required [response] response.
   void _domainAPIError(dio.Response response) {
     enableAnimation.value = false;
-    final snackBar = SnackBar(
-      elevation: 4,
-      duration: const Duration(seconds: 5),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.red,
-      content: Text(response.statusMessage ?? ""),
-    );
-
-    ScaffoldMessenger.of(Get.context!)
-      ..hideCurrentSnackBar()
-      ..clearSnackBars()
-      ..showSnackBar(snackBar);
+    Utils.showErrorMessage(message: response.statusMessage ?? "");
   }
 
   /// Synchronize enquiry with server.
@@ -621,7 +619,7 @@ class SynchronisationController extends GetxController {
 
   /// on back.
   void onGetBack() {
-    Get.back();
+    Get.offAllNamed(Routes.HOME);
   }
 
   /// Return image full path from device storage.

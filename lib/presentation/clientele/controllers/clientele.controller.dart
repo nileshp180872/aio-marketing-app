@@ -8,78 +8,79 @@ import '../../../infrastructure/db/clientdata.dart';
 class ClientteleCotroller extends GetxController {
   /// screen title
   RxString screenTitle = AppStrings.clientele.obs;
-  List<ClientData> clientList  = [];
+  List<ClientData> clientList = [];
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-   addClientData();
-
+    addClientData();
   }
 
   void addClientData() {
-
     ClientData clientMahindra = new ClientData();
-    clientMahindra.name="mahindra";
-    clientMahindra.logo=ClientAssets.client7;
+    clientMahindra.name = "mahindra";
+    clientMahindra.logo = ClientAssets.client7;
     clientList.add(clientMahindra);
 
     ClientData clientTrianz = new ClientData();
-    clientTrianz.name="trianz";
-    clientTrianz.logo=ClientAssets.client2;
+    clientTrianz.name = "trianz";
+    clientTrianz.logo = ClientAssets.client2;
     clientList.add(clientTrianz);
 
     ClientData clientGacl = new ClientData();
-    clientGacl.name="gacl";
-    clientGacl.logo=ClientAssets.client3;
+    clientGacl.name = "gacl";
+    clientGacl.logo = ClientAssets.client3;
     clientList.add(clientGacl);
 
     ClientData clientKotak = new ClientData();
-    clientKotak.name="kotak";
-    clientKotak.logo=ClientAssets.client4;
+    clientKotak.name = "kotak";
+    clientKotak.logo = ClientAssets.client4;
     clientList.add(clientKotak);
 
     ClientData clientYaskava = new ClientData();
-    clientYaskava.name="yaskava";
-    clientYaskava.logo=ClientAssets.client5;
+    clientYaskava.name = "yaskava";
+    clientYaskava.logo = ClientAssets.client5;
     clientList.add(clientYaskava);
 
     ClientData clientLT = new ClientData();
-    clientLT.name="LT";
-    clientLT.logo=ClientAssets.client6;
+    clientLT.name = "LT";
+    clientLT.logo = ClientAssets.client6;
     clientList.add(clientLT);
 
     ClientData clientOrix = new ClientData();
-    clientOrix.name="orix";
-    clientOrix.logo=ClientAssets.client1;
+    clientOrix.name = "orix";
+    clientOrix.logo = ClientAssets.client1;
     clientList.add(clientOrix);
 
-
     ClientData clientPetronas = new ClientData();
-    clientPetronas.name="petronas";
-    clientPetronas.logo=ClientAssets.client8;
+    clientPetronas.name = "petronas";
+    clientPetronas.logo = ClientAssets.client8;
     clientList.add(clientPetronas);
 
-    ClientData clientPuma = new ClientData();
-    clientPuma.name="puma";
-    clientPuma.logo=ClientAssets.client9;
-    clientList.add(clientPuma);
+    clientList.add(ClientData(logo: ClientAssets.client18, name: "adityabirla"));
 
     ClientData clientBirla = new ClientData();
-    clientBirla.name="birla";
-    clientBirla.logo=ClientAssets.client10;
+    clientBirla.name = "birla";
+    clientBirla.logo = ClientAssets.client10;
     clientList.add(clientBirla);
 
     ClientData clientPeugoet = new ClientData();
-    clientPeugoet.name="peugoet";
-    clientPeugoet.logo=ClientAssets.client11;
+    clientPeugoet.name = "peugoet";
+    clientPeugoet.logo = ClientAssets.client11;
     clientList.add(clientPeugoet);
 
     ClientData clientTechMahindra = new ClientData();
-    clientTechMahindra.name="techmahindra";
-    clientTechMahindra.logo=ClientAssets.client12;
+    clientTechMahindra.name = "techmahindra";
+    clientTechMahindra.logo = ClientAssets.client12;
     clientList.add(clientTechMahindra);
+
+    clientList.add(ClientData(logo: ClientAssets.client13, name: "maxlife"));
+    clientList.add(ClientData(logo: ClientAssets.client14, name: "ey"));
+    clientList.add(ClientData(logo: ClientAssets.client15, name: "magmaHDI"));
+    clientList.add(ClientData(logo: ClientAssets.client16, name: "foreglimpse"));
+    clientList.add(ClientData(logo: ClientAssets.client17, name: "light"));
+    clientList.add(ClientData(logo: ClientAssets.client9, name: "puma"));
 
   }
 }

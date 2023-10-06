@@ -1,6 +1,9 @@
 import 'package:aio/config/app_constants.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
+import 'package:aio/infrastructure/network/model/portfolio_response.dart';
 import 'package:aio/utils/app_loading.mixin.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -11,9 +14,12 @@ import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/case_study.dart';
 import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../../infrastructure/navigation/routes.dart';
+import '../../../infrastructure/network/model/case_studies_response.dart';
+import '../../../utils/utils.dart';
 import '../../filter/model/filter_menu.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../model/project_list_model.dart';
+import '../provider/project_list.provider.dart';
 
 class ProjectListController extends GetxController with AppLoadingMixin {
   /// Screen viewing type enum
@@ -24,6 +30,9 @@ class ProjectListController extends GetxController with AppLoadingMixin {
 
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
+
+  /// Provider
+  final _provider = ProjectListProvider();
 
   /// Filter applied
   RxBool filterApplied = false.obs;
@@ -39,7 +48,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
 
   /// Paged view
   final PagingController<int, ProjectListModel> pagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 1);
 
   @override
   void onInit() {
@@ -70,7 +79,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   }
 
   /// Prepare portfolio
-  void _preparePortfolio(int pageKey) async {
+  void _preparePortfolioFromDb(int pageKey) async {
     String strSelectedDomains = "";
     String strSelectedScreens = "";
     String strSelectedTechnologies = "";
@@ -106,7 +115,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   }
 
   /// Prepare case study
-  void _prepareCaseStudy(int pageKey) async {
+  void _prepareCaseStudyFromDb(int pageKey) async {
     String strSelectedDomains = "";
     String strSelectedTechnologies = "";
     if (filterApplied.value) {
@@ -170,8 +179,6 @@ class ProjectListController extends GetxController with AppLoadingMixin {
     final selectedPlatforms = filterModel.platform;
     final selectedTechnologies = filterModel.technologies;
 
-    Get.log("selectedDomains ${selectedDomains.length}");
-
     filterApplied.value = selectedDomains.isNotEmpty ||
         selectedTechnologies.isNotEmpty ||
         selectedPlatforms.isNotEmpty;
@@ -180,12 +187,164 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   }
 
   /// Get data depend on [_portfolioEnum].
-  void _getAllData(int pageKey) {
+  void _getAllData(int pageKey) async {
+    final isNetwork = await Utils.isConnected();
     if (_portfolioEnum == PortfolioEnum.PORTFOLIO) {
-      _preparePortfolio(pageKey);
+      if (isNetwork) {
+        _getPortfolios(pageKey);
+      } else {
+        _preparePortfolioFromDb(pageKey);
+      }
     } else {
-      _prepareCaseStudy(pageKey);
+      if (isNetwork) {
+        _getCaseStudies(pageKey);
+      } else {
+        _prepareCaseStudyFromDb(pageKey);
+      }
     }
+  }
+
+  /// Get portfolio API.
+  Future<void> _getPortfolios(int pageKey) async {
+    final response = await _provider.getAllPortfolios(offset: pageKey);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _portfolioAPISuccess(response, pageKey);
+      } else {
+        _domainAPIError(response);
+      }
+    }
+  }
+
+  /// Portfolio API success
+  ///
+  /// required [response] response.
+  void _portfolioAPISuccess(dio.Response response, int pageKey) async {
+    try {
+      final leadershipResponse = PortfolioResponse.fromJson(response.data);
+      if ((leadershipResponse.data ?? []).isNotEmpty) {
+        List<ProjectListModel> newItems = [];
+        final isLastPage = (leadershipResponse.data ?? []).length <
+            AppConstants.paginationPageLimit;
+        (leadershipResponse.data ?? []).forEach((element) async {
+          try {
+            final images = (element.imageMapping ?? [])
+                .map((e) => e.portfolioImage ?? "")
+                .toList();
+
+            final technologies = (element.techMapping ?? [])
+                .map((e) => e.techName ?? "")
+                .toList();
+            final model = ProjectListModel(
+                id: element.portfolioID,
+                projectName: element.projectName,
+                networkImages: images,
+                overView: element.domainName,
+                description: element.description,
+                technologies: technologies.join(","),
+                viewType: AppConstants.portfolio);
+            newItems.add(model);
+          } catch (ex) {
+            logger.e(ex);
+          }
+        });
+        if (isLastPage) {
+          pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(newItems, nextPageKey);
+        }
+      }else{
+        pagingController.appendLastPage([]);
+      }
+    } catch (ex) {
+      pagingController.error = ex;
+    }
+  }
+
+  /// Get case studies API.
+  Future<void> _getCaseStudies(int pageKey) async {
+    try{
+      showLoading();
+      final response = await _provider.getCaseStudies(offset: pageKey);
+      hideLoading();
+      if (response.data != null) {
+        if (response.statusCode == 200) {
+          _caseStudyAPISuccess(response, pageKey);
+        } else {
+          _domainAPIError(response);
+        }
+      }else{
+        pagingController.appendLastPage([]);
+      }
+    }catch(ex){
+      pagingController.error = ex.toString();
+      hideLoading();
+    }
+  }
+
+  /// Portfolio API success
+  ///
+  /// required [response] response.
+  void _caseStudyAPISuccess(dio.Response response, int pageKey) async {
+    try {
+      final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
+      if ((leadershipResponse.data ?? []).isNotEmpty) {
+        List<ProjectListModel> newItems = [];
+        final isLastPage = (leadershipResponse.data ?? []).length <
+            AppConstants.paginationPageLimit;
+        (leadershipResponse.data ?? []).forEach((element) async {
+          try {
+            final images = (element.imageMapping ?? [])
+                .map((e) => e.casestudiesImage ?? "")
+                .toList();
+            final technologies = (element.techMapping ?? [])
+                .map((e) => e.techName ?? "")
+                .toList();
+            final model = ProjectListModel(
+                id: element.casestudiesID,
+                projectName: element.projectName,
+                networkImages: images,
+                overView: element.domainName,
+                description: element.description,
+                technologies: technologies.join(","),
+                viewType: AppConstants.caseStudy);
+            newItems.add(model);
+          } catch (ex) {
+            logger.e(ex);
+          }
+        });
+        if (isLastPage) {
+          pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(newItems, nextPageKey);
+        }
+      }else{
+        pagingController.appendLastPage([]);
+      }
+    } catch (ex) {
+      pagingController.error = ex;
+    }
+  }
+
+  /// Domain error
+  ///
+  /// required [response] response.
+  void _domainAPIError(dio.Response response) {
+    pagingController.appendLastPage([]);
+    final snackBar = SnackBar(
+      elevation: 4,
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      content: Text(response.statusMessage ?? ""),
+    );
+
+    ScaffoldMessenger.of(Get.context!)
+      ..hideCurrentSnackBar()
+      ..clearSnackBars()
+      ..showSnackBar(snackBar);
   }
 }
 

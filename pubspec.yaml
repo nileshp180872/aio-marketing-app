@@ -77,6 +77,10 @@ dependencies:
   # Launch URL in the browser
   url_launcher: ^6.1.14
 
+  # Cached network image
+  cached_network_image: ^3.3.0
+
+
   flutter:
     sdk: flutter
 

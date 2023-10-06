@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_values.dart';
+import '../../project_detail/view/project_image_widget.dart';
 import '../model/member_model.dart';
 
 class MemberTileWidget extends StatelessWidget {
@@ -33,10 +34,10 @@ class MemberTileWidget extends StatelessWidget {
       height: AppValues.memberHeight,
       width: double.infinity,
       color: AppColors.colorSecondary.withOpacity(0.15),
-      padding: const EdgeInsets.only(top: 44, left: 40, right: 40),
-      child: Image.asset(
-        'assets/images/team_image.png',
-        fit: BoxFit.fitHeight,
+      padding: const EdgeInsets.all(AppValues.size_8),
+      child: ProjectImageWidget(
+        imageURL: memberModel.leaderImage ?? "",
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -47,16 +48,15 @@ class MemberTileWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildMemberNameText(title: memberModel.memberName??""),
+          _buildMemberNameText(title: memberModel.memberName ?? ""),
           const SizedBox(
             height: 4,
           ),
-          _buildDesignationText(title: memberModel.position??""),
+          _buildDesignationText(title: memberModel.position ?? ""),
           const SizedBox(
             height: 24,
           ),
-          _buildContentText(
-              content:memberModel.introduction??""),
+          _buildContentText(content: memberModel.introduction ?? ""),
         ],
       ),
     );

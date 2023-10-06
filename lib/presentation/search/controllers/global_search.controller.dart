@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:aio/infrastructure/db/schema/case_study.dart';
-import 'package:aio/presentation/project_detail/controllers/project_detail.controller.dart';
+import 'package:aio/utils/app_loading.mixin.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -13,11 +14,18 @@ import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/portfolio.dart';
 import '../../../infrastructure/navigation/route_arguments.dart';
 import '../../../infrastructure/navigation/routes.dart';
+import '../../../infrastructure/network/model/case_studies_response.dart';
+import '../../../infrastructure/network/model/portfolio_response.dart';
+import '../../../utils/utils.dart';
 import '../../project_list/model/project_list_model.dart';
+import '../../project_list/provider/project_list.provider.dart';
 
-class GlobalSearchController extends GetxController {
+class GlobalSearchController extends GetxController with AppLoadingMixin {
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
+
+  /// Provider
+  final _provider = ProjectListProvider();
 
   /// Search controller
   TextEditingController searchController = TextEditingController();
@@ -39,7 +47,7 @@ class GlobalSearchController extends GetxController {
 
   /// Paged view
   final PagingController<int, ProjectListModel> pagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 1);
 
   /// logger
   final logger = Logger();
@@ -48,18 +56,30 @@ class GlobalSearchController extends GetxController {
   void onInit() {
     _dbHelper = GetIt.I<DatabaseHelper>();
     _addPageViewListener();
+    _initialiseFields();
     super.onInit();
+  }
+
+  /// Initialise fields
+  void _initialiseFields() {
+    hideLoading();
+    pagingController.appendLastPage([]);
+    searchFocusNode.requestFocus();
   }
 
   /// Add page view listener
   void _addPageViewListener() {
-    pagingController.addPageRequestListener((pageKey) {
-      _getAllData(pageKey);
+    pagingController.addPageRequestListener((pageKey) async {
+      if (await Utils.isConnected()) {
+        _getAllDataFromNetwork(pageKey);
+      } else {
+        _getAllDataFromDb(pageKey);
+      }
     });
   }
 
   /// Get data depend on [_portfolioEnum].
-  void _getAllData(int pageKey) {
+  void _getAllDataFromDb(int pageKey) {
     Future.wait<List<dynamic>>([
       _dbHelper.getPortfolioBySearch(pageKey, search: _search),
       _dbHelper.getCaseStudyBySearch(pageKey, search: _search),
@@ -95,7 +115,36 @@ class GlobalSearchController extends GetxController {
           if (isLastPage) {
             pagingController.appendLastPage(projectList);
           } else {
-            final nextPageKey = pageKey + projectList.length;
+            final nextPageKey = pageKey + 1;
+            pagingController.appendPage(projectList, nextPageKey);
+          }
+        } catch (ex) {
+          logger.e(ex);
+        }
+      } else {
+        pagingController.appendLastPage([]);
+      }
+    });
+  }
+
+  /// Get data depend on [_portfolioEnum].
+  void _getAllDataFromNetwork(int pageKey) {
+    Future.wait<List<ProjectListModel>>([
+      _getPortfolios(pageKey),
+      _getCaseStudies(pageKey),
+    ]).then((value) {
+      if (value.isNotEmpty) {
+        try {
+          List<ProjectListModel> projectList = [];
+          projectList.addAll(value[0]);
+          projectList.addAll(value.length > 1 ? value[1] : []);
+          final isLastPage =
+              projectList.length < (AppConstants.paginationPageLimit);
+
+          if (isLastPage) {
+            pagingController.appendLastPage(projectList);
+          } else {
+            final nextPageKey = pageKey + 1;
             pagingController.appendPage(projectList, nextPageKey);
           }
         } catch (ex) {
@@ -109,6 +158,39 @@ class GlobalSearchController extends GetxController {
   void onClose() {
     searchOnStoppedTyping?.cancel();
     super.onClose();
+  }
+
+  /// Get portfolio API.
+  Future<List<ProjectListModel>> _getPortfolios(int pageKey) async {
+    final response =
+        await _provider.getAllPortfolios(offset: pageKey, search: _search);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        return await _portfolioAPISuccess(response, pageKey);
+      } else {
+        _domainAPIError(response);
+        return [];
+      }
+    }
+    return [];
+  }
+
+  /// Domain error
+  ///
+  /// required [response] response.
+  void _domainAPIError(dio.Response response) {
+    final snackBar = SnackBar(
+      elevation: 4,
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      content: Text(response.statusMessage ?? ""),
+    );
+
+    ScaffoldMessenger.of(Get.context!)
+      ..hideCurrentSnackBar()
+      ..clearSnackBars()
+      ..showSnackBar(snackBar);
   }
 
   /// Set user searchable input
@@ -126,6 +208,7 @@ class GlobalSearchController extends GetxController {
 
   /// Search data based on user input.
   void _searchDataBasedOnUserInput(String search) async {
+    Get.log("search $_search");
     pagingController.refresh();
   }
 
@@ -139,5 +222,85 @@ class GlobalSearchController extends GetxController {
       RouteArguments.index: index,
       RouteArguments.projectList: pagingController.itemList,
     });
+  }
+
+  /// Portfolio API success
+  ///
+  /// required [response] response.
+  Future<List<ProjectListModel>> _portfolioAPISuccess(
+      dio.Response response, int pageKey) async {
+    try {
+      final leadershipResponse = PortfolioResponse.fromJson(response.data);
+      if ((leadershipResponse.data ?? []).isNotEmpty) {
+        List<ProjectListModel> newItems = [];
+        (leadershipResponse.data ?? []).forEach((element) async {
+          try {
+            final images = (element.imageMapping ?? [])
+                .map((e) => e.portfolioImage ?? "")
+                .toList();
+            final model = ProjectListModel(
+                id: element.portfolioID,
+                projectName: element.projectName,
+                networkImages: images,
+                viewType: AppConstants.caseStudy);
+            newItems.add(model);
+          } catch (ex) {
+            logger.e(ex);
+          }
+        });
+        return newItems;
+      }
+    } catch (ex) {
+      pagingController.error = ex;
+      return [];
+    }
+    return [];
+  }
+
+  /// Get case studies API.
+  Future<List<ProjectListModel>> _getCaseStudies(int pageKey) async {
+    final response =
+        await _provider.getCaseStudies(offset: pageKey, search: _search);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        return await _caseStudyAPISuccess(response, pageKey);
+      } else {
+        _domainAPIError(response);
+        return [];
+      }
+    }
+    return [];
+  }
+
+  /// Portfolio API success
+  ///
+  /// required [response] response.
+  Future<List<ProjectListModel>> _caseStudyAPISuccess(
+      dio.Response response, int pageKey) async {
+    try {
+      final leadershipResponse = CaseStudiesResponse.fromJson(response.data);
+      if ((leadershipResponse.data ?? []).isNotEmpty) {
+        List<ProjectListModel> newItems = [];
+        (leadershipResponse.data ?? []).forEach((element) async {
+          try {
+            final images = (element.imageMapping ?? [])
+                .map((e) => e.casestudiesImage ?? "")
+                .toList();
+            final model = ProjectListModel(
+                id: element.casestudiesID,
+                projectName: element.projectName,
+                networkImages: images,
+                viewType: AppConstants.caseStudy);
+            newItems.add(model);
+          } catch (ex) {
+            logger.e(ex);
+          }
+        });
+        return newItems;
+      }
+    } catch (ex) {
+      pagingController.error = ex;
+    }
+    return [];
   }
 }

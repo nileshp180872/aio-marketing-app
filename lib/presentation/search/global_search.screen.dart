@@ -21,20 +21,23 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          buildCustomAppBarWithChild(
-              child: _buildHeaderRow(), enableSearch: false),
-          Expanded(
-            child: PaginationProjectGridWidget(
-                    pagingController: _controller.pagingController,
-                    onClick: _controller.onProjectClick,
-                    isForSearch: true)
-                .marginSymmetric(
-                    horizontal: AppValues.sideMargin,
-                    vertical: AppValues.size_30),
-          ),
-        ],
+      body: Obx(
+        () => Column(
+          children: [
+            buildCustomAppBarWithChild(
+                child: _buildHeaderRow(), enableSearch: false),
+            Expanded(
+              child: PaginationProjectGridWidget(
+                      pagingController: _controller.pagingController,
+                      onClick: _controller.onProjectClick,
+                      isLoading: _controller.isLoading,
+                      isForSearch: true)
+                  .marginSymmetric(
+                      horizontal: AppValues.sideMargin,
+                      vertical: AppValues.size_30),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -78,12 +81,10 @@ class GlobalSearchScreen extends GetView<GlobalSearchController>
       textInputAction: TextInputAction.search,
       onFieldSubmitted: (_) {},
       decoration: InputDecoration(
-
         hintText: AppStrings.searchInputText,
         alignLabelWithHint: true,
         counter: Container(),
         hintStyle: textStyle,
-
       ),
     );
   }

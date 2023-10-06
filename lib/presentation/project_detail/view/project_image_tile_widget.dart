@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:aio/presentation/project_detail/view/project_image_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/app_colors.dart';
@@ -25,9 +24,10 @@ class ProjectImageTileWidget extends StatelessWidget {
         width: itemWidth,
         height: 100,
         decoration: BoxDecoration(
-            color: AppColors.colorSecondary.withOpacity(0.15),),
-        padding: const EdgeInsets.all(16),
-        child: Image.file(File(imagePath)),
+          color: AppColors.colorSecondary.withOpacity(0.15),
+        ),
+        padding: const EdgeInsets.all(4),
+        child: ProjectImageWidget(imageURL: imagePath),
       ),
     );
   }

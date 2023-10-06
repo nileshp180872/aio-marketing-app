@@ -43,4 +43,6 @@ abstract class NetworkParams {
   static const startDate = "startDate";
   static const endDate = "endDate";
   static const limit = "limit";
+  static const page = "page";
+  static const searchKey = "searchKey";
 }

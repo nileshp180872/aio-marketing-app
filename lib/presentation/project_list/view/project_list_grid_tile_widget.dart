@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_constants.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,7 @@ class ProjectListGridTileWidget extends StatelessWidget {
             badgeContent: Text(
                 projectListModel.viewType == AppConstants.portfolio ? 'P' : 'C',
                 style: _textTheme.bodyMedium?.copyWith(color: Colors.white)),
-            position: badges.BadgePosition.topEnd(top:8,end: 10),
+            position: badges.BadgePosition.topEnd(top: 8, end: 10),
             child: cardData(),
           )
         : cardData();
@@ -57,18 +58,9 @@ class ProjectListGridTileWidget extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: (projectListModel.projectImage ?? "").isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.file(
-                        File(projectListModel.projectImage ?? ""),
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : Image.asset(
-                      AppAssets.kNoImage,
-                      fit: BoxFit.cover,
-                    ),
+              child: (projectListModel.networkImages ?? []).isNotEmpty
+                  ? _buildNetworkImage()
+                  : buildFileImage(),
             ),
             Container(
               width: double.infinity,
@@ -86,5 +78,26 @@ class ProjectListGridTileWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Return widget of image.
+  Widget _buildNetworkImage() {
+    return Image.network(
+        "${NetworkConstants.kImageBasePath}${projectListModel.networkImages?.first ?? ""}");
+  }
+
+  Widget buildFileImage() {
+    return (projectListModel.projectImage ?? "").isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.file(
+              File(projectListModel.projectImage ?? ""),
+              fit: BoxFit.cover,
+            ),
+          )
+        : Image.asset(
+            AppAssets.kNoImage,
+            fit: BoxFit.cover,
+          );
   }
 }

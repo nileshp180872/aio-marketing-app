@@ -15,5 +15,5 @@ class SplashController extends GetxController {
   }
 
   /// Navigate to home
-  void _navigateToHome() => Get.offAllNamed(Routes.HOME);
+  void _navigateToHome() => Get.offAllNamed(Routes.SYNCHRONISATION);
 }

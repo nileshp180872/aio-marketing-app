@@ -1,4 +1,4 @@
-class ProjectListModel{
+class ProjectListModel {
   String? projectName;
   String? id;
   int? autoIncrementId;
@@ -6,8 +6,17 @@ class ProjectListModel{
   String? overView;
   String? description;
   String? projectImage;
+  List<String>? networkImages;
   int? viewType;
 
   ProjectListModel(
-      {this.id,this.autoIncrementId,this.viewType,this.projectName,this.projectImage, this.technologies, this.overView, this.description});
+      {this.id,
+      this.autoIncrementId,
+      this.viewType,
+      this.projectName,
+      this.projectImage,
+      this.networkImages,
+      this.technologies,
+      this.overView,
+      this.description});
 }

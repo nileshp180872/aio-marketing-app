@@ -1,4 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:aio/config/app_strings.dart';
+import 'package:aio/utils/app_loading.mixin.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -6,13 +9,17 @@ import 'package:logger/logger.dart';
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/enquiry.dart';
 import '../../../utils/utils.dart';
+import '../provider/enquiry.provider.dart';
 
-class EnquiryController extends GetxController {
+class EnquiryController extends GetxController with AppLoadingMixin {
   // Form Key
   final GlobalKey<FormState> enquiryFormKey = GlobalKey<FormState>();
 
   // Db helper
   late DatabaseHelper _dbHelper;
+
+  /// Provider
+  final _provider = EnquiryProvider();
 
   // Textfield Controllers
   TextEditingController emailController = TextEditingController();
@@ -75,9 +82,9 @@ class EnquiryController extends GetxController {
   }
 
   /// submit enquiry
-  void submit() {
+  void submit() async {
     if (enquiryFormKey.currentState!.validate()) {
-      if(_validateFields()) {
+      if (_validateFields()) {
         _saveEntryToDb();
       }
     }
@@ -94,9 +101,14 @@ class EnquiryController extends GetxController {
       enquiry.enquiryMemberCompany = _companyName;
       enquiry.enquiryMemberMessage = _message;
       enquiry.enquirySyncStatus = 0;
-      final enquiryResponse = await _dbHelper.addToEnquiry(enquiry);
-      if (enquiryResponse != -1) {
-        Utils.showSuccessDialog(message: 'Your enquiry is saved!');
+
+      if (await Utils.isConnected()) {
+        _addEnquiry(enquiry);
+      } else {
+        final enquiryResponse = await _dbHelper.addToEnquiry(enquiry);
+        if (enquiryResponse != -1) {
+          Utils.showSuccessDialog(message: AppStrings.enquiryAddSuccess);
+        }
       }
     } catch (ex) {
       logger.e(ex);
@@ -123,4 +135,47 @@ class EnquiryController extends GetxController {
       !_phoneNumber.isPhoneNumber ||
       _phoneNumber.length < 10 ||
       _phoneNumber.length > 15;
+
+  /// Add enquiry API.
+  Future<void> _addEnquiry(Enquiry enquiry) async {
+    showLoading();
+    final response = await _provider.addInquiry(enquiry);
+    hideLoading();
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        Utils.showSuccessDialog(message: AppStrings.enquiryAddSuccess);
+      } else {
+        _addEnquiryAPIError(response);
+      }
+    }
+  }
+
+  /// Add enquiry API success
+  ///
+  /// required [response] response.
+  void _addEnquiryAPISuccess(dio.Response response, int pageKey) async {
+    try {
+      if (response.statusCode == 200) {}
+    } catch (ex) {
+      logger.e(ex);
+    }
+  }
+
+  /// Domain error
+  ///
+  /// required [response] response.
+  void _addEnquiryAPIError(dio.Response response) {
+    final snackBar = SnackBar(
+      elevation: 4,
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      content: Text(response.statusMessage ?? ""),
+    );
+
+    ScaffoldMessenger.of(Get.context!)
+      ..hideCurrentSnackBar()
+      ..clearSnackBars()
+      ..showSnackBar(snackBar);
+  }
 }

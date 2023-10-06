@@ -36,4 +36,10 @@ abstract class ClientAssets{
   static const client10 = 'assets/clientlist/client10.png';
   static const client11 = 'assets/clientlist/client11.png';
   static const client12 = 'assets/clientlist/client12.png';
+  static const client13 = 'assets/clientlist/client13.png';
+  static const client14 = 'assets/clientlist/client14.png';
+  static const client15 = 'assets/clientlist/client15.png';
+  static const client16 = 'assets/clientlist/client16.png';
+  static const client17 = 'assets/clientlist/client17.png';
+  static const client18 = 'assets/clientlist/client18.png';
 }

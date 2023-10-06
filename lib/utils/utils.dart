@@ -92,4 +92,18 @@ class Utils {
     String formattedDate = formatter.format(now);
     return formattedDate;
   }
+  static void showErrorMessage({required String message}){
+    final snackBar = SnackBar(
+      elevation: 4,
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      content: Text(message),
+    );
+
+    ScaffoldMessenger.of(Get.context!)
+      ..hideCurrentSnackBar()
+      ..clearSnackBars()
+      ..showSnackBar(snackBar);
+  }
 }

@@ -12,4 +12,5 @@ mixin AppLoadingMixin {
   void hideLoading() {
     loading.value = false;
   }
+
 }

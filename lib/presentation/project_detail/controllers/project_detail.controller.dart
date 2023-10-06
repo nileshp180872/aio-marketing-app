@@ -1,4 +1,5 @@
 import 'package:aio/infrastructure/db/database_helper.dart';
+import 'package:aio/infrastructure/db/schema/case_study_images.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/presentation/filter/model/filter_menu.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -10,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
 import '../../../infrastructure/db/schema/portfolio_images.dart';
+import '../../../utils/utils.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
@@ -42,8 +44,6 @@ class ProjectDetailController extends GetxController {
   RxBool enablePrevious = false.obs;
 
   /// Project images
-  RxList<String> images = RxList();
-
   RxList<String> listImages = RxList();
 
   RxString activeImage = "".obs;
@@ -113,61 +113,61 @@ class ProjectDetailController extends GetxController {
 
     screenTitle.value = projectData.value.projectName ?? "";
 
-    if (projectData.value.viewType == AppConstants.portfolio) {
-      final portfolio =
-          await _dbHelper.getPortfolioDetails(portfolioId: _projectId);
-      projectData.value.description =
-          portfolio?.portfolioProjectDescription ?? "";
-      projectData.value.overView = portfolio?.portfolioDomainName ?? "";
-      // fetch current portfolio technologies.
-      technologies.value =
-          await _dbHelper.getPortfolioTechnologies(id: _projectId);
+    if (await Utils.isConnected()) {
+      listImages.value = projectData.value.networkImages ?? [];
 
-      // fetch current portfolio technologies.
-      List<PortfolioImages> projectImages = await _dbHelper.getPortfolioImages(id: _projectId);
-      if(projectImages.length>4){
-        projectImages = projectImages.sublist(0,4);
+      technologies.value = projectData.value.technologies ?? "";
+    } else {
+      if (projectData.value.viewType == AppConstants.portfolio) {
+        final portfolio =
+            await _dbHelper.getPortfolioDetails(portfolioId: _projectId);
+        projectData.value.description =
+            portfolio?.portfolioProjectDescription ?? "";
+        projectData.value.overView = portfolio?.portfolioDomainName ?? "";
+        // fetch current portfolio technologies.
+        technologies.value =
+            await _dbHelper.getPortfolioTechnologies(id: _projectId);
+
+        // fetch current portfolio technologies.
+        List<PortfolioImages> projectImages =
+            await _dbHelper.getPortfolioImages(id: _projectId);
+        if (projectImages.length > 3) {
+          projectImages = projectImages.sublist(0, 3);
+        }
+        listImages.value =
+            projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+      } else {
+        final portfolio =
+            await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
+        projectData.value.description =
+            portfolio?.caseStudyProjectDescription ?? "";
+        projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
+
+        // fetch current portfolio technologies.
+        technologies.value =
+            await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+
+        // fetch current case study images.
+        List<CaseStudyImages> projectImages =
+            await _dbHelper.getCaseStudyImages(id: _projectId);
+        if (projectImages.length > 3) {
+          projectImages = projectImages.sublist(0, 3);
+        }
+        listImages.value =
+            projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
       }
-      images.value =
-          projectImages.map((e) => e.portfolioImagePath ?? "").toList();
-    } else {
-      final portfolio =
-          await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
-      projectData.value.description =
-          portfolio?.caseStudyProjectDescription ?? "";
-      projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
-
-      // fetch current portfolio technologies.
-      technologies.value =
-          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
-
-      // fetch current case study images.
-      final projectImages = await _dbHelper.getCaseStudyImages(id: _projectId);
-
-      images.value =
-          projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
 
-    activeImage.value = images.isNotEmpty ? images.first : "";
-    if (images.length > 1) {
-      listImages = images..removeAt(0);
-    } else {
-      listImages = images;
-    }
     listImages.refresh();
 
-    if(listImages.isNotEmpty) {
+    if (listImages.isNotEmpty) {
       onSelectImage(0);
     }
   }
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
-    var imageData = activeImage.value;
     activeImage.value = listImages.elementAt(index);
-    listImages.remove(listImages[index]);
-    listImages.insert(index, imageData);
-    listImages.refresh();
     update();
   }
 
@@ -182,8 +182,8 @@ class ProjectDetailController extends GetxController {
   void onLinkClick(LinkableElement link) async {
     if (await canLaunchUrl(Uri.parse(link.url))) {
       launchUrl(Uri.parse(link.url));
-    }else{
-    print("not able to open ${link.url}");
+    } else {
+      print("not able to open ${link.url}");
     }
   }
 }

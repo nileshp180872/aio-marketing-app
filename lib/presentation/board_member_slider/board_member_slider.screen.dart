@@ -40,7 +40,7 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
   Widget _buildPagedView() {
     return Row(
       children: [
-        if(_controller.lstMembers.isNotEmpty)
+        if (_controller.lstMembers.isNotEmpty)
           InkWell(
             splashFactory: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
@@ -52,38 +52,44 @@ class BoardMemberSliderScreen extends GetView<BoardMemberSliderController>
                 height: AppValues.sideMargin,
                 child: Center(
                     child: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: _controller.enablePrevious.isTrue
-                          ? AppColors.colorSecondary
-                          : AppColors.colorSecondary.withOpacity(0.5),
-                    ))),
+                  Icons.arrow_back_ios_new,
+                  color: _controller.enablePrevious.isTrue
+                      ? AppColors.colorSecondary
+                      : AppColors.colorSecondary.withOpacity(0.5),
+                ))),
           ),
         Expanded(
-          child: _controller.lstMembers.isNotEmpty?PageView.builder(
-              controller: _controller.pageController,
-              itemCount: _controller.lstMembers.length,
-              onPageChanged: _controller.onPageChange,
-              itemBuilder: (_, index) {
-                return MemberTileWidget(
-                  memberModel: _controller.lstMembers[index],
-                );
-              }):_buildNoDataWidget(),
+          child: _controller.isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _controller.lstMembers.isNotEmpty
+                  ? PageView.builder(
+                      controller: _controller.pageController,
+                      itemCount: _controller.lstMembers.length,
+                      onPageChanged: _controller.onPageChange,
+                      itemBuilder: (_, index) {
+                        return MemberTileWidget(
+                          memberModel: _controller.lstMembers[index],
+                        );
+                      })
+                  : _buildNoDataWidget(),
         ),
-        if(_controller.lstMembers.isNotEmpty)
+        if (_controller.lstMembers.isNotEmpty)
           InkWell(
             splashFactory: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
             onTap:
-            _controller.enableNext.isTrue ? _controller.goToNextPage : null,
+                _controller.enableNext.isTrue ? _controller.goToNextPage : null,
             child: SizedBox(
                 width: AppValues.sideMargin,
                 child: Center(
                     child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: _controller.enableNext.isTrue
-                          ? AppColors.colorSecondary
-                          : AppColors.colorSecondary.withOpacity(0.5),
-                    ))),
+                  Icons.arrow_forward_ios_rounded,
+                  color: _controller.enableNext.isTrue
+                      ? AppColors.colorSecondary
+                      : AppColors.colorSecondary.withOpacity(0.5),
+                ))),
           ),
       ],
     );

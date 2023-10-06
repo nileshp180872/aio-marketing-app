@@ -1,9 +1,7 @@
-import 'dart:io';
-
-import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_detail/view/project_image_tile_widget.dart';
+import 'package:aio/presentation/project_detail/view/project_image_widget.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -177,10 +175,6 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
           () => ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (_, index) {
-                if (_controller.activeImage.value ==
-                    _controller.listImages[index]) {
-                  return const SizedBox();
-                }
                 return ProjectImageTileWidget(
                   itemWidth: finalListItemWidth,
                   index: index,
@@ -201,17 +195,6 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
 
   /// Build image preview.
   Widget _buildImagePreview() {
-    try {
-      return _controller.images.isNotEmpty
-          ? Obx(
-              () => Image.file(
-                File(_controller.activeImage.value),
-                fit: BoxFit.cover,
-              ),
-            )
-          : Image.asset(AppAssets.kNoImage);
-    } catch (ex) {
-      return Image.asset(AppAssets.kNoImage);
-    }
+    return ProjectImageWidget(imageURL: _controller.activeImage.value);
   }
 }

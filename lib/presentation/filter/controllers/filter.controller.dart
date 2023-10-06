@@ -1,6 +1,8 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/infrastructure/db/schema/technologies.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
+import 'package:aio/presentation/filter/provider/filter.provider.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -8,6 +10,10 @@ import 'package:logger/logger.dart';
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/domain.dart';
 import '../../../infrastructure/db/schema/platform.dart';
+import '../../../infrastructure/network/model/domain_response.dart';
+import '../../../infrastructure/network/model/platform_response.dart';
+import '../../../infrastructure/network/model/technology_response.dart';
+import '../../../utils/utils.dart';
 import '../../portfolio/controllers/portfolio.controller.dart';
 import '../model/filter_menu.dart';
 import '../model/selection_model.dart';
@@ -24,6 +30,9 @@ class FilterController extends GetxController {
     AppStrings.mobileWeb,
     AppStrings.technologyStack
   ];
+
+  /// Provider
+  final _provider = FilterProvider();
 
   /// logger
   final logger = Logger();
@@ -212,6 +221,94 @@ class FilterController extends GetxController {
       }
     } catch (ex) {
       logger.e(ex);
+    }
+  }
+
+  /// Get domains
+  Future<void> _getDomains() async {
+    final response = await _provider.getDomains();
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _domainAPISuccess(response);
+      } else {
+        _getAPIError(response);
+      }
+    } else {
+      _getAPIError(response);
+    }
+  }
+
+  /// Get technologies
+  Future<void> _getTechnologies() async {
+    final response = await _provider.getTechnologies();
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _technologiesAPISuccess(response);
+      } else {
+        _getAPIError(response);
+      }
+    }
+  }
+
+  /// Get platforms
+  Future<void> _getPlatforms() async {
+    final response = await _provider.getPlatforms();
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _platformAPISuccess(response);
+      } else {
+        _getAPIError(response);
+      }
+    }
+  }
+
+  /// Domain success
+  ///
+  /// required [response] response.
+  void _domainAPISuccess(dio.Response response) async {
+    final domainResponse = DomainResponse.fromJson(response.data);
+    if ((domainResponse.data ?? []).isNotEmpty) {
+      for (DomainResponseData element in (domainResponse.data ?? [])) {
+        try {
+          lstDomains.add(SelectionModel(
+              title: element.domainName ?? "", id: element.id ?? ""));
+        } catch (ex) {
+          logger.e(ex);
+        }
+      }
+    }
+  }
+
+  /// Domain error
+  ///
+  /// required [response] response.
+  void _getAPIError(dio.Response response) {
+    Utils.showErrorMessage(message: response.statusMessage ?? "");
+  }
+
+  /// Technologies success
+  ///
+  /// required [response] response.
+  void _technologiesAPISuccess(dio.Response response) async {
+    final technologyResponse = TechnologyResponse.fromJson(response.data);
+    if ((technologyResponse.data ?? []).isNotEmpty) {
+      for (TechnologyResponseData element in (technologyResponse.data ?? [])) {
+        lstTechnologies
+            .add(SelectionModel(title: element.techName, id: element.id));
+      }
+    }
+  }
+
+  /// Platform success
+  ///
+  /// required [response] response.
+  void _platformAPISuccess(dio.Response response) async {
+    final leadershipResponse = PlatformResponse.fromJson(response.data);
+    if ((leadershipResponse.data ?? []).isNotEmpty) {
+      for (PlatformData element in (leadershipResponse.data ?? [])) {
+        lstMobileWeb
+            .add(SelectionModel(title: element.screenType, id: element.id));
+      }
     }
   }
 }
