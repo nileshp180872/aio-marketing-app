@@ -245,9 +245,12 @@ class SynchronisationController extends GetxController {
     if ((domainResponse.data ?? []).isNotEmpty) {
       for (DomainResponseData element in (domainResponse.data ?? [])) {
         try {
-          final model = Domain(
-              domainId: element.id ?? "", domainName: element.domainName ?? "");
-          await _dbHelper.addToDomain(model);
+          if (!(element.isDeleted ?? false)) {
+            final model = Domain(
+                domainId: element.id ?? "",
+                domainName: element.domainName ?? "");
+            await _dbHelper.addToDomain(model);
+          }
         } catch (ex) {
           logger.e(ex);
         }
@@ -263,10 +266,12 @@ class SynchronisationController extends GetxController {
     if ((technologyResponse.data ?? []).isNotEmpty) {
       for (TechnologyResponseData element in (technologyResponse.data ?? [])) {
         try {
-          final model = Technologies(
-              technologyId: element.id ?? "",
-              technologyName: element.techName ?? "");
-          await _dbHelper.addToTechnologies(model);
+          if (!(element.isDeleted ?? false)) {
+            final model = Technologies(
+                technologyId: element.id ?? "",
+                technologyName: element.techName ?? "");
+            await _dbHelper.addToTechnologies(model);
+          }
         } catch (ex) {
           logger.e(ex);
         }
@@ -282,10 +287,12 @@ class SynchronisationController extends GetxController {
     if ((leadershipResponse.data ?? []).isNotEmpty) {
       for (PlatformData element in (leadershipResponse.data ?? [])) {
         try {
-          final model = Platform(
-              platformId: element.id ?? "",
-              platformName: element.screenType ?? "");
-          await _dbHelper.addToPlatform(model);
+          if (!(element.isDeleted ?? false)) {
+            final model = Platform(
+                platformId: element.id ?? "",
+                platformName: element.screenType ?? "");
+            await _dbHelper.addToPlatform(model);
+          }
         } catch (ex) {
           logger.e(ex);
         }

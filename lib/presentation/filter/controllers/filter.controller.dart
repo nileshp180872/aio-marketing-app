@@ -273,11 +273,13 @@ class FilterController extends GetxController {
     final domainResponse = DomainResponse.fromJson(response.data);
     if ((domainResponse.data ?? []).isNotEmpty) {
       for (DomainResponseData element in (domainResponse.data ?? [])) {
-        try {
-          lstDomains.add(SelectionModel(
-              title: element.domainName ?? "", id: element.id ?? ""));
-        } catch (ex) {
-          logger.e(ex);
+        if (!(element.isDeleted ?? false)) {
+          try {
+            lstDomains.add(SelectionModel(
+                title: element.domainName ?? "", id: element.id ?? ""));
+          } catch (ex) {
+            logger.e(ex);
+          }
         }
       }
     }
@@ -297,8 +299,10 @@ class FilterController extends GetxController {
     final technologyResponse = TechnologyResponse.fromJson(response.data);
     if ((technologyResponse.data ?? []).isNotEmpty) {
       for (TechnologyResponseData element in (technologyResponse.data ?? [])) {
-        lstTechnologies
-            .add(SelectionModel(title: element.techName, id: element.id));
+        if (!(element.isDeleted ?? false)) {
+          lstTechnologies
+              .add(SelectionModel(title: element.techName, id: element.id));
+        }
       }
     }
   }
@@ -310,8 +314,10 @@ class FilterController extends GetxController {
     final leadershipResponse = PlatformResponse.fromJson(response.data);
     if ((leadershipResponse.data ?? []).isNotEmpty) {
       for (PlatformData element in (leadershipResponse.data ?? [])) {
-        lstMobileWeb
-            .add(SelectionModel(title: element.screenType, id: element.id));
+        if (!(element.isDeleted ?? false)) {
+          lstMobileWeb
+              .add(SelectionModel(title: element.screenType, id: element.id));
+        }
       }
     }
   }
