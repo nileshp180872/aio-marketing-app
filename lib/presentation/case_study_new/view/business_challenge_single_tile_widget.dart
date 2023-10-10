@@ -15,11 +15,15 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
     _textTheme = Theme.of(context).textTheme;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 70,
           width: 70,
-          child: Center(child: Image.asset(AppAssets.caseStudyChallenges)),
+          child: Padding(
+            padding: const EdgeInsets.only(top:8.0),
+            child: Image.asset(AppAssets.caseStudyChallenges),
+          ),
         ),
         const SizedBox(
           width: 20.0,
