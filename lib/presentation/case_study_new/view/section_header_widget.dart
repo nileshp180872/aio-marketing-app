@@ -4,7 +4,8 @@ import '../../../config/app_colors.dart';
 
 class SectionHeaderWidget extends StatelessWidget {
   String title;
-  SectionHeaderWidget({required this.title,super.key});
+
+  SectionHeaderWidget({required this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +13,23 @@ class SectionHeaderWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-              color: AppColors.colorSecondary,
-              fontSize: 32,
-              fontWeight: FontWeight.w700),
+        Row(
+          children: [
+            Text(
+              title.split(" ")[0],
+              style: const TextStyle(
+                  color: AppColors.colorSecondary,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700),
+            ),
+            Text(
+              " ${title.split(" ")[1]}",
+              style: const TextStyle(
+                  color: AppColors.colorPrimary,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700),
+            ),
+          ],
         ),
         const SizedBox(
           height: 5,

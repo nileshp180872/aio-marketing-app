@@ -22,13 +22,13 @@ class BusinessSolutionWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeaderWidget(
-            title: AppStrings.businessChallenges,
+            title: AppStrings.businessSolutions,
           ),
           const SizedBox(
-            height: 4,
+            height: 20,
           ),
           SizedBox(
-              height: 600,
+              height: 400,
               width: double.infinity,
               child: _buildBusinessSolution()),
         ],
@@ -39,14 +39,16 @@ class BusinessSolutionWidget extends StatelessWidget {
   /// Build business solution list
   Widget _buildBusinessSolution() {
     return ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (_, index) {
-          return BusinessSolutionSingleTileWidget();
+          return BusinessSolutionSingleTileWidget(
+              model: businessSolution[index]);
         },
         separatorBuilder: (_, __) {
-          return SizedBox(width: 20,);
+          return SizedBox(
+            width: 20,
+          );
         },
         itemCount: businessSolution.length);
   }
