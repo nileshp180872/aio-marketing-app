@@ -1,9 +1,12 @@
+import 'package:aio/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../project_detail/view/project_image_widget.dart';
 
 class SliderWidget extends StatefulWidget {
   List<String> imageSlider;
+  final PageController _pageController = PageController(initialPage: 0);
+  int selectedindex = 0;
 
   SliderWidget({required this.imageSlider, super.key});
 
@@ -12,9 +15,6 @@ class SliderWidget extends StatefulWidget {
 }
 
 class _SliderWidgetState extends State<SliderWidget> {
-  late final PageController _pageController = PageController(initialPage: 0);
-  int selectedindex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,10 +25,10 @@ class _SliderWidgetState extends State<SliderWidget> {
           height: 300,
           width: 400,
           child: PageView.builder(
-            controller: _pageController,
+            controller: widget._pageController,
             onPageChanged: (int page) {
               setState(() {
-                selectedindex = page;
+                widget.selectedindex = page;
               });
             },
             itemBuilder: (_, index) {
@@ -43,9 +43,13 @@ class _SliderWidgetState extends State<SliderWidget> {
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _buildPageIndicator(),
+        SizedBox(
+          width: 400,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _buildPageIndicator(),
+          ),
         )
       ],
     );
@@ -54,7 +58,8 @@ class _SliderWidgetState extends State<SliderWidget> {
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
     for (int i = 0; i < widget.imageSlider.length; i++) {
-      list.add(i == selectedindex ? _indicator(true) : _indicator(false));
+      list.add(
+          i == widget.selectedindex ? _indicator(true) : _indicator(false));
     }
     return list;
   }
@@ -63,28 +68,13 @@ class _SliderWidgetState extends State<SliderWidget> {
     return Container(
       height: 10,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 150),
-        margin: EdgeInsets.symmetric(horizontal: 4.0),
+        duration: const Duration(milliseconds: 150),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
         height: isActive ? 10 : 8.0,
         width: isActive ? 12 : 8.0,
         decoration: BoxDecoration(
-          boxShadow: [
-            isActive
-                ? BoxShadow(
-                    color: Color(0XFF2FB7B2).withOpacity(0.72),
-                    blurRadius: 4.0,
-                    spreadRadius: 1.0,
-                    offset: Offset(
-                      0.0,
-                      0.0,
-                    ),
-                  )
-                : BoxShadow(
-                    color: Colors.transparent,
-                  )
-          ],
           shape: BoxShape.circle,
-          color: isActive ? Color(0XFF6BC4C9) : Color(0XFFEAEAEA),
+          color: isActive ? AppColors.colorSecondary : const Color(0XFFEAEAEA),
         ),
       ),
     );

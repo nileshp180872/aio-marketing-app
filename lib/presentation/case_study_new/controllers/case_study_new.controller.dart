@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 
 import '../../../config/app_strings.dart';
 import '../../../infrastructure/db/database_helper.dart';
+import '../../../infrastructure/db/schema/case_study_tech_image.dart';
 import '../../../infrastructure/navigation/route_arguments.dart';
 import '../../../utils/utils.dart';
 import '../../project_list/model/project_list_model.dart';
@@ -56,13 +57,7 @@ class CaseStudyNewController extends GetxController {
     _getArguments();
     _initialChallenges();
     _businessSolutions();
-    _getTechImage();
     super.onInit();
-  }
-
-  /// image Dummy data
-  void _getTechImage() {
-    techLogo.addAll(["", "", "", "", "", ""]);
   }
 
   /// Receive arguments from previous screen.
@@ -120,6 +115,14 @@ class CaseStudyNewController extends GetxController {
       // fetch current portfolio technologies.
       technologies.value =
           await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+
+      // fetch current case study images.
+      List<CaseStudyTechImages> projectTechnologyImages =
+          await _dbHelper.getCaseStudyMapImages(id: _projectId);
+
+      techLogo.value = projectTechnologyImages
+          .map((e) => e.caseStudyTechImagePath ?? "")
+          .toList();
 
       // fetch current case study images.
       List<CaseStudyImages> projectImages =
@@ -197,9 +200,7 @@ class CaseStudyNewController extends GetxController {
   /// Case study API success
   ///
   /// required [response] response.
-  void _getCaseStudyAPISuccess(dio.Response response) async {
-
-  }
+  void _getCaseStudyAPISuccess(dio.Response response) async {}
 
   /// Case study API Failure
   ///

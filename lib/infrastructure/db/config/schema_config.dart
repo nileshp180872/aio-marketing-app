@@ -20,6 +20,7 @@ mixin SchemaConfig {
     _createCaseStudiesTable();
     _createCaseStudyImagesTable();
     _createCaseStudyTechnologyTable();
+    _createCaseStudyTechnologyMappingTable();
   }
 
   /// Creates domain table.
@@ -157,6 +158,17 @@ mixin SchemaConfig {
             ${DbConstants.caseStudyTechnologyId} TEXT,
             ${DbConstants.caseStudyTechnologyName} TEXT,
             ${DbConstants.caseStudyTableId} TEXT
+          )
+          ''');
+  }
+
+  /// Create case study technology mapping table
+  void _createCaseStudyTechnologyMappingTable() async {
+    await _db.execute('''
+          CREATE TABLE ${DbConstants.tblCaseStudiesTechImageMapping} (
+            ${DbConstants.caseStudyTechImageId} TEXT,
+            ${DbConstants.caseStudyTechImageName} TEXT,
+            ${DbConstants.caseStudyTechMapCaseStudyTableId} TEXT
           )
           ''');
   }

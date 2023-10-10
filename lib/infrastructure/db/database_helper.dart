@@ -1,6 +1,7 @@
 import 'package:aio/infrastructure/db/db_constants.dart';
 import 'package:aio/infrastructure/db/schema/case_study.dart';
 import 'package:aio/infrastructure/db/schema/case_study_images.dart';
+import 'package:aio/infrastructure/db/schema/case_study_tech_image.dart';
 import 'package:aio/infrastructure/db/schema/case_study_technology_mapping.dart';
 import 'package:aio/infrastructure/db/schema/domain.dart';
 import 'package:aio/infrastructure/db/schema/enquiry.dart';
@@ -385,6 +386,26 @@ class DatabaseHelper with DbConfig, SchemaConfig {
       List<CaseStudyImages> enquiries = [];
       for (var element in result) {
         enquiries.add(CaseStudyImages.fromJson(element));
+      }
+      return enquiries;
+    } else {
+      return [];
+    }
+  }
+
+  /// Return  case study tech images with list of [CaseStudyImages]
+  ///
+  /// required [id] -> case study id
+  Future<List<CaseStudyTechImages>> getCaseStudyMapImages(
+      {required String id}) async {
+    List<dynamic> result = await filterDataById(
+        table: DbConstants.tblCaseStudiesTechImageMapping,
+        columnName: DbConstants.caseStudyTechMapCaseStudyTableId,
+        id: id);
+    if (result.isNotEmpty) {
+      List<CaseStudyTechImages> enquiries = [];
+      for (var element in result) {
+        enquiries.add(CaseStudyTechImages.fromJson(element));
       }
       return enquiries;
     } else {

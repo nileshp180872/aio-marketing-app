@@ -103,6 +103,13 @@ abstract class DbConstants {
   static const caseStudyTechnologyName = 'case_study_technology_name';
   static const caseStudyTableId = 'case_study_id';
 
+  //------------- Case Study technologies image mapping ---------
+  static const tblCaseStudiesTechImageMapping = 'case_study_technology_image_mapping';
+
+  static const caseStudyTechImageId = 'case_study_technology_id';
+  static const caseStudyTechImageName = 'case_study_technology_name';
+  static const caseStudyTechMapCaseStudyTableId = 'case_study_technology_case_study_id';
+
   //------------- Portfolio images ---------
   static const tblCaseStudyImages = 'case_study_images';
 

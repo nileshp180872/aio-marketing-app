@@ -65,7 +65,7 @@ class BoardMemberSliderController extends GetxController with AppLoadingMixin {
           leaderImage: leadership.image));
     }
     await Future.delayed(
-      Duration(milliseconds: 300),
+     const Duration(milliseconds: 300),
     );
     _checkForActionButtons();
     lstMembers.refresh();

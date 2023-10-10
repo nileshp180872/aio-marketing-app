@@ -52,8 +52,7 @@ class BottomSection extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: 5,
-      // itemCount: techlogoImage.length,
+      itemCount: techlogoImage.length,
       itemBuilder: (_, index) {
         return TechnologySignleTileWidget(image: techlogoImage[0]);
       },
