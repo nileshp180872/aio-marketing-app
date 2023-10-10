@@ -38,7 +38,7 @@ class CaseStudiesResponseData {
   String? domainName;
   String? modifiedOn;
   String? companyTitle;
-  String? companyName;
+      String? companyName;
   String? companyDescription;
   String? businessTitle;
   String? businessImage;

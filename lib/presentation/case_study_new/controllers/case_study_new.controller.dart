@@ -214,24 +214,21 @@ class CaseStudyNewController extends GetxController {
   void openGmail() async {
     Get.dialog(Material(
         color: Colors.transparent,
-        child: ShareDocDialog(onShareClick: (value) {})));
-
-    // String mailBody =
-    //     "Thank you for requesting case study \n You may access the full case study by clicking on the link below : \n LINK If you have any questions, do not hesitate to contact us, please feel free to send us more details on info@tridhyatech.com or visit our website www.tridhyatech.com";
-    // String uri =
-    //     'mailto:test@example.org?subject=Thank you for requesting case study&body=$mailBody';
-    // final Uri emailLaunchUri = Uri(
-    //     scheme: 'mailto',
-    //     path: 'shreejitridhyatech@gmail.com',
-    //     queryParameters: {
-    //       'subject': 'Thank you for requesting case study',
-    //       'body': mailBody,
-    //     });
-    //
-    // if (await canLaunchUrl(Uri.parse(uri))) {
-    //   await launchUrl(emailLaunchUri);
-    // } else {
-    //   throw 'Could not launch email';
-    // }
+        child: ShareDocDialog(onShareClick: (value) {
+          shareCasestuduDetail(value,"");
+        })));
   }
+
+  /// Get case studies
+  Future<void> shareCasestuduDetail(String email, String id) async {
+    final response = await _provider.sendLinkInvitation(email,id);
+    if (response.data != null) {
+      if (response.statusCode == 200) {
+        _getCaseStudyAPISuccess(response);
+      } else {
+        _getCaseStudyAPIFailure(response);
+      }
+    }
+  }
+
 }

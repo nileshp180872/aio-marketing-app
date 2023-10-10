@@ -5,7 +5,6 @@ import '../../../infrastructure/network/config/dio_provider.dart';
 import '../../../infrastructure/network/network_constants.dart';
 
 class CaseStudyNewProvider {
-
   /// Returns list of case stuies.
   Future<Response> getCaseStudy() async {
     return await GetIt.I<DioProvider>()
@@ -13,8 +12,8 @@ class CaseStudyNewProvider {
   }
 
   /// Returns send invitation
-  Future<Response> sendLinkInvitation() async {
-    return await GetIt.I<DioProvider>()
-        .getBaseAPI(url: NetworkAPIs.kNewCaseStudies);
+  Future<Response> sendLinkInvitation(String email, String id) async {
+    return await GetIt.I<DioProvider>().postBaseAPI(
+        url: NetworkAPIs.kCaseStudyShare, data: {"email": email, "casestudyID": id});
   }
 }

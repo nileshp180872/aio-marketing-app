@@ -25,30 +25,51 @@ class ShareDocDialog extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+        ),
         width: screenWidth * 0.5,
         padding: const EdgeInsets.all(20),
-        child: Form(
-          key: enquiryFormKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Row(
+        child: Stack(
+          children: [
+            Form(
+              key: enquiryFormKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    AppStrings.inputString,
-                    textAlign: TextAlign.start,
+                  const SizedBox(
+                    height: 20,
                   ),
+                  const Row(
+                    children: [
+                      Text(
+                        AppStrings.inputString,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                           fontSize: 22
+                        ),
+                      ),
+                    ],
+                  ),
+                  _buildEmailField(),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  _buildEnquiryButton()
                 ],
               ),
-              _buildEmailField(),
-              const SizedBox(
-                height: 70,
-              ),
-              _buildEnquiryButton()
-            ],
-          ),
+            ),
+            Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: (){
+                    Get.back();
+                  },
+                  icon: const Icon(Icons.close),
+                ),),
+          ],
         ),
       ),
     );
@@ -81,6 +102,7 @@ class ShareDocDialog extends StatelessWidget {
   /// Build submit button.
   void submit() {
     if (enquiryFormKey.currentState!.validate()) {
+      Get.back();
       onShareClick(_email);
     }
   }
@@ -90,7 +112,7 @@ class ShareDocDialog extends StatelessWidget {
     return InkWell(
       onTap: submit,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 36),
         decoration: BoxDecoration(
             color: AppColors.colorPrimary,
             borderRadius: BorderRadius.circular(4)),

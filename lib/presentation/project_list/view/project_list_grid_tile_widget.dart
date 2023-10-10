@@ -58,7 +58,7 @@ class ProjectListGridTileWidget extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: (projectListModel.networkImages ?? []).isNotEmpty
+              child:  (projectListModel.networkImages ?? []).isNotEmpty
                   ? _buildNetworkImage()
                   : buildFileImage(),
             ),

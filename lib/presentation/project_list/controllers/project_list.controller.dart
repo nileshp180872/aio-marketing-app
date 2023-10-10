@@ -322,9 +322,14 @@ class ProjectListController extends GetxController with AppLoadingMixin {
             final model = ProjectListModel(
                 id: element.casestudiesID,
                 projectName: element.projectName,
-                networkImages: images,
+                networkImages: [element.thumbnailImage??""],
                 overView: element.domainName,
                 description: element.description,
+                businessDescription1: element.description,
+                companyName: element.companyName,
+                urlLink: element.urlLink,
+                casestudyThumbnailImage: element.thumbnailImage,
+                casestudyBannerImage: element.bannerImage,
                 technologies: technologies.join(","),
                 viewType: AppConstants.caseStudy);
             newItems.add(model);

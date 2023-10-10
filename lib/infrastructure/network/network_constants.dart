@@ -6,7 +6,7 @@ abstract class NetworkConstants {
 
   static const kApiVersion = "api/v1/";
 
-  static const kImageBasePath = "https://api.tridhyatech.com/";
+  static const kImageBasePath = "http://172.16.0.33:4041";
 }
 //
 abstract class NetworkAPIs {
