@@ -1,13 +1,14 @@
 abstract class NetworkConstants {
-  static const kProduction = "http://137.184.19.129:4041/$kApiVersion";
+  // static const kProduction = "http://137.184.19.129:4041/$kApiVersion";
+  static const kProduction = "https://api.tridhyatech.com/$kApiVersion";
 
   static const kDevelopment = "http://172.16.0.33:4041/$kApiVersion";
 
   static const kApiVersion = "api/v1/";
 
-  static const kImageBasePath = "http://137.184.19.129:4041/";
+  static const kImageBasePath = "https://api.tridhyatech.com/";
 }
-
+//
 abstract class NetworkAPIs {
   // Domains
   static const kDomains = "lookup/domain";

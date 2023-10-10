@@ -89,7 +89,8 @@ mixin SchemaConfig {
             ${DbConstants.portfolioScreenName} TEXT,
             ${DbConstants.portfolioProjectName} TEXT,
             ${DbConstants.portfolioProjectDescription} TEXT,
-            ${DbConstants.projectImages} TEXT
+            ${DbConstants.projectImages} TEXT,
+            ${DbConstants.projectLink} TEXT
           )
           ''');
   }

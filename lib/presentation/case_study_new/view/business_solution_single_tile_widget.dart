@@ -24,7 +24,8 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              Container(
+                padding: const EdgeInsets.only(top: 8.0),
                 height: 50,
                 width: 50,
                 child: Image.asset(AppAssets.caseStudyChallenges),

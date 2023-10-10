@@ -101,6 +101,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           autoIncrementId: element.portfolioAutoIncrementId,
           projectName: element.portfolioProjectName,
           projectImage: element.images,
+          urlLink: element.portfolioLink,
           viewType: AppConstants.portfolio));
     }
     if (isLastPage) {

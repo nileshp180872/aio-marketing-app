@@ -82,9 +82,9 @@ class HomeController extends GetxController {
 
   /// on caseStudy click
   void navigateToCaseStudy() {
-    // Get.toNamed(Routes.PROJECT_LIST,
-    //     arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});
-    Get.toNamed(Routes.CASE_STUDY_NEW);
+    Get.toNamed(Routes.PROJECT_LIST,
+        arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});
+    // Get.toNamed(Routes.CASE_STUDY_NEW);
   }
 
   /// on leadership click
