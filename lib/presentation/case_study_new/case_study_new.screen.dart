@@ -1,11 +1,13 @@
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
+import 'package:aio/config/app_values.dart';
 import 'package:aio/presentation/case_study_new/view/bottom_section.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
 import 'package:aio/presentation/case_study_new/view/conclution_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../infrastructure/navigation/routes.dart';
@@ -27,7 +29,82 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
         body: SafeArea(
       child: Column(
         children: [
-          buildCustomAppBar(title: AppStrings.caseStudy),
+          // buildCustomAppBar(title: AppStrings.caseStudy),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0, 0),
+                end: Alignment(0, 1),
+                colors: [Color(0xFFDEF8FF), Color(0xFFFFFFFF)],
+              ),
+            ),
+            padding: const EdgeInsets.only(left: AppValues.sideMargin),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 77,
+                  child: Row(children: [
+                    GestureDetector(
+                        onTap: () {
+                          Get.until(
+                              (route) => route.settings.name == Routes.HOME);
+                        },
+                        child: SvgPicture.asset(SVGAssets.headerAppLogo)),
+                    const Spacer(),
+                    if (true) _buildSearchContainer()
+                  ]),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(SVGAssets.backIcon),
+                          const SizedBox(
+                            width: 24,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                AppStrings.caseStudy,
+                                style: TextStyle(
+                                    color: AppColors.colorSecondary,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                width: 50,
+                                height: 5,
+                                color: AppColors.colorPrimary,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 40.0),
+                        child: IconButton(
+                            onPressed: () {}, icon: const Icon(Icons.share)),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -144,6 +221,50 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
         title,
         style: _textTheme.displaySmall
             ?.copyWith(fontSize: 20, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildSearchContainer({bool ignoreRightMargin = false}) {
+    return InkWell(
+      onTap: () => Get.toNamed(Routes.SEARCH),
+      child: Container(
+        color: Colors.transparent,
+        margin: EdgeInsets.only(
+            right: ignoreRightMargin ? 0 : AppValues.sideMargin),
+        child: Center(
+          child: Container(
+              width: 200,
+              height: 32,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: AppColors.colorSecondary.withOpacity(0.25),
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8.0),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: AppValues.size_10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      AppStrings.searchInputText,
+                      style: TextStyle(
+                          color: AppColors.colorSecondary.withOpacity(0.75),
+                          fontSize: 14),
+                    ),
+                  ),
+                  SvgPicture.asset(SVGAssets.searchIcon),
+                  const SizedBox(
+                    width: AppValues.size_10,
+                  ),
+                ],
+              )),
+        ),
       ),
     );
   }

@@ -16,7 +16,7 @@ class MemberTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _buildContext = context;
     _textTheme = Theme.of(context).textTheme;
-    return Row(
+    return Row( 
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: _buildLeftContainer()),
@@ -33,11 +33,11 @@ class MemberTileWidget extends StatelessWidget {
     return Container(
       height: AppValues.memberHeight,
       width: double.infinity,
-      color: AppColors.colorSecondary.withOpacity(0.15),
+      // color: AppColors.colorSecondary.withOpacity(0.15),
       padding: const EdgeInsets.all(AppValues.size_8),
       child: ProjectImageWidget(
         imageURL: memberModel.leaderImage ?? "",
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
       ),
     );
   }

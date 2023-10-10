@@ -31,11 +31,6 @@ class ProjectImageWidget extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: "${NetworkConstants.kImageBasePath}$imageURL",
       errorWidget: (_, __, ___) => _buildNoImage(),
-      /*progressIndicatorBuilder: (context, url, downloadProgress) =>
-          SizedBox(
-              height: 50,
-              width: 50,
-              child: Center(child: CircularProgressIndicator(value: downloadProgress.progress))),*/
       fit: BoxFit.cover,
     );
   }
