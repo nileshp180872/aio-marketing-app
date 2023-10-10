@@ -46,7 +46,7 @@ class CompanyOverviewWidget extends StatelessWidget {
                 const Text(
                   "Updating industries with Digitization and advanced technologies",
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: Color(0xff00517C),
                       fontWeight: FontWeight.bold),
                 ),
@@ -56,7 +56,7 @@ class CompanyOverviewWidget extends StatelessWidget {
                 const Text(
                   "Our client is a global energy company headquartered in Singapore since 1997. They specialize in producing, distributing, and marketing petroleum products across 5 continents and 40+ countries. Their primary focus is on retail fuel and supplying energy products to industries such as mining, aviation, marine, and construction. With 3,000+ service stations worldwide, the company has invested in renewable energy and implemented sustainability initiatives to reduce its environmental impact. With a workforce of approximately 8,000 employees, customer satisfaction is their top priority.",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Color(0xff00517C),
                   ),
                 ),

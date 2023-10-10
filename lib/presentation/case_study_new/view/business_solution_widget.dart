@@ -15,11 +15,14 @@ class BusinessSolutionWidget extends StatelessWidget {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 40,
+          ),
           SectionHeaderWidget(
             title: AppStrings.businessSolutions,
           ),
@@ -45,7 +48,7 @@ class BusinessSolutionWidget extends StatelessWidget {
               model: businessSolution[index]);
         },
         separatorBuilder: (_, __) {
-          return SizedBox(
+          return const SizedBox(
             width: 20,
           );
         },
