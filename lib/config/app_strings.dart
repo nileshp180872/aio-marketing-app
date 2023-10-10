@@ -53,6 +53,13 @@ abstract class AppStrings {
   static const headOfficelable ='Head Office';
   static const enquiryAddSuccess ='Your enquiry is saved!';
 
+  // ------------------- Validation ---------------------
+  static const caseStudyHeaderMessage ='Implementation of KYC Portal for an Energy Company';
+  static const platform ='Platform';
+  static const industry ='Industry';
+  static const companyOverview ='Company Overview';
+  static const businessChallenges ='Business Challenges';
+
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
   static const emailValidationMsg = 'Email ID cannot be empty';

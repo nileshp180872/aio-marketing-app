@@ -1,6 +1,8 @@
 abstract class AppAssets{
   static const kCompanyVideo = 'assets/video/sample_video1.mp4';
   static const kNoImage = 'assets/images/no_image.jpg';
+  static const caseStudyHeaderSideImage = 'assets/images/case_study_header.png';
+  static const caseStudyHeaderBackground = 'assets/images/case_study_hero_bg.png';
 }
 
 abstract class SVGAssets{

@@ -1,5 +1,3 @@
-import 'package:aio/infrastructure/navigation/route_arguments.dart';
-import 'package:aio/presentation/portfolio/controllers/portfolio.controller.dart';
 import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -42,7 +40,6 @@ class HomeController extends GetxController {
       showControlsOnInitialize: false,
       looping: true,
       allowFullScreen: true,
-
       hideControlsTimer: const Duration(seconds: 1),
       autoInitialize: true,
     );
@@ -83,8 +80,9 @@ class HomeController extends GetxController {
 
   /// on caseStudy click
   void navigateToCaseStudy() {
-    Get.toNamed(Routes.PROJECT_LIST,
-        arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});
+    /*Get.toNamed(Routes.PROJECT_LIST,
+        arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});*/
+    Get.toNamed(Routes.CASE_STUDY_NEW);
   }
 
   /// on leadership click
@@ -101,5 +99,4 @@ class HomeController extends GetxController {
   void navigateToClientele() {
     Get.toNamed(Routes.CLIENTELE);
   }
-
 }

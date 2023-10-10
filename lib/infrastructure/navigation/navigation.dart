@@ -1,8 +1,9 @@
-import 'package:aio/infrastructure/navigation/bindings/controllers/clientele.binding.dart';
-import 'package:aio/presentation/clientele/view/clientele.screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
+import 'package:aio/infrastructure/navigation/bindings/controllers/clientele.binding.dart';
+import 'package:aio/presentation/clientele/view/clientele.screen.dart';
 
 import '../../presentation/portfolio/new_portfolio.screen.dart';
 import '../../presentation/screens.dart';
@@ -76,6 +77,11 @@ class Nav {
       name: Routes.CLIENTELE,
       page: () => ClienteleScreen(),
       binding: ClienteleBinding(),
+    ),
+    GetPage(
+      name: Routes.CASE_STUDY_NEW,
+      page: () => CaseStudyNewScreen(),
+      binding: CaseStudyNewControllerBinding(),
     ),
   ];
 }
