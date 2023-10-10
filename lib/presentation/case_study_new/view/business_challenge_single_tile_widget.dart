@@ -14,38 +14,40 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      child: Row(
-        children: [
-          Container(
-            height: 70,
-            width: 70,
-            child: Image.asset(AppAssets.caseStudyChallenges),
-          ),
-          SizedBox(
-            width: 16.0,
-          ),
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                model.title ?? "",
-                style: _textTheme.bodyLarge
-                    ?.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                model.description ?? "",
-                style: _textTheme.bodyLarge
-                    ?.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-            ],
-          ))
-        ],
-      ),
+    return Row(
+      children: [
+        SizedBox(
+          height: 70,
+          width: 70,
+          child: Center(child: Image.asset(AppAssets.caseStudyChallenges)),
+        ),
+        const SizedBox(
+          width: 20.0,
+        ),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              model.title ?? "",
+              style: _textTheme.bodyLarge?.copyWith(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xff263238)),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              model.description ?? "",
+              style: _textTheme.bodyLarge?.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xff263238)),
+            ),
+          ],
+        ))
+      ],
     );
   }
 }

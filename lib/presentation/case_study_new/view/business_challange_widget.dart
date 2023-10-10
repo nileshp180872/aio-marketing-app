@@ -19,22 +19,28 @@ class BusinessChallenges extends StatelessWidget {
     return Container(
       color: AppColors.headerBackground,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
       child: Row(
         children: [
           Expanded(
-            flex: 6,
+            flex: 5,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(
+                  height: 40,
+                ),
                 SectionHeaderWidget(
                   title: AppStrings.businessChallenges,
                 ),
                 const SizedBox(
-                  height: 4,
+                  height: 20,
                 ),
                 _buildBusinessChallengeList(),
+                const SizedBox(
+                  height: 40,
+                ),
               ],
             ),
           ),
