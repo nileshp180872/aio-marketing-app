@@ -40,21 +40,22 @@ class AppConstants {
     //     countryName: 'GERMANY',
     //     countryAddress: AppStrings.germanyOfficeAddress,
     //     countryFlag: SVGAssets.germanyFlag),
+
     CountryModel(
-        id: '3',
-        countryName: 'S.AFRICA',
-        countryAddress: "",
-        countryFlag: SVGAssets.africaFlag),
+        id: '5',
+        countryName: 'USA',
+        countryAddress: AppStrings.usaOfficeAddress,
+        countryFlag: SVGAssets.usaFlag),
     CountryModel(
         id: '4',
         countryName: 'AUSTRALIA',
         countryAddress: AppStrings.australiaOfficeAddress,
         countryFlag: SVGAssets.australianFlag),
     CountryModel(
-        id: '5',
-        countryName: 'USA',
-        countryAddress: AppStrings.usaOfficeAddress,
-        countryFlag: SVGAssets.usaFlag),
+        id: '3',
+        countryName: 'S.AFRICA',
+        countryAddress: "Expanding to Germany",
+        countryFlag: SVGAssets.africaFlag),
   ];
 
 

@@ -44,9 +44,6 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                     sliderImage: _controller.businessImages,
                     techlogoImage: _controller.techLogo,
                   ),
-                  // const SizedBox(
-                  //   height: 30,
-                  // ),
                   ConclutionSection(),
                 ],
               ),

@@ -1,8 +1,5 @@
 import 'package:aio/config/app_assets.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:flutter/material.dart';
-
-import '../model/business_challenge.dart';
 
 class TechnologySignleTileWidget extends StatelessWidget {
   String image;
@@ -18,8 +15,8 @@ class TechnologySignleTileWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 90,
-          width: 90,
+          height: 70,
+          width: 70,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Image.asset(AppAssets.caseStudyChallenges),
