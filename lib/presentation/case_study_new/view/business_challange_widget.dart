@@ -1,20 +1,27 @@
 import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/app_assets.dart';
+import '../../../config/app_colors.dart';
 import '../../../config/app_strings.dart';
+import '../model/business_challenge.dart';
+import 'business_challenge_single_tile_widget.dart';
 
 class BusinessChallenges extends StatelessWidget {
-  const BusinessChallenges({super.key});
+  List<BusinessChallenge> businessChallenges;
+
+  BusinessChallenges({required this.businessChallenges, super.key});
+
+  late TextTheme _textTheme;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColors.headerBackground,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Row(
         children: [
-          Expanded(flex: 4, child: Container()),
           Expanded(
             flex: 6,
             child: Column(
@@ -24,13 +31,14 @@ class BusinessChallenges extends StatelessWidget {
                 SectionHeaderWidget(
                   title: AppStrings.businessChallenges,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 _buildBusinessChallengeList(),
               ],
             ),
           ),
+          Expanded(flex: 4, child: Image.asset(AppAssets.caseStudyBusinessChallenges)),
         ],
       ),
     );
@@ -42,32 +50,16 @@ class BusinessChallenges extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (_, index) {
-          return Container(
-            child: Row(
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.red,
-                ),
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("asdsad"),
-                    Text("asdsad"),
-                  ],
-                ))
-              ],
-            ),
+          return BusinessChallengeSingleTileWidget(
+            model: businessChallenges[index],
           );
         },
         separatorBuilder: (_, __) {
           return const Divider(
-            height: 4,
+            height: 16,
             color: Colors.transparent,
           );
         },
-        itemCount: 3);
+        itemCount: businessChallenges.length);
   }
 }

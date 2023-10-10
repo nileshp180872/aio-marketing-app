@@ -36,8 +36,10 @@ abstract class AppStrings {
   static const clientelecontent1 = 'Trusted by 350 + companies worldwide';
   static const synchroniseData = 'Synchronise data';
   static const youAreOffline = 'You are offline!';
-  static const synchronisationMessage = 'Please do not close this screen. You will automatically redirect to home screen after this synchronisation completes.';
-  static const offlineInfoMessage = 'Please connect to internet to synchronize data.';
+  static const synchronisationMessage =
+      'Please do not close this screen. You will automatically redirect to home screen after this synchronisation completes.';
+  static const offlineInfoMessage =
+      'Please connect to internet to synchronize data.';
 
 // ------------------- Enquiry ---------------------
   static const indiaOfficeAddress =
@@ -50,15 +52,16 @@ abstract class AppStrings {
       'Level 36 Riparian Plaza, 71 Eagle Street, Brisbane, QLD 4000';
   static const usaOfficeAddress =
       '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
-  static const headOfficelable ='Head Office';
-  static const enquiryAddSuccess ='Your enquiry is saved!';
+  static const headOfficelable = 'Head Office';
+  static const enquiryAddSuccess = 'Your enquiry is saved!';
 
   // ------------------- Validation ---------------------
-  static const caseStudyHeaderMessage ='Implementation of KYC Portal for an Energy Company';
-  static const platform ='Platform';
-  static const industry ='Industry';
-  static const companyOverview ='Company Overview';
-  static const businessChallenges ='Business Challenges';
+  static const caseStudyHeaderMessage =
+      'Implementation of KYC Portal for an Energy Company';
+  static const platform = 'Platform';
+  static const industry = 'Industry';
+  static const companyOverview = 'Company Overview';
+  static const businessChallenges = 'Business Challenges';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
@@ -68,6 +71,5 @@ abstract class AppStrings {
   static const msgValidationMsg = 'Message cannot be empty';
 
 // ------------------- Validation ---------------------
-    static const connectionTimeoutMessage = 'Unable to reach server.';
-
+  static const connectionTimeoutMessage = 'Unable to reach server.';
 }

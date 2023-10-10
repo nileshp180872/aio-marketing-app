@@ -2,6 +2,7 @@ import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
+import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,21 +18,22 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
 
   @override
   Widget build(BuildContext context) {
-    _textTheme = Theme
-        .of(context)
-        .textTheme;
+    _textTheme = Theme.of(context).textTheme;
     return Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildHeaderMainSection(),
-              CompanyOverviewWidget(),
-              BusinessChallenges(),
-              _buildBusinessSolution(),
-            ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildHeaderMainSection(),
+          CompanyOverviewWidget(),
+          BusinessChallenges(
+              businessChallenges: _controller.businessChallenges),
+          BusinessSolutionWidget(
+            businessSolution: _controller.businessSolution,
           ),
-        ));
+        ],
+      ),
+    ));
   }
 
   Widget _buildHeaderMainSection() {
@@ -116,23 +118,6 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
         style: _textTheme.displaySmall
             ?.copyWith(fontSize: 14, color: Colors.white),
       ),
-    );
-  }
-
-
-  Widget _buildBusinessChallenges() {
-    return Container(
-      color: AppColors.headerBackground,
-      height: 300,
-      width: double.infinity,
-    );
-  }
-
-  Widget _buildBusinessSolution() {
-    return Container(
-      color: AppColors.headerBackground,
-      height: 300,
-      width: double.infinity,
     );
   }
 }

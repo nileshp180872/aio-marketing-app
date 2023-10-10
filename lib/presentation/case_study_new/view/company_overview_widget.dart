@@ -2,6 +2,8 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/app_assets.dart';
+
 class CompanyOverviewWidget extends StatelessWidget {
   const CompanyOverviewWidget({super.key});
 
@@ -13,7 +15,7 @@ class CompanyOverviewWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Row(
         children: [
-          Expanded(flex: 4, child: Container()),
+          Expanded(flex: 4, child: Image.asset(AppAssets.caseStudyCompanyOverview)),
           Expanded(
             flex: 6,
             child: Column(

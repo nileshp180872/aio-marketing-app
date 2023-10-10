@@ -3,6 +3,9 @@ abstract class AppAssets{
   static const kNoImage = 'assets/images/no_image.jpg';
   static const caseStudyHeaderSideImage = 'assets/images/case_study_header.png';
   static const caseStudyHeaderBackground = 'assets/images/case_study_hero_bg.png';
+  static const caseStudyCompanyOverview = 'assets/images/company_overview.png';
+  static const caseStudyChallenges = 'assets/images/challenge_image.png';
+  static const caseStudyBusinessChallenges = 'assets/images/business_challenges.png';
 }
 
 abstract class SVGAssets{
