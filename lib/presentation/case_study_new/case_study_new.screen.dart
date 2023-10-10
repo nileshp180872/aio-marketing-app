@@ -1,6 +1,7 @@
 import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
+import 'package:aio/presentation/case_study_new/view/bottom_section.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import '../../utils/user_feature.mixin.dart';
 import 'controllers/case_study_new.controller.dart';
 import 'view/company_overview_widget.dart';
 
-class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature {
+class CaseStudyNewScreen extends GetView<CaseStudyNewController>
+    with AppFeature {
   CaseStudyNewScreen({Key? key}) : super(key: key);
   CaseStudyNewController _controller = Get.find(tag: Routes.CASE_STUDY_NEW);
 
@@ -22,28 +24,34 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              buildCustomAppBar(title: AppStrings.caseStudy),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildHeaderMainSection(),
-                      CompanyOverviewWidget(),
-                      BusinessChallenges(
-                          businessChallenges: _controller.businessChallenges),
-                      BusinessSolutionWidget(
-                        businessSolution: _controller.businessSolution,
-                      ),
-                    ],
+      child: Column(
+        children: [
+          buildCustomAppBar(title: AppStrings.caseStudy),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildHeaderMainSection(),
+                  CompanyOverviewWidget(),
+                  BusinessChallenges(
+                      businessChallenges: _controller.businessChallenges),
+                  BusinessSolutionWidget(
+                    businessSolution: _controller.businessSolution,
                   ),
-                ),
+                  BottomSection(
+                    sliderImage: _controller.businessImages,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ));
+        ],
+      ),
+    ));
   }
 
   Widget _buildHeaderMainSection() {
@@ -137,22 +145,6 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
         style: _textTheme.displaySmall
             ?.copyWith(fontSize: 20, color: Colors.white),
       ),
-    );
-  }
-
-  Widget _buildBusinessChallenges() {
-    return Container(
-      color: AppColors.headerBackground,
-      height: 300,
-      width: double.infinity,
-    );
-  }
-
-  Widget _buildBusinessSolution() {
-    return Container(
-      color: AppColors.headerBackground,
-      height: 300,
-      width: double.infinity,
     );
   }
 }

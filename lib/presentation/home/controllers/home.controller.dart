@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../config/app_assets.dart';
+import '../../../infrastructure/navigation/route_arguments.dart';
 import '../../../infrastructure/navigation/routes.dart';
+import '../../portfolio/controllers/portfolio.controller.dart';
 
 class HomeController extends GetxController {
   /// Enable to show overlay widget.
@@ -80,8 +82,8 @@ class HomeController extends GetxController {
 
   /// on caseStudy click
   void navigateToCaseStudy() {
-    /*Get.toNamed(Routes.PROJECT_LIST,
-        arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});*/
+    // Get.toNamed(Routes.PROJECT_LIST,
+    //     arguments: {RouteArguments.portfolioEnum: PortfolioEnum.CASE_STUDY});
     Get.toNamed(Routes.CASE_STUDY_NEW);
   }
 

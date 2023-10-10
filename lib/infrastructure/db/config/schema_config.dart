@@ -117,6 +117,11 @@ mixin SchemaConfig {
             ${DbConstants.caseStudyDomainName} TEXT,
             ${DbConstants.caseStudyProjectName} TEXT,
             ${DbConstants.caseStudyDescription} TEXT,
+            ${DbConstants.caseStudyBusinessTitle} TEXT,
+            ${DbConstants.caseStudyCompanyDescription} TEXT,
+            ${DbConstants.caseStudyBusinessDescription} TEXT,
+            ${DbConstants.caseStudySolutionTitle} TEXT,
+            ${DbConstants.caseStudySolutionDescription} TEXT,
             ${DbConstants.caseStudyImages} TEXT
           )
           ''');

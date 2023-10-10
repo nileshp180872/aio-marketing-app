@@ -1,7 +1,6 @@
 import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../config/app_colors.dart';
 import '../../../config/app_strings.dart';
 import '../model/business_challenge.dart';
 import 'business_solution_single_tile_widget.dart';
@@ -28,7 +27,7 @@ class BusinessSolutionWidget extends StatelessWidget {
             height: 20,
           ),
           SizedBox(
-              height: 400,
+              height: 350,
               width: double.infinity,
               child: _buildBusinessSolution()),
         ],

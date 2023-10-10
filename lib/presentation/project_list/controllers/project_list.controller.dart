@@ -151,12 +151,21 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   ///
   /// required [model] instance of ProjectListModel.
   void onProjectClick(ProjectListModel model, int index) {
-    Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
-      RouteArguments.screenName: model.projectName,
-      RouteArguments.projectId: model.id,
-      RouteArguments.index: index,
-      RouteArguments.projectList: pagingController.itemList,
-    });
+    if (model.viewType == AppConstants.portfolio) {
+      Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
+        RouteArguments.screenName: model.projectName,
+        RouteArguments.projectId: model.id,
+        RouteArguments.index: index,
+        RouteArguments.projectList: pagingController.itemList,
+      });
+    } else {
+      Get.toNamed(Routes.CASE_STUDY_NEW, arguments: {
+        RouteArguments.screenName: model.projectName,
+        RouteArguments.projectId: model.id,
+        RouteArguments.index: index,
+        RouteArguments.projectList: pagingController.itemList,
+      });
+    }
   }
 
   /// filter screen.

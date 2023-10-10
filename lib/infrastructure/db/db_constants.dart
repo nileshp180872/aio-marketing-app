@@ -81,6 +81,11 @@ abstract class DbConstants {
   static const caseStudyDomainName = 'case_study_domain_name';
   static const caseStudyProjectName = 'case_study_project_name';
   static const caseStudyDescription = 'case_study_description';
+  static const caseStudyBusinessTitle = 'case_study_business_title';
+  static const caseStudyCompanyDescription = 'case_study_company_description';
+  static const caseStudyBusinessDescription = 'case_study_business_description';
+  static const caseStudySolutionTitle = 'case_study_solution_title';
+  static const caseStudySolutionDescription = 'case_study_solution_description';
   static const caseStudyImages = 'case_study_images';
 
   //------------- Case Study technologies ---------
