@@ -97,8 +97,9 @@ class BoardMemberSliderController extends GetxController with AppLoadingMixin {
 
   /// Enable/Disable action buttons.
   void _checkForActionButtons() {
-    enableNext.value =
-        (pageController.page ?? 0).round() < lstMembers.length - 1;
+    enableNext.value = lstMembers.isNotEmpty
+        ? (pageController.page ?? 0).round() < lstMembers.length - 1
+        : false;
 
     enablePrevious.value = (pageController.page ?? 0).round() > 0;
   }
@@ -159,7 +160,7 @@ class BoardMemberSliderController extends GetxController with AppLoadingMixin {
         }
       }
       await Future.delayed(
-        Duration(milliseconds: 300),
+        const Duration(milliseconds: 300),
       );
       _checkForActionButtons();
       lstMembers.refresh();

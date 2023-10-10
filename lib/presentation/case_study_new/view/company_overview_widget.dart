@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../../../config/app_assets.dart';
 
 class CompanyOverviewWidget extends StatelessWidget {
-  const CompanyOverviewWidget({super.key});
+
+  CompanyOverviewWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

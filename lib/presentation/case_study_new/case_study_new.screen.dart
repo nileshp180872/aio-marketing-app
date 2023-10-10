@@ -40,9 +40,9 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                     businessSolution: _controller.businessSolution,
                   ),
                   BottomSection(
-                    sliderImage: _controller.businessImages,
+                    sliderImage: _controller.listImages,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                 ],

@@ -382,6 +382,7 @@ class SynchronisationController extends GetxController {
         portfolioDomainId: element.domainID,
         portfolioDomainName: element.domainName,
         portfolioId: element.portfolioID,
+        portfolioLink: element.urlLink,
         portfolioProjectDescription: element.description,
         portfolioProjectName: element.projectName,
         portfolioScreenTypeId: element.screenTYPE,

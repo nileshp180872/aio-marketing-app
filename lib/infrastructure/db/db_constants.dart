@@ -56,6 +56,7 @@ abstract class DbConstants {
   static const portfolioProjectName = 'portfolio_project_name';
   static const portfolioProjectDescription = 'portfolio_project_description';
   static const projectImages = 'project_images';
+  static const projectLink = 'project_link';
   static const images = 'images';
 
   //------------- Portfolio technologies ---------
@@ -82,10 +83,17 @@ abstract class DbConstants {
   static const caseStudyProjectName = 'case_study_project_name';
   static const caseStudyDescription = 'case_study_description';
   static const caseStudyBusinessTitle = 'case_study_business_title';
-  static const caseStudyCompanyDescription = 'case_study_company_description';
   static const caseStudyBusinessDescription = 'case_study_business_description';
+  static const caseStudyBusinessImage = 'case_study_business_image';
+  static const caseStudyCompanyId = 'case_study_company_id';
+  static const caseStudyCompanyTitle = 'case_study_company_title';
+  static const caseStudyCompanyImage = 'case_study_company_image';
+  static const caseStudyCompanyDescription = 'case_study_company_description';
   static const caseStudySolutionTitle = 'case_study_solution_title';
   static const caseStudySolutionDescription = 'case_study_solution_description';
+  static const caseStudySolutionImage = 'case_study_solution_image';
+  static const caseStudyLink = 'case_study_link';
+  static const caseStudyDocuments = 'case_study_documents';
   static const caseStudyImages = 'case_study_images';
 
   //------------- Case Study technologies ---------

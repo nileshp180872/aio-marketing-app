@@ -11,6 +11,7 @@ class Portfolio {
   String? portfolioScreenTypeName;
   String? portfolioProjectName;
   String? portfolioProjectDescription;
+  String? portfolioLink;
   String? images;
   List<String>? projectImages;
 
@@ -23,6 +24,7 @@ class Portfolio {
       this.portfolioScreenTypeName,
       this.portfolioProjectName,
       this.projectImages,
+      this.portfolioLink,
       this.images,
       this.portfolioProjectDescription});
 
@@ -34,6 +36,7 @@ class Portfolio {
     portfolioScreenTypeId = json[DbConstants.portfolioScreenType];
     portfolioScreenTypeName = json[DbConstants.portfolioScreenName];
     portfolioProjectName = json[DbConstants.portfolioProjectName];
+    portfolioLink = json[DbConstants.projectLink];
     portfolioProjectDescription = json[DbConstants.portfolioProjectDescription];
     images = json[DbConstants.images];
     if (json[DbConstants.projectImages] != null) {
@@ -54,6 +57,7 @@ class Portfolio {
     data[DbConstants.portfolioScreenName] = portfolioScreenTypeName;
     data[DbConstants.portfolioProjectName] = portfolioProjectName;
     data[DbConstants.portfolioProjectDescription] = portfolioProjectDescription;
+    data[DbConstants.projectLink] = portfolioLink;
 
     if (projectImages != null) {
       var json = jsonEncode(projectImages, toEncodable: (e) => e!.toString());

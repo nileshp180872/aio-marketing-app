@@ -12,13 +12,9 @@ import '../../../config/app_constants.dart';
 import '../../../config/app_strings.dart';
 import '../../../infrastructure/db/schema/portfolio_images.dart';
 import '../../../utils/utils.dart';
-import '../../portfolio/controllers/portfolio.controller.dart';
 import '../../project_list/model/project_list_model.dart';
 
 class ProjectDetailController extends GetxController {
-  /// Screen viewing type enum
-  PortfolioEnum _portfolioEnum = PortfolioEnum.PORTFOLIO;
-
   /// screen title
   RxString screenTitle = AppStrings.domainIndustry.obs;
 
@@ -75,9 +71,6 @@ class ProjectDetailController extends GetxController {
       activeProjectIndex.value = Get.arguments[RouteArguments.index] ?? "";
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
-
-      _portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
-          PortfolioEnum.PORTFOLIO;
 
       _prepareProjectDetails();
     }

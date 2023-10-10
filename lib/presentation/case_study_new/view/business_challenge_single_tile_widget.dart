@@ -1,5 +1,4 @@
 import 'package:aio/config/app_assets.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:flutter/material.dart';
 
 import '../model/business_challenge.dart';
@@ -21,7 +20,7 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
           height: 70,
           width: 70,
           child: Padding(
-            padding: const EdgeInsets.only(top:8.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Image.asset(AppAssets.caseStudyChallenges),
           ),
         ),
