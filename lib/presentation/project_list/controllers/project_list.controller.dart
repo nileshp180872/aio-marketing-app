@@ -88,7 +88,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
       strSelectedScreens = filterModel.platform.join(",");
       strSelectedTechnologies = filterModel.technologies.join(",");
     }
-    final portfolio = await _dbHelper.getPortfolioWithImage(pageKey -1,
+    final portfolio = await _dbHelper.getPortfolioWithImage(pageKey - 1,
         domains: strSelectedDomains,
         screens: strSelectedScreens,
         filterApplied: filterApplied.value,
@@ -122,7 +122,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
       strSelectedDomains = filterModel.domains.join(",");
       strSelectedTechnologies = filterModel.technologies.join(",");
     }
-    final caseStudies = await _dbHelper.getCaseStudyWithImage(pageKey-1,
+    final caseStudies = await _dbHelper.getCaseStudyWithImage(pageKey - 1,
         domains: strSelectedDomains,
         filterApplied: filterApplied.value,
         technologies: strSelectedTechnologies);
@@ -246,6 +246,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
                 overView: element.domainName,
                 description: element.description,
                 technologies: technologies.join(", "),
+                urlLink: element.urlLink,
                 viewType: AppConstants.portfolio);
             newItems.add(model);
           } catch (ex) {
