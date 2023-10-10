@@ -57,7 +57,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
           image: const AssetImage(AppAssets.caseStudyHeaderBackground),
         ),
       ),
-      height: 400,
+      height: 700,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
       child: Row(
@@ -66,16 +66,17 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
             flex: 6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   AppStrings.caseStudy,
                   style: _textTheme.displaySmall
-                      ?.copyWith(fontSize: 14, color: AppColors.colorPrimary),
+                      ?.copyWith(fontSize: 20, color: AppColors.colorPrimary),
                 ),
                 Text(
                   AppStrings.caseStudyHeaderMessage,
                   style: _textTheme.headlineLarge
-                      ?.copyWith(fontSize: 32, color: Colors.white),
+                      ?.copyWith(fontSize: 50, color: Colors.white),
                 ),
                 const SizedBox(
                   height: 10,
@@ -107,13 +108,13 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
         Text(
           title,
           style: _textTheme.displaySmall
-              ?.copyWith(fontSize: 14, color: Colors.white),
+              ?.copyWith(fontSize: 20, color: Colors.white),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         SizedBox(
-          height: 40,
+          height: 56,
           child: ListView.builder(
               shrinkWrap: true,
               itemCount: children.length,
@@ -130,11 +131,11 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature
     return Container(
       margin: const EdgeInsets.only(right: 10, top: 4),
       color: AppColors.colorPrimary,
-      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 13),
       child: Text(
         title,
         style: _textTheme.displaySmall
-            ?.copyWith(fontSize: 14, color: Colors.white),
+            ?.copyWith(fontSize: 20, color: Colors.white),
       ),
     );
   }
