@@ -38,10 +38,18 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
 
   Widget _buildHeaderMainSection() {
     return Container(
-      color: AppColors.colorSecondary,
+      decoration: BoxDecoration(
+        color: AppColors.colorSecondary,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.05), BlendMode.dstATop),
+          image: const AssetImage(AppAssets.caseStudyHeaderBackground),
+        ),
+      ),
       height: 400,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
       child: Row(
         children: [
           Expanded(
@@ -118,6 +126,22 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
         style: _textTheme.displaySmall
             ?.copyWith(fontSize: 14, color: Colors.white),
       ),
+    );
+  }
+
+  Widget _buildBusinessChallenges() {
+    return Container(
+      color: AppColors.headerBackground,
+      height: 300,
+      width: double.infinity,
+    );
+  }
+
+  Widget _buildBusinessSolution() {
+    return Container(
+      color: AppColors.headerBackground,
+      height: 300,
+      width: double.infinity,
     );
   }
 }

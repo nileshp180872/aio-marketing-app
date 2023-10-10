@@ -18,6 +18,7 @@ abstract class AppStrings {
   static const usedTechnologies = 'Used Technology';
   static const overview = 'Overview';
   static const domain = 'Domain';
+  static const liveLink = 'Live Link';
   static const description = 'Description';
   static const enquiryTitle = 'Submit your Inquiry';
   static const fullNameMandatory = 'Full Name*';

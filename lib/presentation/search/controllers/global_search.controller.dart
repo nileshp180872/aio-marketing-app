@@ -81,8 +81,8 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
   /// Get data depend on [_portfolioEnum].
   void _getAllDataFromDb(int pageKey) {
     Future.wait<List<dynamic>>([
-      _dbHelper.getPortfolioBySearch(pageKey-1, search: _search),
-      _dbHelper.getCaseStudyBySearch(pageKey-1, search: _search),
+      _dbHelper.getPortfolioBySearch(pageKey - 1, search: _search),
+      _dbHelper.getCaseStudyBySearch(pageKey - 1, search: _search),
     ]).then((value) {
       if (value.isNotEmpty) {
         try {
@@ -252,6 +252,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
                 overView: element.domainName,
                 description: element.description,
                 technologies: technologies.join(","),
+                urlLink: element.urlLink,
                 viewType: AppConstants.portfolio);
             newItems.add(model);
           } catch (ex) {

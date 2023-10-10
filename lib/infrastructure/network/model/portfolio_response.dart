@@ -42,13 +42,13 @@ class PortfolioResponseData {
   String? screenTYPE;
   String? screenNAME;
   String? projectName;
+  String? urlLink;
   String? description;
   String? modifiedOn;
   bool? isEnabled;
   bool? isDeleted;
   List<TechMapping>? techMapping;
   List<ImageMapping>? imageMapping;
-
 
   PortfolioResponseData(
       {this.portfolioID,
@@ -57,6 +57,7 @@ class PortfolioResponseData {
       this.screenTYPE,
       this.screenNAME,
       this.isEnabled,
+      this.urlLink,
       this.isDeleted,
       this.modifiedOn,
       this.projectName,
@@ -72,15 +73,20 @@ class PortfolioResponseData {
     isEnabled = json['is_enabled'];
     isDeleted = json['is_deleted'];
     modifiedOn = json['modified_on'];
+    urlLink = json['URLLink'];
     projectName = json['ProjectName'];
     description = json['Description'];
     if (json['TechMapping'] != null) {
       techMapping = <TechMapping>[];
-      json['TechMapping'].forEach((v) { techMapping!.add(new TechMapping.fromJson(v)); });
+      json['TechMapping'].forEach((v) {
+        techMapping!.add(new TechMapping.fromJson(v));
+      });
     }
     if (json['ImageMapping'] != null) {
       imageMapping = <ImageMapping>[];
-      json['ImageMapping'].forEach((v) { imageMapping!.add(new ImageMapping.fromJson(v)); });
+      json['ImageMapping'].forEach((v) {
+        imageMapping!.add(new ImageMapping.fromJson(v));
+      });
     }
   }
 
@@ -91,6 +97,7 @@ class PortfolioResponseData {
     data['DomainName'] = this.domainName;
     data['ScreenType'] = this.screenTYPE;
     data['is_enabled'] = this.isEnabled;
+    data['URLLink'] = this.urlLink;
     data['is_deleted'] = this.isDeleted;
     data['modified_on'] = this.modifiedOn;
     data['ScreenName'] = this.screenNAME;
@@ -105,13 +112,14 @@ class PortfolioResponseData {
     return data;
   }
 }
+
 class TechMapping {
   String? portfolioID;
   String? caseStudyID;
   String? techID;
   String? techName;
 
-  TechMapping({this.portfolioID,this.caseStudyID, this.techID, this.techName});
+  TechMapping({this.portfolioID, this.caseStudyID, this.techID, this.techName});
 
   TechMapping.fromJson(Map<String, dynamic> json) {
     portfolioID = json['PortfolioID'];

@@ -6,6 +6,7 @@ class ProjectListModel {
   String? overView;
   String? description;
   String? projectImage;
+  String? urlLink;
   List<String>? networkImages;
   int? viewType;
 
@@ -16,6 +17,7 @@ class ProjectListModel {
       this.projectName,
       this.projectImage,
       this.networkImages,
+      this.urlLink,
       this.technologies,
       this.overView,
       this.description});
