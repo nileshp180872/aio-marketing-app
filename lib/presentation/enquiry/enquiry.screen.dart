@@ -83,10 +83,14 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
           decoration: BoxDecoration(
               color: AppColors.colorPrimary,
               borderRadius: BorderRadius.circular(4)),
-          child: Text(
-            AppStrings.submit,
-            style: _textTheme.labelLarge
-                ?.copyWith(fontFamily: AppConstants.poppins),
+          child: Obx(
+            () => _controller.loading.value
+                ? const CircularProgressIndicator()
+                : Text(
+                    AppStrings.submit,
+                    style: _textTheme.labelLarge
+                        ?.copyWith(fontFamily: AppConstants.poppins),
+                  ),
           )),
     );
   }
@@ -252,9 +256,9 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.05,
+            childAspectRatio: 1.4,
             mainAxisSpacing: 12,
-            crossAxisSpacing: 12),
+            crossAxisSpacing: 2),
         itemCount: AppConstants.otherCountryData.length,
         itemBuilder: (context, index) {
           return _countryGridItem(AppConstants.otherCountryData[index]);
@@ -280,8 +284,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         SvgPicture.asset(
           data.countryFlag,
           height: AppValues.size_68,
-        ).paddingOnly(bottom: AppValues.size_10,top: AppValues.size_10),
-
+        ).paddingOnly(bottom: AppValues.size_10, top: AppValues.size_10),
         Text(
           data.countryAddress,
           textAlign: TextAlign.center,

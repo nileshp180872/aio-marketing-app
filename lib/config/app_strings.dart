@@ -54,7 +54,7 @@ abstract class AppStrings {
   static const usaOfficeAddress =
       '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
   static const headOfficelable = 'Head Office';
-  static const enquiryAddSuccess = 'Your enquiry is saved!';
+  static const enquiryAddSuccess = 'Your inquiry is saved!';
 
   // ------------------- Validation ---------------------
   static const caseStudyHeaderMessage =
@@ -66,10 +66,12 @@ abstract class AppStrings {
   static const businessSolutions = 'Business Solutions';
   static const appliedTechnology = 'Applied Technologies';
   static const conclusion = 'Conclusion ';
+  static const inputString = 'Please enter email address';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
   static const emailValidationMsg = 'Email ID cannot be empty';
+  static const emailNotValid = 'Please enter valid email id.';
   static const phoneValidationMsg = 'Phone No. cannot be empty';
   static const companyNameValidationMsg = 'Company Name cannot be empty';
   static const msgValidationMsg = 'Message cannot be empty';

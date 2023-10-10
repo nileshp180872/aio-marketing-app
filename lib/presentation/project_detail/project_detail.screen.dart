@@ -132,13 +132,12 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
           _buildSectionHeader(title: AppStrings.description),
           _buildLinkableText(
               content: _controller.projectData.value.description ?? ""),
-               const SizedBox(
+          const SizedBox(
             height: 38,
           ),
           _buildSectionHeader(title: AppStrings.liveLink),
           _buildLinkableText(
               content: _controller.projectData.value.urlLink ?? ""),
-         
         ],
       ),
     );
@@ -204,7 +203,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
   Widget _buildImagePreview() {
     return ProjectImageWidget(
       imageURL: _controller.activeImage.value,
-      fit: BoxFit.fill,
+      fit: BoxFit.fitHeight,
     );
   }
 }

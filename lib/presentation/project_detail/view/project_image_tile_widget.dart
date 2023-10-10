@@ -26,7 +26,7 @@ class ProjectImageTileWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.colorSecondary.withOpacity(0.15),
         ),
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(1),
         child: ProjectImageWidget(imageURL: imagePath),
       ),
     );

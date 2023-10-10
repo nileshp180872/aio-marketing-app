@@ -11,7 +11,7 @@ class AppConstants {
 
   static const multiLineMaxLength = 500;
   static const textFieldMaxLength = 100;
-  static const phoneMaxLength =15;
+  static const phoneMaxLength = 15;
 
   static const portfolio = 1;
   static const caseStudy = 2;
@@ -21,7 +21,6 @@ class AppConstants {
 
   /// Page limit for portfolios and case studies
   static const paginationPageLimit = 10;
-
 
   static var countryData = CountryModel(
       id: '1',
@@ -54,9 +53,7 @@ class AppConstants {
     CountryModel(
         id: '3',
         countryName: 'S.AFRICA',
-        countryAddress: "Expanding to Germany",
+        countryAddress: "Expanding to S.AFRICA",
         countryFlag: SVGAssets.africaFlag),
   ];
-
-
 }
