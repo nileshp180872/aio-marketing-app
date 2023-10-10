@@ -36,6 +36,9 @@ abstract class NetworkAPIs {
 
   // new case studies
   static const kNewCaseStudies = "casestudies/list";
+
+  // Share PDF
+  static const kCaseStudyShare = "/casestudies/share-pdf";
 }
 
 abstract class NetworkParams {
