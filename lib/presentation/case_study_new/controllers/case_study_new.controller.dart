@@ -10,6 +10,7 @@ class CaseStudyNewController extends GetxController {
   RxList<BusinessChallenge> businessChallenges = RxList();
   RxList<BusinessChallenge> businessSolution = RxList();
   RxList<String> businessImages = RxList();
+  RxList<String> techLogo = RxList();
 
   final logger = Logger();
 
@@ -23,9 +24,14 @@ class CaseStudyNewController extends GetxController {
     _getArguments();
     _initialChallenges();
     _businessSolutions();
+    _getTechImage();
     super.onInit();
   }
 
+  /// image Dummy data
+  void _getTechImage() {
+    techLogo.addAll(["", "", "", "", "", ""]);
+  }
 
   /// Receive arguments from previous screen.
   void _getArguments() {

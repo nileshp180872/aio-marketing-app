@@ -1,22 +1,67 @@
+import 'package:aio/config/app_strings.dart';
+import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:aio/presentation/case_study_new/view/slider_widget.dart';
+import 'package:aio/presentation/case_study_new/view/technology_single_logo.dart';
 import 'package:flutter/material.dart';
 
 class BottomSection extends StatelessWidget {
   List<String> sliderImage;
+  List<String> techlogoImage;
 
-  BottomSection({required this.sliderImage, super.key});
+  BottomSection(
+      {required this.sliderImage, required this.techlogoImage, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SliderWidget(
-            imageSlider: sliderImage,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 5,
+            child: SliderWidget(
+              imageSlider: sliderImage,
+            ),
           ),
-        ),
-        Expanded(child: Container()),
-      ],
+          Expanded(
+              flex: 6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SectionHeaderWidget(
+                    title: AppStrings.appliedTechnology,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                      height: 300,
+                      width: double.infinity,
+                      child: _buildTechnologySolution()),
+                ],
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTechnologySolution() {
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: 5,
+      // itemCount: techlogoImage.length,
+      itemBuilder: (_, index) {
+        return TechnologySignleTileWidget(image: techlogoImage[0]);
+      },
+      separatorBuilder: (_, __) {
+        return const SizedBox(
+          width: 20,
+        );
+      },
     );
   }
 }

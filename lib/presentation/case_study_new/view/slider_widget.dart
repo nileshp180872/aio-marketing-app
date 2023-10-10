@@ -19,7 +19,7 @@ class _SliderWidgetState extends State<SliderWidget> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 300,

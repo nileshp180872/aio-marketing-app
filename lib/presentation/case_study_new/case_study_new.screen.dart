@@ -4,6 +4,7 @@ import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/case_study_new/view/bottom_section.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
+import 'package:aio/presentation/case_study_new/view/conclution_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,10 +42,12 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                   ),
                   BottomSection(
                     sliderImage: _controller.businessImages,
+                    techlogoImage: _controller.techLogo,
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
+                  ConclutionSection(),
                 ],
               ),
             ),

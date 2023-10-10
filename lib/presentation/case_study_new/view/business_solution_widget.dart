@@ -15,7 +15,7 @@ class BusinessSolutionWidget extends StatelessWidget {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
+      padding: const EdgeInsets.only(top: 20,bottom: 20, left: 80,right: 60),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +30,7 @@ class BusinessSolutionWidget extends StatelessWidget {
             height: 20,
           ),
           SizedBox(
-              height: 350,
+              height: 450,
               width: double.infinity,
               child: _buildBusinessSolution()),
         ],
@@ -41,6 +41,7 @@ class BusinessSolutionWidget extends StatelessWidget {
   /// Build business solution list
   Widget _buildBusinessSolution() {
     return ListView.separated(
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (_, index) {

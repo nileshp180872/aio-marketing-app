@@ -64,6 +64,8 @@ abstract class AppStrings {
   static const companyOverview = 'Company Overview';
   static const businessChallenges = 'Business Challenges';
   static const businessSolutions = 'Business Solutions';
+  static const appliedTechnology = 'Applied Technologies';
+  static const conclusion = 'Conclusion ';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
