@@ -14,7 +14,7 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Container(
-      width: 220,
+      width: 250,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,9 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                 width: 50,
                 child: Image.asset(AppAssets.caseStudyChallenges),
               ),
-              SizedBox(width: 16,),
+              SizedBox(
+                width: 16,
+              ),
               Expanded(
                   child: Column(
                 children: [
@@ -37,7 +39,9 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                     style: _textTheme.bodyLarge
                         ?.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     model.description ?? "",
                     style: _textTheme.bodyLarge

@@ -32,6 +32,9 @@ abstract class NetworkAPIs {
 
   // case studies
   static const kCaseStudies = "casestudies/list";
+
+  // new case studies
+  static const kNewCaseStudies = "casestudies/list";
 }
 
 abstract class NetworkParams {

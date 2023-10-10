@@ -14,7 +14,7 @@ class BusinessSolutionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.headerBackground,
+      color: Colors.white,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(

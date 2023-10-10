@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../infrastructure/navigation/routes.dart';
+import '../../utils/user_feature.mixin.dart';
 import 'controllers/case_study_new.controller.dart';
 import 'view/company_overview_widget.dart';
 
-class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
+class CaseStudyNewScreen extends GetView<CaseStudyNewController> with AppFeature {
   CaseStudyNewScreen({Key? key}) : super(key: key);
   CaseStudyNewController _controller = Get.find(tag: Routes.CASE_STUDY_NEW);
 
@@ -20,20 +21,29 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController> {
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeaderMainSection(),
-          CompanyOverviewWidget(),
-          BusinessChallenges(
-              businessChallenges: _controller.businessChallenges),
-          BusinessSolutionWidget(
-            businessSolution: _controller.businessSolution,
+        body: SafeArea(
+          child: Column(
+            children: [
+              buildCustomAppBar(title: AppStrings.caseStudy),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildHeaderMainSection(),
+                      CompanyOverviewWidget(),
+                      BusinessChallenges(
+                          businessChallenges: _controller.businessChallenges),
+                      BusinessSolutionWidget(
+                        businessSolution: _controller.businessSolution,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget _buildHeaderMainSection() {
