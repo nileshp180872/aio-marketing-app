@@ -109,8 +109,8 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                                 }, // Replace with your subject and body
                               );
 
-                              if (await canLaunch(emailLaunchUri.toString())) {
-                                await launch(emailLaunchUri.toString());
+                              if (await canLaunchUrl(emailLaunchUri)) {
+                                await launchUrl(emailLaunchUri);
                               } else {
                                 throw 'Could not launch email';
                               }

@@ -54,7 +54,7 @@ abstract class AppStrings {
   static const usaOfficeAddress =
       '4411 Suwanee Dam road, Bld. 300 Ste. 350 Suwanee GA, 30024';
   static const headOfficelable = 'Head Office';
-  static const enquiryAddSuccess = 'Your enquiry is saved!';
+  static const enquiryAddSuccess = 'Your inquiry is saved!';
 
   // ------------------- Validation ---------------------
   static const caseStudyHeaderMessage =

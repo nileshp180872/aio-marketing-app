@@ -41,6 +41,7 @@ class EnquiryController extends GetxController with AppLoadingMixin {
   String _phoneNumber = "";
   String _companyName = "";
   String _message = "";
+  RxBool loading = false.obs;
 
   // Logger
   final logger = Logger();
@@ -83,10 +84,12 @@ class EnquiryController extends GetxController with AppLoadingMixin {
 
   /// submit enquiry
   void submit() async {
+    loading.value = true;
     if (enquiryFormKey.currentState!.validate()) {
       if (_validateFields()) {
         _saveEntryToDb();
       }
+      loading.value = false;
     }
   }
 
@@ -107,10 +110,12 @@ class EnquiryController extends GetxController with AppLoadingMixin {
       } else {
         final enquiryResponse = await _dbHelper.addToEnquiry(enquiry);
         if (enquiryResponse != -1) {
+          loading.value = false;
           Utils.showSuccessDialog(message: AppStrings.enquiryAddSuccess);
         }
       }
     } catch (ex) {
+      loading.value = false;
       logger.e(ex);
     }
   }
