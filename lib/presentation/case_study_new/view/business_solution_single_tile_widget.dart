@@ -13,8 +13,9 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
-    return Container(
-      width: 250,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3 - 80,
+      // width:300,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,12 +24,12 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 50,
                 width: 50,
                 child: Image.asset(AppAssets.caseStudyChallenges),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Expanded(
@@ -36,16 +37,20 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                 children: [
                   Text(
                     model.title ?? "",
-                    style: _textTheme.bodyLarge
-                        ?.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+                    style: _textTheme.bodyLarge?.copyWith(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xff263238)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     model.description ?? "",
-                    style: _textTheme.bodyLarge
-                        ?.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                    style: _textTheme.bodyLarge?.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff263238)),
                   )
                 ],
               )),
