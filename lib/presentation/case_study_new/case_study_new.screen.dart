@@ -7,6 +7,7 @@ import 'package:aio/presentation/case_study_new/view/business_challange_widget.d
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
 import 'package:aio/presentation/case_study_new/view/conclution_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -99,23 +100,9 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                         padding: const EdgeInsets.only(right: 40.0),
                         child: IconButton(
                             onPressed: () async {
-                              final Uri emailLaunchUri = Uri(
-                                scheme: 'mailto',
-                                path:
-                                    'shreejitridhyatech@gmail.com', // Replace with the recipient's email address
-                                queryParameters: {
-                                  'subject': 'Your Subject',
-                                  'body': 'Your Email Body',
-                                }, // Replace with your subject and body
-                              );
-
-                              if (await canLaunchUrl(emailLaunchUri)) {
-                                await launchUrl(emailLaunchUri);
-                              } else {
-                                throw 'Could not launch email';
-                              }
+                             _controller.openGmail();
                             },
-                            icon: const Icon(Icons.share)),
+                            icon: const Icon(Icons.share, color:AppColors.colorSecondary)),
                       )
                     ],
                   ),

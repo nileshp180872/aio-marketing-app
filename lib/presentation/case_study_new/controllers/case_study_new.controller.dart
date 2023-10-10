@@ -1,5 +1,6 @@
 import 'package:aio/infrastructure/db/schema/case_study_images.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
@@ -11,6 +12,7 @@ import '../../../utils/utils.dart';
 import '../../project_list/model/project_list_model.dart';
 import '../model/business_challenge.dart';
 import '../provider/case_study_new.provider.dart';
+import '../view/share_doc_dialog.dart';
 
 class CaseStudyNewController extends GetxController {
   /// screen title
@@ -206,4 +208,30 @@ class CaseStudyNewController extends GetxController {
   ///
   /// required [response] response.
   void _getCaseStudyAPIFailure(dio.Response response) async {}
+
+  void openDialog() {}
+
+  void openGmail() async {
+    Get.dialog(Material(
+        color: Colors.transparent,
+        child: ShareDocDialog(onShareClick: (value) {})));
+
+    // String mailBody =
+    //     "Thank you for requesting case study \n You may access the full case study by clicking on the link below : \n LINK If you have any questions, do not hesitate to contact us, please feel free to send us more details on info@tridhyatech.com or visit our website www.tridhyatech.com";
+    // String uri =
+    //     'mailto:test@example.org?subject=Thank you for requesting case study&body=$mailBody';
+    // final Uri emailLaunchUri = Uri(
+    //     scheme: 'mailto',
+    //     path: 'shreejitridhyatech@gmail.com',
+    //     queryParameters: {
+    //       'subject': 'Thank you for requesting case study',
+    //       'body': mailBody,
+    //     });
+    //
+    // if (await canLaunchUrl(Uri.parse(uri))) {
+    //   await launchUrl(emailLaunchUri);
+    // } else {
+    //   throw 'Could not launch email';
+    // }
+  }
 }

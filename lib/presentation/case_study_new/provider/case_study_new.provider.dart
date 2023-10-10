@@ -11,4 +11,10 @@ class CaseStudyNewProvider {
     return await GetIt.I<DioProvider>()
         .getBaseAPI(url: NetworkAPIs.kNewCaseStudies);
   }
+
+  /// Returns send invitation
+  Future<Response> sendLinkInvitation() async {
+    return await GetIt.I<DioProvider>()
+        .getBaseAPI(url: NetworkAPIs.kNewCaseStudies);
+  }
 }

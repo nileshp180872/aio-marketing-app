@@ -66,10 +66,12 @@ abstract class AppStrings {
   static const businessSolutions = 'Business Solutions';
   static const appliedTechnology = 'Applied Technologies';
   static const conclusion = 'Conclusion ';
+  static const inputString = 'Please enter email address';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
   static const emailValidationMsg = 'Email ID cannot be empty';
+  static const emailNotValid = 'Please enter valid email id.';
   static const phoneValidationMsg = 'Phone No. cannot be empty';
   static const companyNameValidationMsg = 'Company Name cannot be empty';
   static const msgValidationMsg = 'Message cannot be empty';
