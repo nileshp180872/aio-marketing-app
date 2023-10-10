@@ -111,24 +111,68 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildHeaderMainSection(),
-                  CompanyOverviewWidget(),
-                  BusinessChallenges(
-                      businessChallenges: _controller.businessChallenges),
-                  BusinessSolutionWidget(
-                    businessSolution: _controller.businessSolution,
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildHeaderMainSection(),
+                      CompanyOverviewWidget(),
+                      BusinessChallenges(
+                          businessChallenges: _controller.businessChallenges),
+                      BusinessSolutionWidget(
+                        businessSolution: _controller.businessSolution,
+                      ),
+                      BottomSection(
+                        sliderImage: _controller.businessImages,
+                        techlogoImage: _controller.techLogo,
+                      ),
+                      ConclutionSection(),
+                    ],
                   ),
-                  BottomSection(
-                    sliderImage: _controller.businessImages,
-                    techlogoImage: _controller.techLogo,
-                  ),
-                  ConclutionSection(),
-                ],
-              ),
+                ),
+                Positioned(
+                    top: 0,
+                    bottom: 0,
+                    child:  InkWell(
+                      splashFactory: NoSplash.splashFactory,
+                      highlightColor: Colors.transparent,
+                      onTap: _controller.enablePrevious.isTrue
+                          ? _controller.goToPreviousPage
+                          : null,
+                      child: SizedBox(
+                          width: AppValues.sideMargin,
+                          height: AppValues.sideMargin,
+                          child: Center(
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: _controller.enablePrevious.isTrue
+                                    ? AppColors.colorSecondary
+                                    : AppColors.colorSecondary.withOpacity(0.5),
+                              ))),
+                    ),),
+
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    child:  InkWell(
+                      splashFactory: NoSplash.splashFactory,
+                      highlightColor: Colors.transparent,
+                      onTap:
+                      _controller.enableNext.isTrue ? _controller.goToNextPage : null,
+                      child: SizedBox(
+                          width: AppValues.sideMargin,
+                          child: Center(
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: _controller.enableNext.isTrue
+                                    ? AppColors.colorSecondary
+                                    : AppColors.colorSecondary.withOpacity(0.5),
+                              ))),
+                    ),)
+              ],
             ),
           ),
         ],
