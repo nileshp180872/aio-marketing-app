@@ -16,7 +16,7 @@ class MemberTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _buildContext = context;
     _textTheme = Theme.of(context).textTheme;
-    return Row( 
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: _buildLeftContainer()),
@@ -88,7 +88,7 @@ class MemberTileWidget extends StatelessWidget {
   Widget _buildContentText({required String content}) {
     return Text(
       content,
-      style: _textTheme.bodyMedium,
+      style: _textTheme.bodyMedium?.copyWith(height: 1.7, fontSize: 18),
     );
   }
 }

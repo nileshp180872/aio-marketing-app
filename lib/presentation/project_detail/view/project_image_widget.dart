@@ -31,7 +31,7 @@ class ProjectImageWidget extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: "${NetworkConstants.kImageBasePath}$imageURL",
       errorWidget: (_, __, ___) => _buildNoImage(),
-      fit: BoxFit.cover,
+      fit: fit,
     );
   }
 

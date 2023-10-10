@@ -54,7 +54,7 @@ class DioProvider {
       if (ex.type == DioExceptionType.connectionTimeout) {
         return Response(
             data: AppStrings.connectionTimeoutMessage,
-            statusMessage:  AppStrings.connectionTimeoutMessage,
+            statusMessage: AppStrings.connectionTimeoutMessage,
             statusCode: 500,
             requestOptions: RequestOptions());
       }

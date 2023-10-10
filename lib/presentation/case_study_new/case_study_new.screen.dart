@@ -9,6 +9,7 @@ import 'package:aio/presentation/case_study_new/view/conclution_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../infrastructure/navigation/routes.dart';
 import '../../utils/user_feature.mixin.dart';
@@ -97,7 +98,24 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                       Padding(
                         padding: const EdgeInsets.only(right: 40.0),
                         child: IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.share)),
+                            onPressed: () async {
+                              final Uri emailLaunchUri = Uri(
+                                scheme: 'mailto',
+                                path:
+                                    'shreejitridhyatech@gmail.com', // Replace with the recipient's email address
+                                queryParameters: {
+                                  'subject': 'Your Subject',
+                                  'body': 'Your Email Body',
+                                }, // Replace with your subject and body
+                              );
+
+                              if (await canLaunch(emailLaunchUri.toString())) {
+                                await launch(emailLaunchUri.toString());
+                              } else {
+                                throw 'Could not launch email';
+                              }
+                            },
+                            icon: const Icon(Icons.share)),
                       )
                     ],
                   ),
