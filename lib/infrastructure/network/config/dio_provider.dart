@@ -12,7 +12,7 @@ class DioProvider {
   void initialise() {
     mDio = Dio(
       BaseOptions(
-        baseUrl: NetworkConstants.kDevelopment,
+        baseUrl: NetworkConstants.kProduction,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 30),
         receiveDataWhenStatusError: true,

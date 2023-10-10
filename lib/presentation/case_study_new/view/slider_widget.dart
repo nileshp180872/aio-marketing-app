@@ -1,4 +1,5 @@
 import 'package:aio/config/app_colors.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../project_detail/view/project_image_widget.dart';
@@ -33,7 +34,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             },
             itemBuilder: (_, index) {
               return ProjectImageWidget(
-                imageURL: widget.imageSlider[index],
+                imageURL: "${NetworkConstants.kImageBasePath}${widget.imageSlider[index]}",
                 fit: BoxFit.fill,
               );
             },

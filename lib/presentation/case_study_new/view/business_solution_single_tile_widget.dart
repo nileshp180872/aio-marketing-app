@@ -1,5 +1,7 @@
 import 'package:aio/config/app_assets.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../model/business_challenge.dart';
 
@@ -13,6 +15,7 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
+    Get.log("code ${"${NetworkConstants.kImageBasePath}${model.icon}"}");
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3 - 60,
       // width:300,
@@ -28,13 +31,14 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 height: 50,
                 width: 50,
-                child: Image.asset(AppAssets.caseStudyChallenges),
+                child: Image.network("${NetworkConstants.kImageBasePath}${model.icon}"),
               ),
               const SizedBox(
                 width: 16,
               ),
               Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     model.title ?? "",

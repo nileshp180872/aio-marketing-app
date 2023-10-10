@@ -2,6 +2,7 @@ import 'package:aio/config/app_assets.dart';
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:aio/presentation/case_study_new/view/bottom_section.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
@@ -28,7 +29,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        body: SafeArea(
+        body: Obx(()=>SafeArea(
       child: Column(
         children: [
           // buildCustomAppBar(title: AppStrings.caseStudy),
@@ -118,7 +119,11 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildHeaderMainSection(),
-                      CompanyOverviewWidget(),
+                      CompanyOverviewWidget(
+                        companyTitle: _controller.projectData.value.companyName??"",
+                        companyDescription: _controller.projectData.value.description??"",
+                        companyImage: _controller.projectData.value.companyImage??"",
+                      ),
                       BusinessChallenges(
                           businessChallenges: _controller.businessChallenges),
                       BusinessSolutionWidget(
@@ -128,7 +133,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                         sliderImage: _controller.businessImages,
                         techlogoImage: _controller.techLogo,
                       ),
-                      ConclutionSection(),
+                      ConclutionSection(conclusion: _controller.projectData.value.conclusion??""),
                     ],
                   ),
                 ),
@@ -177,6 +182,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
           ),
         ],
       ),
+      ),
     ));
   }
 
@@ -208,7 +214,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                       ?.copyWith(fontSize: 20, color: AppColors.colorPrimary),
                 ),
                 Text(
-                  AppStrings.caseStudyHeaderMessage,
+                  _controller.projectData.value.projectName??"",
                   style: _textTheme.headlineLarge
                       ?.copyWith(fontSize: 50, color: Colors.white),
                 ),
@@ -216,18 +222,18 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
                   height: 10,
                 ),
                 _buildHeaderSection(
-                    title: AppStrings.platform, children: ["Web", "Mobile"]),
+                    title: AppStrings.platform, children: [_controller.projectData.value.technologies??""]),
                 const SizedBox(
                   height: 20,
                 ),
                 _buildHeaderSection(
-                    title: AppStrings.industry, children: ["Energy"]),
+                    title: AppStrings.industry, children: [_controller.projectData.value.domainName??""]),
               ],
             ),
           ),
           Expanded(
             flex: 4,
-            child: Image.asset(AppAssets.caseStudyHeaderSideImage),
+            child: Image.network("${NetworkConstants.kImageBasePath}${_controller.projectData.value.casestudyBannerImage??""}"),
           )
         ],
       ),
@@ -247,6 +253,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
         const SizedBox(
           height: 4,
         ),
+        if(children.isNotEmpty)
         SizedBox(
           height: 56,
           child: ListView.builder(

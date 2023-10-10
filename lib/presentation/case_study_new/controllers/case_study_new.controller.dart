@@ -57,8 +57,6 @@ class CaseStudyNewController extends GetxController {
   @override
   void onInit() {
     _getArguments();
-    _initialChallenges();
-    _businessSolutions();
     super.onInit();
   }
 
@@ -70,6 +68,7 @@ class CaseStudyNewController extends GetxController {
       activeProjectIndex.value = Get.arguments[RouteArguments.index] ?? "";
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
+      _prepareProjectDetails();
     }
   }
 
@@ -97,6 +96,7 @@ class CaseStudyNewController extends GetxController {
 
   /// Prepare portfolio data for screen.
   void _preparePortfolioData() async {
+    businessChallenges.clear();
     projectData.value = projectList[activeProjectIndex.value];
 
     _projectId = projectData.value.id ?? "";
@@ -104,9 +104,46 @@ class CaseStudyNewController extends GetxController {
     screenTitle.value = projectData.value.projectName ?? "";
 
     if (await Utils.isConnected()) {
-      listImages.value = projectData.value.networkImages ?? [];
+      businessImages.value = projectData.value.sliderImages ?? [];
 
       technologies.value = projectData.value.technologies ?? "";
+      businessChallenges.clear();
+      businessSolution.clear();
+      businessChallenges.addAll([
+        BusinessChallenge(
+            description: projectData.value.businessDescription1,
+            icon: projectData.value.businessImage1,
+            title: projectData.value.businessTitle1),
+        BusinessChallenge(
+            description: projectData.value.businessDescription2,
+            icon: projectData.value.businessImage2,
+            title: projectData.value.businessTitle2),
+        BusinessChallenge(
+            description: projectData.value.businessDescription3,
+            icon: projectData.value.businessImage3,
+            title: projectData.value.businessTitle3),
+      ]);
+      businessSolution.addAll([
+        BusinessChallenge(
+            description: projectData.value.businessDescription1,
+            icon: projectData.value.businessImage1,
+            title: projectData.value.businessTitle1),
+        BusinessChallenge(
+            description: projectData.value.businessDescription2,
+            icon: projectData.value.businessImage2,
+            title: projectData.value.businessTitle2),
+        BusinessChallenge(
+            description: projectData.value.businessDescription3,
+            icon: projectData.value.businessImage3,
+            title: projectData.value.businessTitle3),
+      ]);
+
+      techLogo.value = projectData.value.techMapping ?? [];
+
+      await Future.delayed(Duration(seconds: 2), () {
+        projectData.refresh();
+        businessSolution.refresh();
+      });
     } else {
       final portfolio =
           await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
@@ -137,26 +174,6 @@ class CaseStudyNewController extends GetxController {
     }
 
     listImages.refresh();
-  }
-
-  void _initialChallenges() {
-    businessChallenges.addAll([
-      BusinessChallenge(
-          title: "Changing technologies and customer expectation",
-          description:
-              "Businesses must constantly adapt to new technologies and trends if they want to keep up with constantly evolving technology. It should also ensure that its platforms are accessible, flexible, and scalable as per customers’ expectations.",
-          icon: ""),
-      BusinessChallenge(
-          title: "Ensuring security and managing data",
-          description:
-              "As sensitive data is increasingly stored and transmitted online, security has become a major concern for tech companies. Managing and analyzing the growing volume of data presents additional challenges.",
-          icon: ""),
-      BusinessChallenge(
-          title: "Changing technologies and customer expectation",
-          description:
-              "Businesses must constantly adapt to new technologies and trends if they want to keep up with constantly evolving technology. It should also ensure that its platforms are accessible, flexible, and scalable as per customers’ expectations.",
-          icon: "")
-    ]);
   }
 
   /// Business solutions
@@ -215,13 +232,13 @@ class CaseStudyNewController extends GetxController {
     Get.dialog(Material(
         color: Colors.transparent,
         child: ShareDocDialog(onShareClick: (value) {
-          shareCasestuduDetail(value,"");
+          shareCasestuduDetail(value, "");
         })));
   }
 
   /// Get case studies
   Future<void> shareCasestuduDetail(String email, String id) async {
-    final response = await _provider.sendLinkInvitation(email,id);
+    final response = await _provider.sendLinkInvitation(email, id);
     if (response.data != null) {
       if (response.statusCode == 200) {
         _getCaseStudyAPISuccess(response);
@@ -230,5 +247,4 @@ class CaseStudyNewController extends GetxController {
       }
     }
   }
-
 }

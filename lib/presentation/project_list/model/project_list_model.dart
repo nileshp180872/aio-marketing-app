@@ -20,9 +20,15 @@ class ProjectListModel {
   String? businessDescription2;
   String? businessDescription3;
   String? companyDescription;
+  String? companyImage;
   String? businessImage1;
   String? businessImage2;
   String? businessImage3;
+  String? businessTitle1;
+  String? businessTitle2;
+  String? businessTitle3;
+  List<String>? techMapping = [];
+  List<String>? sliderImages = [];
 
   ProjectListModel(
       {this.id,
@@ -39,6 +45,7 @@ class ProjectListModel {
       this.domainName,
       this.companyName,
       this.conclusion,
+      this.companyImage,
       this.solutionTitle,
       this.solutionDescription,
       this.businessDescription1,
@@ -48,5 +55,10 @@ class ProjectListModel {
       this.businessImage1,
       this.businessImage2,
       this.businessImage3,
+        this.businessTitle1,
+        this.techMapping,
+        this.sliderImages,
+      this.businessTitle2,
+      this.businessTitle3,
       this.description});
 }

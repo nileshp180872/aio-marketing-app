@@ -1,15 +1,24 @@
 import 'package:aio/config/app_strings.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/app_assets.dart';
 
 class CompanyOverviewWidget extends StatelessWidget {
+  String companyTitle;
+  String companyDescription;
+  String companyImage;
 
-  CompanyOverviewWidget({super.key});
+  CompanyOverviewWidget(
+      {this.companyTitle = "",
+      this.companyDescription = "",
+      this.companyImage = "",
+      super.key});
 
   @override
   Widget build(BuildContext context) {
+    print("image ${"${NetworkConstants.kImageBasePath}${companyImage}"}");
     return Container(
       color: Colors.white,
       width: double.infinity,
@@ -18,7 +27,7 @@ class CompanyOverviewWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              flex: 5, child: Image.asset(AppAssets.caseStudyCompanyOverview)),
+              flex: 5, child: Image.network("${NetworkConstants.kImageBasePath}${companyImage}")),
           Expanded(
             flex: 6,
             child: Column(
@@ -34,8 +43,8 @@ class CompanyOverviewWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "Changing from Manual to Digital Solutions for Customer Identification and Verification.",
+                Text(
+                  companyTitle,
                   style: TextStyle(
                       fontSize: 32,
                       color: Color(0xff263238),
@@ -44,18 +53,18 @@ class CompanyOverviewWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "Updating industries with Digitization and advanced technologies",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Color(0xff00517C),
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                const Text(
-                  "Our client is a global energy company headquartered in Singapore since 1997. They specialize in producing, distributing, and marketing petroleum products across 5 continents and 40+ countries. Their primary focus is on retail fuel and supplying energy products to industries such as mining, aviation, marine, and construction. With 3,000+ service stations worldwide, the company has invested in renewable energy and implemented sustainability initiatives to reduce its environmental impact. With a workforce of approximately 8,000 employees, customer satisfaction is their top priority.",
+                // const Text(
+                //   "Updating industries with Digitization and advanced technologies",
+                //   style: TextStyle(
+                //       fontSize: 18,
+                //       color: Color(0xff00517C),
+                //       fontWeight: FontWeight.bold),
+                // ),
+                // const SizedBox(
+                //   height: 4,
+                // ),4
+            Text(
+              companyDescription,
                   style: TextStyle(
                     fontSize: 18,
                     color: Color(0xff00517C),

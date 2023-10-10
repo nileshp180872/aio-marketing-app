@@ -41,7 +41,13 @@ class CaseStudiesResponseData {
       String? companyName;
   String? companyDescription;
   String? businessTitle;
+  String? businessTitle1;
+  String? businessTitle2;
+  String? businessTitle3;
   String? businessImage;
+  String? businessImage1;
+  String? businessImage2;
+  String? businessImage3;
   String? businessDescription;
   String? solutionTitle;
   String? solutionDescription;
@@ -50,11 +56,13 @@ class CaseStudiesResponseData {
   String? companyImage;
   String? bannerImage;
   String? thumbnailImage;
+  String? conclusion;
   String? urlLink;
   bool? isEnabled;
   bool? isDeleted;
   List<CaseStudyTechMapping>? techMapping;
   List<CaseStudyImageMapping>? imageMapping;
+  List<CaseStudyImageMapping>? techImageMapping;
 
   CaseStudiesResponseData(
       {this.casestudiesID,
@@ -71,9 +79,14 @@ class CaseStudiesResponseData {
       this.businessTitle,
       this.businessDescription,
       this.solutionTitle,
+      this.conclusion,
+      this.businessTitle1,
+      this.businessTitle2,
+      this.businessTitle3,
       this.solutionDescription,
       this.solutionImage,
       this.document,
+      this.techImageMapping,
       this.companyImage,
       this.bannerImage,
       this.thumbnailImage,
@@ -90,6 +103,7 @@ class CaseStudiesResponseData {
     isEnabled = json['is_enabled'];
     isDeleted = json['is_deleted'];
     modifiedOn = json['modified_on'];
+    conclusion = json['Conclusion'];
     urlLink = json['URLLink'];
     companyTitle = json['CompanyTitle'];
     companyDescription = json['CompanyDescription'];
@@ -98,11 +112,17 @@ class CaseStudiesResponseData {
     solutionTitle = json['SolutionTitle'];
     solutionDescription = json['SolutionDescription'];
     document = json['Documents'];
-    companyImage = json['ComapnyImage'];
+    companyImage = json['CompanyImage'];
     businessImage = json['BusinessImage'];
     solutionImage = json['SolutionImage'];
     thumbnailImage = json['ThumbnailImages'];
     bannerImage = json['BannerImage'];
+    businessTitle1 = json['BusinessTitle1'];
+    businessTitle2 = json['BusinessTitle2'];
+    businessTitle3 = json['BusinessTitle3'];
+    businessImage1 = json['businessImages1'];
+    businessImage2 = json['businessImages2'];
+    businessImage3 = json['businessImages3'];
     companyName = json['CompanyName'];
     if (json['TechMapping'] != null) {
       techMapping = <CaseStudyTechMapping>[];
@@ -115,6 +135,11 @@ class CaseStudiesResponseData {
       json['ImageMapping'].forEach((v) {
         imageMapping!.add(CaseStudyImageMapping.fromJson(v));
       });
+    }if (json['TechImageMapping'] != null) {
+      imageMapping = <CaseStudyImageMapping>[];
+      json['TechImageMapping'].forEach((v) {
+        imageMapping!.add(CaseStudyImageMapping.fromJson(v));
+      });
     }
   }
 
@@ -124,7 +149,9 @@ class CaseStudiesResponseData {
     data['DomainID'] = domainID;
     data['ProjectName'] = projectName;
     data['Description'] = description;
+    data['TechImageMapping'] = techImageMapping;
     data['DomainName'] = domainName;
+    data['Conclusion'] = conclusion;
     data['is_enabled'] = isEnabled;
     data['is_deleted'] = isDeleted;
     data['CompanyName'] = companyName;
@@ -174,18 +201,21 @@ class ImageMapping {
 class CaseStudyImageMapping {
   String? casestudiesID;
   String? casestudiesImage;
+  String? casestudiesImage2;
 
   CaseStudyImageMapping({this.casestudiesID, this.casestudiesImage});
 
   CaseStudyImageMapping.fromJson(Map<String, dynamic> json) {
     casestudiesID = json['casestudiesID'];
-    casestudiesImage = json['casestudiesImage'];
+    casestudiesImage = json['casestudiesImage '];
+    casestudiesImage2 = json['CaseTechImages'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['casestudiesID'] = casestudiesID;
     data['casestudiesImage'] = casestudiesImage;
+    data['CaseTechImages'] = casestudiesImage2;
     return data;
   }
 }

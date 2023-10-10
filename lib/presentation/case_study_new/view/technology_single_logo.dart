@@ -1,5 +1,7 @@
 import 'package:aio/config/app_assets.dart';
+import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TechnologySignleTileWidget extends StatelessWidget {
   String image;
@@ -10,7 +12,6 @@ class TechnologySignleTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,7 +20,7 @@ class TechnologySignleTileWidget extends StatelessWidget {
           width: 70,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Image.asset(AppAssets.caseStudyChallenges),
+            child: Image.network("${NetworkConstants.kImageBasePath}$image"),
           ),
         ),
       ],

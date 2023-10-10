@@ -8,7 +8,7 @@ import 'business_solution_single_tile_widget.dart';
 class BusinessSolutionWidget extends StatelessWidget {
   List<BusinessChallenge> businessSolution;
 
-  BusinessSolutionWidget({required this.businessSolution, super.key});
+      BusinessSolutionWidget({required this.businessSolution, super.key});
 
   @override
   Widget build(BuildContext context) {
