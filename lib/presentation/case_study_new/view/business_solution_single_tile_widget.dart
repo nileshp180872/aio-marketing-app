@@ -48,7 +48,6 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                   ),
                   Text(
                     model.description ?? "",
-                    textAlign: TextAlign.justify,
                     style: _textTheme.bodyLarge?.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
