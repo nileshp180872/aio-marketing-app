@@ -24,7 +24,6 @@ class ConclutionSection extends StatelessWidget {
           Text(
             "Our esteemed client faced several challenges in the fast-paced and constantly evolving world of information technology, like staying up-to-date with emerging technologies & meeting changing customer expectations, regarding security and data etc. They hired Tridhya Tech, A leading software company that provides a platform for building and deploying enterprise-level websites, portals, and intranets. We addressed these challenges through the digitalization of the customer KYC process. To implement this solution, technologies such as DXP 7.3, PostgreSQL, and Azure VMs have been used. By embracing innovation, our esteemed client can continue to thrive in the constantly evolving world of information technology." ??
                 "",
-            textAlign: TextAlign.justify,
             style: _textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
