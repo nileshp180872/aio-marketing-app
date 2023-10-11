@@ -78,9 +78,9 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // work/portfolio
-        Container(
+        SizedBox(
           width: MediaQuery.of(buildContext).size.width / 4-40,
-          color: Colors.red,
+
           child: _buildButton(
               buildContext:buildContext,
               buttonText: AppStrings.workPortfolio,
@@ -88,26 +88,26 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
         ),
 
         // case study
-        Container(
+        SizedBox(
           width: MediaQuery.of(buildContext).size.width / 4-40,
-          color: Colors.red,
+
           child: _buildButton(
               buttonText: AppStrings.caseStudy,
               onClick: _controller.navigateToCaseStudy),
         ),
         // team leadership
-        Container(
+        SizedBox(
           width: MediaQuery.of(buildContext).size.width / 4-40,
-          color: Colors.red,
+
           child: _buildButton(
 
               buttonText: AppStrings.teamLeadership,
               onClick: _controller.navigateToLeadership),
         ),
         // team leadership
-        Container(
+        SizedBox(
           width: MediaQuery.of(buildContext).size.width / 4-40,
-          color: Colors.red,
+
           child: _buildButton(
               buttonText: AppStrings.clientele,
               onClick: _controller.navigateToClientele),
