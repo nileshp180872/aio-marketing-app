@@ -67,6 +67,7 @@ abstract class AppStrings {
   static const appliedTechnology = 'Applied Technologies';
   static const conclusion = 'Conclusion ';
   static const inputString = 'Share case study';
+  static const imageNotAvailable = 'Images not available';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';

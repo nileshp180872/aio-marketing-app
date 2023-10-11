@@ -145,6 +145,7 @@ mixin SchemaConfig {
             ${DbConstants.caseStudyBusinessImage2} TEXT,
             ${DbConstants.caseStudyBusinessImage3} TEXT,
             ${DbConstants.caseStudyConclusion} TEXT,
+            ${DbConstants.caseStudyLink} TEXT,
             ${DbConstants.caseStudyDocuments} TEXT,
             ${DbConstants.caseStudyImages} TEXT
           )

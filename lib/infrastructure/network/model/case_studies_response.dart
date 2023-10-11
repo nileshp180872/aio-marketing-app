@@ -70,7 +70,7 @@ class CaseStudiesResponseData {
   bool? isDeleted;
   List<CaseStudyTechMapping>? techMapping;
   List<CaseStudyImageMapping>? imageMapping;
-  List<CaseStudyImageMapping>? techImageMapping;
+  List<CaseStudyTechMapping>? techImageMapping;
 
   CaseStudiesResponseData(
       {this.casestudiesID,
@@ -161,9 +161,9 @@ class CaseStudiesResponseData {
       });
     }
     if (json['TechImageMapping'] != null) {
-      imageMapping = <CaseStudyImageMapping>[];
+      techImageMapping = <CaseStudyTechMapping>[];
       json['TechImageMapping'].forEach((v) {
-        imageMapping!.add(CaseStudyImageMapping.fromJson(v));
+        techImageMapping!.add(CaseStudyTechMapping.fromJson(v));
       });
     }
   }
@@ -243,7 +243,7 @@ class CaseStudyImageMapping {
 
   CaseStudyImageMapping.fromJson(Map<String, dynamic> json) {
     casestudiesID = json['casestudiesID'];
-    casestudiesImage = json['casestudiesImage '];
+    casestudiesImage= json['casestudiesImage'];
     casestudiesImage2 = json['CaseTechImages'];
   }
 
@@ -261,6 +261,7 @@ class CaseStudyTechMapping {
   String? casestudiesId;
   String? techId;
   String? techName;
+  String? techImage;
 
   CaseStudyTechMapping(
       {this.id, this.casestudiesId, this.techId, this.techName});
@@ -270,6 +271,7 @@ class CaseStudyTechMapping {
     casestudiesId = json['casestudies_id'];
     techId = json['tech_id'];
     techName = json['TechName'];
+    techImage = json['CaseTechImages'];
   }
 
   Map<String, dynamic> toJson() {
@@ -278,6 +280,7 @@ class CaseStudyTechMapping {
     data['casestudies_id'] = casestudiesId;
     data['tech_id'] = techId;
     data['TechName'] = techName;
+    data['CaseTechImages'] = techImage;
     return data;
   }
 }

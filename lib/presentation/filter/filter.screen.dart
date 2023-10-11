@@ -105,71 +105,88 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
 
   /// Build domain list
   Widget _buildDomainList() {
-    return _controller.lstDomains.isNotEmpty
-        ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 2.8,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20),
-            itemBuilder: (_, index) {
-              return FilterSubCategoryGridTileWidget(
-                  index: index,
-                  onTapItem: _controller.selectDomain,
-                  model: _controller.lstDomains[index]);
-            },
-            itemCount: _controller.lstDomains.length,
+    return _controller.domainLoading.value
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
-        : _buildNoDataView(content: AppStrings.recordNotFound);
+        : _controller.lstDomains.isNotEmpty
+            ? GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.8,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20),
+                itemBuilder: (_, index) {
+                  return FilterSubCategoryGridTileWidget(
+                      index: index,
+                      onTapItem: _controller.selectDomain,
+                      model: _controller.lstDomains[index]);
+                },
+                itemCount: _controller.lstDomains.length,
+              )
+            : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
   /// Build mobile/web list
   Widget _buildMobileList() {
-    return _controller.lstMobileWeb.isNotEmpty
-        ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 2.8,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20),
-            itemBuilder: (_, index) {
-              return FilterSubCategoryGridTileWidget(
-                  index: index,
-                  onTapItem: _controller.selectMobileWeb,
-                  model: _controller.lstMobileWeb[index]);
-            },
-            itemCount: _controller.lstMobileWeb.length,
+    return _controller.platformLoading.value
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
-        : _buildNoDataView(content: AppStrings.recordNotFound);
+        : _controller.lstMobileWeb.isNotEmpty
+            ? GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.8,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20),
+                itemBuilder: (_, index) {
+                  return FilterSubCategoryGridTileWidget(
+                      index: index,
+                      onTapItem: _controller.selectMobileWeb,
+                      model: _controller.lstMobileWeb[index]);
+                },
+                itemCount: _controller.lstMobileWeb.length,
+              )
+            : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
   /// Display widget when any of no data exists.
   Widget _buildNoDataView({required String content}) {
-    return Center(
-        child: Text(
-      content,
-      style: _textTheme.displaySmall,
-    ));
+    return SizedBox(
+      height: 300,
+      child: Center(
+          child: Text(
+        content,
+        style: _textTheme.displaySmall?.copyWith(
+          fontSize: 26,
+        ),
+      )),
+    );
   }
 
   /// Build technology stack list
   Widget _buildTechnologyStackList() {
-    return _controller.lstTechnologies.isNotEmpty
-        ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 2.8,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20),
-            itemBuilder: (_, index) {
-              return FilterSubCategoryGridTileWidget(
-                  index: index,
-                  onTapItem: _controller.selectTechnology,
-                  model: _controller.lstTechnologies[index]);
-            },
-            itemCount: _controller.lstTechnologies.length,
-          ).paddingOnly(bottom: AppValues.size_68)
-        : _buildNoDataView(content: AppStrings.recordNotFound);
+    return _controller.technologyLoading.value
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : _controller.lstTechnologies.isNotEmpty
+            ? GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.8,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20),
+                itemBuilder: (_, index) {
+                  return FilterSubCategoryGridTileWidget(
+                      index: index,
+                      onTapItem: _controller.selectTechnology,
+                      model: _controller.lstTechnologies[index]);
+                },
+                itemCount: _controller.lstTechnologies.length,
+              ).paddingOnly(bottom: AppValues.size_68)
+            : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
   /// Build apply button

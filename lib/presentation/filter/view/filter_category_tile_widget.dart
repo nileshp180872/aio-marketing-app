@@ -29,7 +29,7 @@ class FilterCategoryTileWidget extends StatelessWidget {
             text,
             style: textTheme.labelMedium
                 ?.copyWith(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontFamily: AppConstants.sourceSansPro,
                   fontWeight: FontWeight.w500,
                 )

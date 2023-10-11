@@ -1,5 +1,5 @@
 import 'package:aio/config/app_colors.dart';
-import 'package:aio/infrastructure/network/network_constants.dart';
+import 'package:aio/config/app_strings.dart';
 import 'package:flutter/material.dart';
 
 import '../../project_detail/view/project_image_widget.dart';
@@ -22,24 +22,29 @@ class _SliderWidgetState extends State<SliderWidget> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        Container(
           height: 300,
           width: 400,
-          child: PageView.builder(
-            controller: widget._pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                widget.selectedindex = page;
-              });
-            },
-            itemBuilder: (_, index) {
-              return ProjectImageWidget(
-                imageURL: "${widget.imageSlider[index]}",
-                fit: BoxFit.fill,
-              );
-            },
-            itemCount: widget.imageSlider.length,
-          ),
+          child: widget.imageSlider.isNotEmpty
+              ? PageView.builder(
+                  controller: widget._pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      widget.selectedindex = page;
+                    });
+                  },
+                  itemBuilder: (_, index) {
+                    return ProjectImageWidget(
+                      imageURL: "${widget.imageSlider[index]}",
+                      fit: BoxFit.contain,
+                    );
+                  },
+                  itemCount: widget.imageSlider.length,
+                )
+              : Container(
+                  color: AppColors.cardBackground,
+                  child: const Center(child: Text(AppStrings.imageNotAvailable)),
+                ),
         ),
         const SizedBox(
           height: 20,

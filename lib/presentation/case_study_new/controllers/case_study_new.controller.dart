@@ -21,6 +21,7 @@ class CaseStudyNewController extends GetxController {
   /// Project reactive model
   Rx<ProjectListModel> projectData = ProjectListModel().obs;
 
+  ScrollController scrollController = ScrollController();
   late DatabaseHelper _dbHelper;
 
   late String _projectId;
@@ -77,6 +78,7 @@ class CaseStudyNewController extends GetxController {
     if (enableNext.isTrue) {
       activeProjectIndex.value++;
       _prepareProjectDetails();
+      _scrollToTop();
     }
   }
 
@@ -85,6 +87,7 @@ class CaseStudyNewController extends GetxController {
     if (enablePrevious.isTrue) {
       activeProjectIndex.value--;
       _prepareProjectDetails();
+      _scrollToTop();
     }
   }
 
@@ -105,7 +108,7 @@ class CaseStudyNewController extends GetxController {
 
     if (await Utils.isConnected()) {
       businessImages.value = projectData.value.sliderImages ?? [];
-
+      businessImages.value.removeWhere((element) => element.isEmpty);
       technologies.value = projectData.value.technologies ?? "";
       businessChallenges.clear();
       businessSolution.clear();
@@ -123,6 +126,8 @@ class CaseStudyNewController extends GetxController {
             icon: projectData.value.businessImage3,
             title: projectData.value.businessTitle3),
       ]);
+      Get.log(
+          "projectData.value.solutionTitle1 ${projectData.value.solutionTitle1}");
       businessSolution.addAll([
         BusinessChallenge(
             description: projectData.value.solutionDescription1,
@@ -139,7 +144,9 @@ class CaseStudyNewController extends GetxController {
       ]);
 
       techLogo.value = projectData.value.techMapping ?? [];
+      listImages.value = projectData.value.sliderImages??[];
 
+      Get.log("testing ${techLogo.value}");
       await Future.delayed(Duration(seconds: 2), () {
         projectData.refresh();
         businessSolution.refresh();
@@ -219,9 +226,7 @@ class CaseStudyNewController extends GetxController {
   /// Case study API success
   ///
   /// required [response] response.
-  void _getCaseStudyAPISuccess(dio.Response response) async {
-    Utils.showSuccessDialog(message: "Case study sent successfully!");
-  }
+  void _getCaseStudyAPISuccess(dio.Response response) async {}
 
   /// Case study API Failure
   ///
@@ -248,5 +253,11 @@ class CaseStudyNewController extends GetxController {
         _getCaseStudyAPIFailure(response);
       }
     }
+  }
+
+  /// Scroll to top of the screen.
+  void _scrollToTop(){
+    scrollController.animateTo(scrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 }

@@ -259,7 +259,7 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.4,
+            childAspectRatio: 1.38,
             mainAxisSpacing: 12,
             crossAxisSpacing: 2),
         itemCount: AppConstants.otherCountryData.length,
@@ -288,14 +288,19 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
           data.countryFlag,
           height: AppValues.size_68,
         ).paddingOnly(bottom: AppValues.size_10, top: AppValues.size_10),
-        Text(
-          data.countryAddress,
-          textAlign: TextAlign.center,
-          style: _textTheme.labelLarge?.copyWith(
-              fontFamily: AppConstants.poppins,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.textColorContent),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(
+            data.countryAddress,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: _textTheme.labelLarge?.copyWith(
+                fontFamily: AppConstants.poppins,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.textColorContent),
+          ),
         )
       ],
     );

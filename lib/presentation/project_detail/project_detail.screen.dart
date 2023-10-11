@@ -118,24 +118,32 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          if((_controller.projectData.value.technologies ?? "").isNotEmpty)
           _buildSectionHeader(title: AppStrings.usedTechnologies),
+          if((_controller.projectData.value.technologies ?? "").isNotEmpty)
           _buildContentText(content: _controller.technologies.value ?? ""),
           const SizedBox(
             height: 38,
           ),
+          if((_controller.projectData.value.overView ?? "").isNotEmpty)
           _buildSectionHeader(title: AppStrings.domain),
+          if((_controller.projectData.value.overView ?? "").isNotEmpty)
           _buildContentText(
               content: _controller.projectData.value.overView ?? ""),
           const SizedBox(
             height: 38,
           ),
+          if((_controller.projectData.value.description ?? "").isNotEmpty)
           _buildSectionHeader(title: AppStrings.description),
+          if((_controller.projectData.value.description ?? "").isNotEmpty)
           _buildLinkableText(
               content: _controller.projectData.value.description ?? ""),
           const SizedBox(
             height: 38,
           ),
+          if((_controller.projectData.value.urlLink ?? "").isNotEmpty)
           _buildSectionHeader(title: AppStrings.liveLink),
+          if((_controller.projectData.value.urlLink ?? "").isNotEmpty)
           _buildLinkableText(
               content: _controller.projectData.value.urlLink ?? ""),
         ],

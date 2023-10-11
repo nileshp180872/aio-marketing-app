@@ -6,7 +6,7 @@ abstract class NetworkConstants {
 
   static const kApiVersion = "api/v1/";
 
-  static const kImageBasePath = "http://172.16.0.33:4041/";
+  static const kImageBasePath = "https://api.tridhyatech.com/";
 }
 //
 abstract class NetworkAPIs {
@@ -36,6 +36,8 @@ abstract class NetworkAPIs {
 
   // new case studies
   static const kNewCaseStudies = "casestudies/list";
+
+  static const kCaseStudyById = "casestudies/getbycasestudiesid/";
 
   // Share PDF
   static const kCaseStudyShare = "/casestudies/share-pdf";

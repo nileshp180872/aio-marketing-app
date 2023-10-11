@@ -31,6 +31,10 @@ class FilterController extends GetxController {
     AppStrings.technologyStack
   ];
 
+  RxBool domainLoading = false.obs;
+  RxBool platformLoading = false.obs;
+  RxBool technologyLoading = false.obs;
+
   /// Provider
   final _provider = FilterProvider();
 
@@ -62,6 +66,14 @@ class FilterController extends GetxController {
       portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
 
+      if (await Utils.isConnected()) {
+        await _getDomains();
+        await _getTechnologies();
+      } else {
+        _prepareDomains();
+        _prepareTechnologies();
+      }
+
       // remove mobile web filter
       if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
         lstSectionCategory
@@ -73,13 +85,7 @@ class FilterController extends GetxController {
           _prepareMobileWeb();
         }
       }
-      if (await Utils.isConnected()) {
-        await _getDomains();
-        await _getTechnologies();
-      } else {
-        _prepareDomains();
-        _prepareTechnologies();
-      }
+
       final isFilterApplied =
           Get.arguments[RouteArguments.filterApplied] ?? false;
 
@@ -118,9 +124,11 @@ class FilterController extends GetxController {
               }
             }
           }
-          lstMobileWeb.refresh();
-          lstDomains.refresh();
-          lstTechnologies.refresh();
+          Future.delayed(Duration(seconds: 1),(){
+            lstMobileWeb.refresh();
+            lstDomains.refresh();
+            lstTechnologies.refresh();
+          });
         });
       }
     }
@@ -192,12 +200,15 @@ class FilterController extends GetxController {
   /// Prepare domains
   void _prepareDomains() async {
     try {
+      domainLoading.value = true;
       final domains = await _dbHelper.getAllDomains();
+      domainLoading.value = true;
       for (Domain element in domains) {
         lstDomains.add(
             SelectionModel(title: element.domainName, id: element.domainId));
       }
     } catch (ex) {
+      domainLoading.value = true;
       logger.e(ex);
     }
   }
@@ -205,12 +216,15 @@ class FilterController extends GetxController {
   /// Prepare technologies
   void _prepareTechnologies() async {
     try {
+      technologyLoading.value = true;
       final technologies = await _dbHelper.getAllTechnologies();
+      technologyLoading.value = false;
       for (Technologies element in technologies) {
         lstTechnologies.add(SelectionModel(
             title: element.technologyName, id: element.technologyId));
       }
     } catch (ex) {
+      technologyLoading.value = false;
       logger.e(ex);
     }
   }
@@ -218,19 +232,24 @@ class FilterController extends GetxController {
   /// Prepare technologies
   void _prepareMobileWeb() async {
     try {
+      platformLoading.value = true;
       final platforms = await _dbHelper.getAllPlatform();
+      platformLoading.value = true;
       for (Platform element in platforms) {
         lstMobileWeb.add(SelectionModel(
             title: element.platformName, id: element.platformId));
       }
     } catch (ex) {
+      platformLoading.value = true;
       logger.e(ex);
     }
   }
 
   /// Get domains
   Future<void> _getDomains() async {
+    domainLoading.value = true;
     final response = await _provider.getDomains();
+    domainLoading.value = false;
     if (response.data != null) {
       if (response.statusCode == 200) {
         _domainAPISuccess(response);
@@ -244,7 +263,9 @@ class FilterController extends GetxController {
 
   /// Get technologies
   Future<void> _getTechnologies() async {
+    technologyLoading.value = true;
     final response = await _provider.getTechnologies();
+    technologyLoading.value = false;
     if (response.data != null) {
       if (response.statusCode == 200) {
         _technologiesAPISuccess(response);
@@ -256,7 +277,9 @@ class FilterController extends GetxController {
 
   /// Get platforms
   Future<void> _getPlatforms() async {
+    platformLoading.value = true;
     final response = await _provider.getPlatforms();
+    platformLoading.value = false;
     if (response.data != null) {
       if (response.statusCode == 200) {
         _platformAPISuccess(response);

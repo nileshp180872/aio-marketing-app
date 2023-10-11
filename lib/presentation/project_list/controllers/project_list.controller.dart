@@ -317,49 +317,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
             AppConstants.paginationPageLimit;
         (leadershipResponse.data ?? []).forEach((element) async {
           try {
-            final images = (element.imageMapping ?? [])
-                .map((e) => e.casestudiesImage ?? "")
-                .toList();
-            final technologies = (element.techMapping ?? [])
-                .map((e) => e.techName ?? "")
-                .toList();
-            final model = ProjectListModel(
-                id: element.casestudiesID,
-                projectName: element.projectName,
-                networkImages: [element.thumbnailImage ?? ""],
-                overView: element.domainName,
-                domainName: element.domainName,
-                businessImage1: element.businessImage1,
-                businessImage2: element.businessImage2,
-                businessImage3: element.businessImage3,
-                companyName: element.companyTitle,
-                companyDescription: element.companyDescription,
-                conclusion: element.conclusion,
-                urlLink: element.urlLink,
-                companyImage: element.companyImage,
-                businessTitle1: element.businessTitle1,
-                businessTitle2: element.businessTitle2,
-                businessTitle3: element.businessTitle3,
-                casestudyThumbnailImage: element.thumbnailImage,
-                casestudyBannerImage: element.bannerImage,
-                solutionTitle1: element.solutionTitle1,
-                solutionTitle2: element.solutionTitle2,
-                solutionTitle3: element.solutionTitle3,
-                solutionImage1: element.solutionImage1,
-                solutionImage2: element.solutionImage2,
-                solutionImage3: element.solutionImage3,
-                solutionDescription1: element.solutionDescription1,
-                solutionDescription2: element.solutionDescription2,
-                solutionDescription3: element.solutionDescription3,
-                businessDescription1: element.description1,
-                businessDescription2: element.description2,
-                businessDescription3: element.description3,
-                technologies: technologies.join(","),
-                // techMapping: (element.techImageMapping??[]).map((e) => (e.casestudiesImage2??"").split(",")).first,
-                sliderImages: (element.imageMapping ?? [])
-                    .map((e) => e.casestudiesImage ?? "")
-                    .toList(),
-                viewType: AppConstants.caseStudy);
+            final model = Utils.getProjectDetailFromCaseStudy(element);
             newItems.add(model);
           } catch (ex) {
             logger.e(ex);

@@ -20,6 +20,7 @@ class CaseStudy {
   String? caseStudyBusinessImage3;
   String? caseStudyCompanyId;
   String? caseStudyCompanyTitle;
+  String? caseStudyCompanyName;
   String? caseStudyCompanyImage;
   String? caseStudyCompanyDescription;
   String? caseStudySolutionTitle1;
@@ -33,6 +34,9 @@ class CaseStudy {
   String? caseStudySolutionImage2;
   String? caseStudyLink;
   String? caseStudyDocument;
+  String? caseStudyConclusion;
+  String? caseStudyThumbnailImage;
+  String? caseStudyBannerImage;
   String? images;
   List<String>? caseStudyProjectImages;
 
@@ -43,6 +47,7 @@ class CaseStudy {
       this.caseStudyDomainName,
       this.caseStudyProjectImages,
       this.caseStudyProjectName,
+      this.caseStudyCompanyName,
       this.caseStudyBusinessTitle1,
       this.caseStudyBusinessTitle2,
       this.caseStudyBusinessTitle3,
@@ -66,6 +71,9 @@ class CaseStudy {
       this.caseStudySolutionImage2,
       this.caseStudySolutionImage3,
       this.caseStudyLink,
+      this.caseStudyConclusion,
+      this.caseStudyThumbnailImage,
+      this.caseStudyBannerImage,
       this.caseStudyDocument,
       this.images,
       this.caseStudyProjectDescription});
@@ -79,28 +87,38 @@ class CaseStudy {
     caseStudyProjectDescription = json[DbConstants.caseStudyDescription];
     caseStudyBusinessTitle1 = json[DbConstants.caseStudyBusinessTitle1];
     caseStudyBusinessTitle2 = json[DbConstants.caseStudyBusinessTitle2];
-    caseStudyBusinessTitle3= json[DbConstants.caseStudyBusinessTitle3];
-    caseStudyBusinessDescription1= json[DbConstants.caseStudyBusinessDescription1];
-    caseStudyBusinessDescription2= json[DbConstants.caseStudyBusinessDescription2];
-    caseStudyBusinessDescription3= json[DbConstants.caseStudyBusinessDescription3];
-    caseStudyBusinessImage1= json[DbConstants.caseStudyBusinessImage1];
-    caseStudyBusinessImage2= json[DbConstants.caseStudyBusinessImage2];
-    caseStudyBusinessImage3= json[DbConstants.caseStudyBusinessImage3];
-    caseStudyCompanyId= json[DbConstants.caseStudyCompanyId];
-    caseStudyCompanyTitle= json[DbConstants.caseStudyCompanyTitle];
-    caseStudyCompanyImage= json[DbConstants.caseStudyCompanyImage];
-    caseStudyCompanyDescription= json[DbConstants.caseStudyCompanyDescription];
-    caseStudySolutionTitle1= json[DbConstants.caseStudySolutionTitle1];
-    caseStudySolutionTitle2= json[DbConstants.caseStudySolutionTitle2];
-    caseStudySolutionTitle3= json[DbConstants.caseStudySolutionTitle3];
-    caseStudySolutionDescription1= json[DbConstants.caseStudySolutionDescription1];
-    caseStudySolutionDescription2= json[DbConstants.caseStudySolutionDescription2];
-    caseStudySolutionDescription3= json[DbConstants.caseStudySolutionDescription3];
-    caseStudySolutionImage1= json[DbConstants.caseStudySolutionImage1];
-    caseStudySolutionImage2= json[DbConstants.caseStudySolutionImage2];
-    caseStudySolutionImage3= json[DbConstants.caseStudySolutionImage3];
-    caseStudyLink= json[DbConstants.caseStudyLink];
-    caseStudyDocument= json[DbConstants.caseStudyDocuments];
+    caseStudyBusinessTitle3 = json[DbConstants.caseStudyBusinessTitle3];
+    caseStudyBusinessDescription1 =
+        json[DbConstants.caseStudyBusinessDescription1];
+    caseStudyBusinessDescription2 =
+        json[DbConstants.caseStudyBusinessDescription2];
+    caseStudyBusinessDescription3 =
+        json[DbConstants.caseStudyBusinessDescription3];
+    caseStudyBannerImage = json[DbConstants.caseStudyBannerImage];
+    caseStudyThumbnailImage = json[DbConstants.caseStudyThumbnailImage];
+    caseStudyConclusion = json[DbConstants.caseStudyConclusion];
+    caseStudyBusinessImage1 = json[DbConstants.caseStudyBusinessImage1];
+    caseStudyBusinessImage2 = json[DbConstants.caseStudyBusinessImage2];
+    caseStudyBusinessImage3 = json[DbConstants.caseStudyBusinessImage3];
+    caseStudyCompanyId = json[DbConstants.caseStudyCompanyId];
+    caseStudyCompanyTitle = json[DbConstants.caseStudyCompanyTitle];
+    caseStudyCompanyName = json[DbConstants.caseStudyCompanyName];
+    caseStudyCompanyImage = json[DbConstants.caseStudyCompanyImage];
+    caseStudyCompanyDescription = json[DbConstants.caseStudyCompanyDescription];
+    caseStudySolutionTitle1 = json[DbConstants.caseStudySolutionTitle1];
+    caseStudySolutionTitle2 = json[DbConstants.caseStudySolutionTitle2];
+    caseStudySolutionTitle3 = json[DbConstants.caseStudySolutionTitle3];
+    caseStudySolutionDescription1 =
+        json[DbConstants.caseStudySolutionDescription1];
+    caseStudySolutionDescription2 =
+        json[DbConstants.caseStudySolutionDescription2];
+    caseStudySolutionDescription3 =
+        json[DbConstants.caseStudySolutionDescription3];
+    caseStudySolutionImage1 = json[DbConstants.caseStudySolutionImage1];
+    caseStudySolutionImage2 = json[DbConstants.caseStudySolutionImage2];
+    caseStudySolutionImage3 = json[DbConstants.caseStudySolutionImage3];
+    caseStudyLink = json[DbConstants.caseStudyLink];
+    caseStudyDocument = json[DbConstants.caseStudyDocuments];
     images = json[DbConstants.images];
     if (json[DbConstants.projectImages] != null) {
       caseStudyProjectImages = <String>[];
@@ -121,9 +139,12 @@ class CaseStudy {
     data[DbConstants.caseStudyBusinessTitle1] = caseStudyBusinessTitle1;
     data[DbConstants.caseStudyBusinessTitle2] = caseStudyBusinessTitle2;
     data[DbConstants.caseStudyBusinessTitle3] = caseStudyBusinessTitle3;
-    data[DbConstants.caseStudyBusinessDescription1] = caseStudyBusinessDescription1;
-    data[DbConstants.caseStudyBusinessDescription2] = caseStudyBusinessDescription2;
-    data[DbConstants.caseStudyBusinessDescription3] = caseStudyBusinessDescription3;
+    data[DbConstants.caseStudyBusinessDescription1] =
+        caseStudyBusinessDescription1;
+    data[DbConstants.caseStudyBusinessDescription2] =
+        caseStudyBusinessDescription2;
+    data[DbConstants.caseStudyBusinessDescription3] =
+        caseStudyBusinessDescription3;
     data[DbConstants.caseStudyBusinessImage1] = caseStudyBusinessImage1;
     data[DbConstants.caseStudyBusinessImage2] = caseStudyBusinessImage2;
     data[DbConstants.caseStudyBusinessImage3] = caseStudyBusinessImage3;
@@ -134,13 +155,19 @@ class CaseStudy {
     data[DbConstants.caseStudySolutionTitle1] = caseStudySolutionTitle1;
     data[DbConstants.caseStudySolutionTitle2] = caseStudySolutionTitle2;
     data[DbConstants.caseStudySolutionTitle3] = caseStudySolutionTitle3;
-    data[DbConstants.caseStudySolutionDescription1] = caseStudySolutionDescription1;
-    data[DbConstants.caseStudySolutionDescription2] = caseStudySolutionDescription2;
-    data[DbConstants.caseStudySolutionDescription3] = caseStudySolutionDescription3;
+    data[DbConstants.caseStudySolutionDescription1] =
+        caseStudySolutionDescription1;
+    data[DbConstants.caseStudySolutionDescription2] =
+        caseStudySolutionDescription2;
+    data[DbConstants.caseStudySolutionDescription3] =
+        caseStudySolutionDescription3;
     data[DbConstants.caseStudySolutionImage1] = caseStudySolutionImage1;
     data[DbConstants.caseStudySolutionImage2] = caseStudySolutionImage2;
     data[DbConstants.caseStudySolutionImage3] = caseStudySolutionImage3;
     data[DbConstants.caseStudyLink] = caseStudyLink;
+    data[DbConstants.caseStudyConclusion] = caseStudyConclusion;
+    data[DbConstants.caseStudyBannerImage] = caseStudyBannerImage;
+    data[DbConstants.caseStudyThumbnailImage] = caseStudyThumbnailImage;
     data[DbConstants.caseStudyDocuments] = caseStudyDocument;
     if (caseStudyProjectImages != null) {
       var json =

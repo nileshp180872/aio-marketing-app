@@ -115,6 +115,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
               child: Stack(
                 children: [
                   SingleChildScrollView(
+                    controller: _controller.scrollController,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

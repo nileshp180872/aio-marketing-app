@@ -17,51 +17,48 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
         ? SizedBox(
             width: MediaQuery.of(context).size.width / 3 - 60,
             // width:300,
-            child: Column(
+            height: 450,
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+                Container(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  height: 50,
+                  width: 50,
+                  child: ProjectImageWidget(imageURL: "${model.icon}"),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      height: 50,
-                      width: 50,
-                      child: ProjectImageWidget(imageURL: "${model.icon}"),
+                    Text(
+                      model.title ?? "",
+                      // textAlign: TextAlign.justify,
+                      style: _textTheme.bodyLarge?.copyWith(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xff263238)),
                     ),
                     const SizedBox(
-                      width: 16,
+                      height: 10,
                     ),
                     Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          model.title ?? "",
-                          // textAlign: TextAlign.justify,
-                          style: _textTheme.bodyLarge?.copyWith(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xff263238)),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          model.description ?? "",
-                          maxLines: 13,
-                          overflow: TextOverflow.ellipsis,
-                          style: _textTheme.bodyLarge?.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xff263238)),
-                        )
-                      ],
-                    )),
+                      child: Text(
+                        model.description ?? "",
+                        maxLines: 13,
+                        overflow: TextOverflow.fade,
+                        style: _textTheme.bodyLarge?.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xff263238)),
+                      ),
+                    )
                   ],
-                ),
+                )),
               ],
             ),
           )

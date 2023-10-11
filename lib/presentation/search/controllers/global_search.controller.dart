@@ -221,12 +221,21 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
   ///
   /// required [model] instance of ProjectListModel.
   void onProjectClick(ProjectListModel model, int index) {
-    Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
-      RouteArguments.screenName: model.projectName,
-      RouteArguments.projectId: model.id,
-      RouteArguments.index: index,
-      RouteArguments.projectList: pagingController.itemList,
-    });
+    if (model.viewType == AppConstants.portfolio) {
+      Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
+        RouteArguments.screenName: model.projectName,
+        RouteArguments.projectId: model.id,
+        RouteArguments.index: index,
+        RouteArguments.projectList: pagingController.itemList,
+      });
+    } else {
+      Get.toNamed(Routes.CASE_STUDY_NEW, arguments: {
+        RouteArguments.screenName: model.projectName,
+        RouteArguments.projectId: model.id,
+        RouteArguments.index: index,
+        RouteArguments.projectList: pagingController.itemList,
+      });
+    }
   }
 
   /// Portfolio API success
@@ -295,20 +304,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
         List<ProjectListModel> newItems = [];
         (leadershipResponse.data ?? []).forEach((element) async {
           try {
-            final images = (element.imageMapping ?? [])
-                .map((e) => e.casestudiesImage ?? "")
-                .toList();
-            final technologies = (element.techMapping ?? [])
-                .map((e) => e.techName ?? "")
-                .toList();
-            final model = ProjectListModel(
-                id: element.casestudiesID,
-                projectName: element.projectName,
-                overView: element.domainName,
-                description: element.description1,
-                technologies: technologies.join(","),
-                networkImages: images,
-                viewType: AppConstants.caseStudy);
+            final model = Utils.getProjectDetailFromCaseStudy(element);
             newItems.add(model);
           } catch (ex) {
             logger.e(ex);

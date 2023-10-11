@@ -468,13 +468,58 @@ class SynchronisationController extends GetxController {
   /// Add case studies
   Future<void> _addCaseStudies(CaseStudiesResponseData element,
       {bool isUpdate = false, bool isDelete = false}) async {
+    final thumbnailFileName = (element.thumbnailImage ?? "").split(".")[0];
+
+    final thumbnailImage = thumbnailFileName.isNotEmpty
+        ? await getImageFilePath(
+            '${NetworkConstants.kImageBasePath}$thumbnailFileName',
+            "casestudy_thumbnail",
+            thumbnailFileName,
+          )
+        : "";
+
+    final bannerFileName = (element.thumbnailImage ?? "").split(".")[0];
+
+    final bannerImage = bannerFileName.isNotEmpty
+        ? await getImageFilePath(
+            '${NetworkConstants.kImageBasePath}$bannerFileName',
+            "casestudy_banner",
+            bannerFileName,
+          )
+        : "";
     final model = CaseStudy(
-      caseStudyId: element.casestudiesID,
-      caseStudyDomainId: element.domainID,
-      caseStudyProjectName: element.projectName,
-      caseStudyDomainName: element.domainName,
-      caseStudyProjectDescription: element.description1,
-    );
+        caseStudyId: element.casestudiesID,
+        caseStudyDomainId: element.domainID,
+        caseStudyProjectName: element.projectName,
+        caseStudyDomainName: element.domainName,
+        caseStudyBusinessDescription1: element.solutionDescription1,
+        caseStudyBusinessDescription2: element.solutionDescription2,
+        caseStudyBusinessDescription3: element.solutionDescription3,
+        caseStudyBusinessImage1: element.businessImage1,
+        caseStudyBusinessImage2: element.businessImage2,
+        caseStudyBusinessImage3: element.businessImage3,
+        caseStudyBusinessTitle1: element.businessTitle1,
+        caseStudyBusinessTitle2: element.businessTitle2,
+        caseStudyBusinessTitle3: element.businessTitle3,
+        caseStudyCompanyTitle: element.companyTitle,
+        caseStudyCompanyImage: element.companyImage,
+        caseStudyCompanyDescription: element.companyDescription,
+        caseStudyCompanyName: element.companyName,
+        caseStudyLink: element.urlLink,
+        caseStudyDocument: element.document,
+        caseStudySolutionDescription1: element.solutionDescription1,
+        caseStudySolutionDescription2: element.solutionDescription2,
+        caseStudySolutionDescription3: element.solutionDescription3,
+        caseStudySolutionTitle1: element.solutionTitle1,
+        caseStudySolutionTitle2: element.solutionTitle2,
+        caseStudySolutionTitle3: element.solutionTitle3,
+        caseStudySolutionImage1: element.solutionImage1,
+        caseStudySolutionImage2: element.solutionImage2,
+        caseStudySolutionImage3: element.solutionImage3,
+        caseStudyProjectDescription: element.description1,
+        caseStudyThumbnailImage: thumbnailImage,
+        caseStudyConclusion: element.conclusion,
+        caseStudyBannerImage: bannerImage);
     if (isUpdate) {
       await _dbHelper.updateToCaseStudies(model);
     } else if (isDelete) {
