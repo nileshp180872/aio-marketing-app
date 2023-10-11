@@ -125,17 +125,17 @@ class CaseStudyNewController extends GetxController {
       ]);
       businessSolution.addAll([
         BusinessChallenge(
-            description: projectData.value.businessDescription1,
-            icon: projectData.value.businessImage1,
-            title: projectData.value.businessTitle1),
+            description: projectData.value.solutionDescription1,
+            icon: projectData.value.solutionImage1,
+            title: projectData.value.solutionTitle1),
         BusinessChallenge(
-            description: projectData.value.businessDescription2,
-            icon: projectData.value.businessImage2,
-            title: projectData.value.businessTitle2),
+            description: projectData.value.solutionDescription2,
+            icon: projectData.value.solutionImage2,
+            title: projectData.value.solutionTitle2),
         BusinessChallenge(
-            description: projectData.value.businessDescription3,
-            icon: projectData.value.businessImage3,
-            title: projectData.value.businessTitle3),
+            description: projectData.value.solutionDescription3,
+            icon: projectData.value.solutionImage3,
+            title: projectData.value.solutionTitle3),
       ]);
 
       techLogo.value = projectData.value.techMapping ?? [];
@@ -219,7 +219,9 @@ class CaseStudyNewController extends GetxController {
   /// Case study API success
   ///
   /// required [response] response.
-  void _getCaseStudyAPISuccess(dio.Response response) async {}
+  void _getCaseStudyAPISuccess(dio.Response response) async {
+    Utils.showSuccessDialog(message: "Case study sent successfully!");
+  }
 
   /// Case study API Failure
   ///
@@ -232,7 +234,7 @@ class CaseStudyNewController extends GetxController {
     Get.dialog(Material(
         color: Colors.transparent,
         child: ShareDocDialog(onShareClick: (value) {
-          shareCasestuduDetail(value, "");
+          shareCasestuduDetail(value, _projectId);
         })));
   }
 

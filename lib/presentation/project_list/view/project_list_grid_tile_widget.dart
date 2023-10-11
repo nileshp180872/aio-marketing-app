@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_constants.dart';
-import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
 import '../../../config/app_assets.dart';
+import '../../project_detail/view/project_image_widget.dart';
 import '../model/project_list_model.dart';
 
 class ProjectListGridTileWidget extends StatelessWidget {
@@ -58,9 +56,11 @@ class ProjectListGridTileWidget extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child:  (projectListModel.networkImages ?? []).isNotEmpty
-                  ? _buildNetworkImage()
-                  : buildFileImage(),
+              child: (projectListModel.networkImages ?? []).isNotEmpty
+                  ? ProjectImageWidget(
+                      imageURL: projectListModel.casestudyThumbnailImage ?? "",
+                    )
+                  : _buildNoDataImage(),
             ),
             Container(
               width: double.infinity,
@@ -80,24 +80,10 @@ class ProjectListGridTileWidget extends StatelessWidget {
     );
   }
 
-  /// Return widget of image.
-  Widget _buildNetworkImage() {
-    return Image.network(
-        "${NetworkConstants.kImageBasePath}${projectListModel.networkImages?.first ?? ""}");
-  }
-
-  Widget buildFileImage() {
-    return (projectListModel.projectImage ?? "").isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.file(
-              File(projectListModel.projectImage ?? ""),
-              fit: BoxFit.cover,
-            ),
-          )
-        : Image.asset(
-            AppAssets.kNoImage,
-            fit: BoxFit.cover,
-          );
+  Widget _buildNoDataImage() {
+    return Image.asset(
+      AppAssets.kNoImage,
+      fit: BoxFit.cover,
+    );
   }
 }

@@ -14,6 +14,6 @@ class CaseStudyNewProvider {
   /// Returns send invitation
   Future<Response> sendLinkInvitation(String email, String id) async {
     return await GetIt.I<DioProvider>().postBaseAPI(
-        url: NetworkAPIs.kCaseStudyShare, data: {"email": email, "casestudyID": id});
+        url: NetworkAPIs.kCaseStudyShare, data: {"email": email, "casestudiesID": id});
   }
 }

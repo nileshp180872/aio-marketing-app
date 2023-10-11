@@ -473,7 +473,7 @@ class SynchronisationController extends GetxController {
       caseStudyDomainId: element.domainID,
       caseStudyProjectName: element.projectName,
       caseStudyDomainName: element.domainName,
-      caseStudyProjectDescription: element.description,
+      caseStudyProjectDescription: element.description1,
     );
     if (isUpdate) {
       await _dbHelper.updateToCaseStudies(model);
