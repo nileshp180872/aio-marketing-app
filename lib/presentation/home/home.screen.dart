@@ -15,6 +15,7 @@ import 'controllers/home.controller.dart';
 class HomeScreen extends GetView<HomeController> with AppFeature {
   HomeScreen({Key? key}) : super(key: key);
 
+
   final HomeController _controller = Get.find(tag: Routes.HOME);
 
   late BuildContext _buildContext;
@@ -33,7 +34,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
             const SizedBox(
               height: AppValues.size_34,
             ),
-            Expanded(child: _buildBodyWidget()),
+            Expanded(child: _buildBodyWidget(_buildContext)),
             const SizedBox(
               height: AppValues.size_20,
             ),
@@ -55,7 +56,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
   }
 
   /// Build body widget
-  Widget _buildBodyWidget() => Padding(
+  Widget _buildBodyWidget(BuildContext buildContext) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppValues.sideMargin),
         child: Column(
           children: [
@@ -63,7 +64,7 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
             const SizedBox(
               height: AppValues.size_30,
             ),
-            _buildBottomActions(),
+            _buildBottomActions(buildContext),
             const SizedBox(
               height: AppValues.size_30,
             ),
@@ -72,47 +73,54 @@ class HomeScreen extends GetView<HomeController> with AppFeature {
       );
 
   /// build bottom actions
-  Widget _buildBottomActions() {
+  Widget _buildBottomActions(BuildContext buildContext) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // work/portfolio
-        Expanded(
-            child: _buildButton(
-                buttonText: AppStrings.workPortfolio,
-                onClick: _controller.navigateToPortfolio)),
-        const SizedBox(
-          width: AppValues.size_30,
+        Container(
+          width: MediaQuery.of(buildContext).size.width / 4-40,
+          color: Colors.red,
+          child: _buildButton(
+              buildContext:buildContext,
+              buttonText: AppStrings.workPortfolio,
+              onClick: _controller.navigateToPortfolio),
         ),
+
         // case study
-        Expanded(
-            child: _buildButton(
-                buttonText: AppStrings.caseStudy,
-                onClick: _controller.navigateToCaseStudy)),
-        const SizedBox(
-          width: AppValues.size_30,
+        Container(
+          width: MediaQuery.of(buildContext).size.width / 4-40,
+          color: Colors.red,
+          child: _buildButton(
+              buttonText: AppStrings.caseStudy,
+              onClick: _controller.navigateToCaseStudy),
         ),
         // team leadership
-        Expanded(
-            child: _buildButton(
-                buttonText: AppStrings.teamLeadership,
-                onClick: _controller.navigateToLeadership)),
-        const SizedBox(
-          width: AppValues.size_30,
+        Container(
+          width: MediaQuery.of(buildContext).size.width / 4-40,
+          color: Colors.red,
+          child: _buildButton(
+
+              buttonText: AppStrings.teamLeadership,
+              onClick: _controller.navigateToLeadership),
         ),
         // team leadership
-        Expanded(
-            child: _buildButton(
-                buttonText: AppStrings.clientele,
-                onClick: _controller.navigateToClientele)),
+        Container(
+          width: MediaQuery.of(buildContext).size.width / 4-40,
+          color: Colors.red,
+          child: _buildButton(
+              buttonText: AppStrings.clientele,
+              onClick: _controller.navigateToClientele),
+        )
       ],
     );
   }
 
   /// Build action button.
   Widget _buildButton(
-      {required String buttonText, required Function() onClick}) {
+      {required String buttonText, required Function() onClick,  BuildContext? buildContext}) {
     final screenSize = MediaQuery.of(_buildContext).size;
-    final fontSize = screenSize.width > 1024 ? 24.0 : 20.0;
+    final fontSize =  MediaQuery.of(_buildContext).size.width/60;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.lightBlue,
