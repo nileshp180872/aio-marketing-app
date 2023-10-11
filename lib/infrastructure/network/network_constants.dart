@@ -29,13 +29,10 @@ abstract class NetworkAPIs {
   static const kEnquiry = "enquiry/new";
 
   // Portfolio
-  static const kPortfolio = "portfolio/list";
+  static const kPortfolio = "portfolio/list-mobile";
 
   // case studies
-  static const kCaseStudies = "casestudies/list";
-
-  // new case studies
-  static const kNewCaseStudies = "casestudies/list";
+  static const kCaseStudies = "casestudies/list-mobile";
 
   static const kCaseStudyById = "casestudies/getbycasestudiesid/";
 

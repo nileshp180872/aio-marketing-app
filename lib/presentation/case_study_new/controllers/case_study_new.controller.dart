@@ -204,17 +204,6 @@ class CaseStudyNewController extends GetxController {
     ]);
   }
 
-  /// Get case studies
-  Future<void> _getCaseStudies() async {
-    final response = await _provider.getCaseStudy();
-    if (response.data != null) {
-      if (response.statusCode == 200) {
-        _getCaseStudyAPISuccess(response);
-      } else {
-        _getCaseStudyAPIFailure(response);
-      }
-    }
-  }
 
   /// Enable/Disable action buttons.
   void _checkForActionButtons() {
