@@ -14,8 +14,15 @@ class ProjectListModel {
   String? domainName;
   String? companyName;
   String? conclusion;
-  String? solutionTitle;
-  String? solutionDescription;
+  String? solutionImage1;
+  String? solutionImage2;
+  String? solutionImage3;
+  String? solutionTitle1;
+  String? solutionTitle2;
+  String? solutionTitle3;
+  String? solutionDescription1;
+  String? solutionDescription2;
+  String? solutionDescription3;
   String? businessDescription1;
   String? businessDescription2;
   String? businessDescription3;
@@ -46,8 +53,15 @@ class ProjectListModel {
       this.companyName,
       this.conclusion,
       this.companyImage,
-      this.solutionTitle,
-      this.solutionDescription,
+      this.solutionTitle1,
+      this.solutionTitle2,
+      this.solutionTitle3,
+      this.solutionImage1,
+      this.solutionImage2,
+      this.solutionImage3,
+      this.solutionDescription1,
+      this.solutionDescription2,
+      this.solutionDescription3,
       this.businessDescription1,
       this.businessDescription2,
       this.businessDescription3,

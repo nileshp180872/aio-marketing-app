@@ -34,7 +34,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             },
             itemBuilder: (_, index) {
               return ProjectImageWidget(
-                imageURL: "${NetworkConstants.kImageBasePath}${widget.imageSlider[index]}",
+                imageURL: "${widget.imageSlider[index]}",
                 fit: BoxFit.fill,
               );
             },

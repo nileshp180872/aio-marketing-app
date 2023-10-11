@@ -1,7 +1,6 @@
-import 'package:aio/config/app_assets.dart';
-import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+import '../../project_detail/view/project_image_widget.dart';
 
 class TechnologySignleTileWidget extends StatelessWidget {
   String image;
@@ -20,7 +19,7 @@ class TechnologySignleTileWidget extends StatelessWidget {
           width: 70,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Image.network("${NetworkConstants.kImageBasePath}$image"),
+            child: ProjectImageWidget(imageURL: image),
           ),
         ),
       ],

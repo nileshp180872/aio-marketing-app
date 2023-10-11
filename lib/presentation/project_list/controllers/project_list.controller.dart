@@ -102,6 +102,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           projectName: element.portfolioProjectName,
           projectImage: element.images,
           urlLink: element.portfolioLink,
+          casestudyThumbnailImage: element.portfolioProjectName,
           viewType: AppConstants.portfolio));
     }
     if (isLastPage) {
@@ -255,6 +256,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
                 networkImages: images,
                 overView: element.domainName,
                 description: element.description,
+                casestudyThumbnailImage: images.isNotEmpty ? images.first : "",
                 technologies: technologies.join(", "),
                 urlLink: element.urlLink,
                 viewType: AppConstants.portfolio);
@@ -280,7 +282,9 @@ class ProjectListController extends GetxController with AppLoadingMixin {
   /// Get case studies API.
   Future<void> _getCaseStudies(int pageKey) async {
     try {
-      showLoading();
+      if (pageKey == 0) {
+        showLoading();
+      }
       final response = await _provider.getCaseStudies(
           offset: pageKey,
           domains: filterModel.domains,
@@ -322,17 +326,15 @@ class ProjectListController extends GetxController with AppLoadingMixin {
             final model = ProjectListModel(
                 id: element.casestudiesID,
                 projectName: element.projectName,
-                networkImages: [element.thumbnailImage??""],
+                networkImages: [element.thumbnailImage ?? ""],
                 overView: element.domainName,
                 domainName: element.domainName,
-                description: element.description,
-                businessDescription1: element.description,
                 businessImage1: element.businessImage1,
                 businessImage2: element.businessImage2,
                 businessImage3: element.businessImage3,
-                companyName: element.companyName,
+                companyName: element.companyTitle,
                 companyDescription: element.companyDescription,
-                conclusion: element.companyName,
+                conclusion: element.conclusion,
                 urlLink: element.urlLink,
                 companyImage: element.companyImage,
                 businessTitle1: element.businessTitle1,
@@ -340,9 +342,23 @@ class ProjectListController extends GetxController with AppLoadingMixin {
                 businessTitle3: element.businessTitle3,
                 casestudyThumbnailImage: element.thumbnailImage,
                 casestudyBannerImage: element.bannerImage,
+                solutionTitle1: element.solutionTitle1,
+                solutionTitle2: element.solutionTitle2,
+                solutionTitle3: element.solutionTitle3,
+                solutionImage1: element.solutionImage1,
+                solutionImage2: element.solutionImage2,
+                solutionImage3: element.solutionImage3,
+                solutionDescription1: element.solutionDescription1,
+                solutionDescription2: element.solutionDescription2,
+                solutionDescription3: element.solutionDescription3,
+                businessDescription1: element.description1,
+                businessDescription2: element.description2,
+                businessDescription3: element.description3,
                 technologies: technologies.join(","),
-                techMapping: (element.imageMapping??[]).map((e) => (e.casestudiesImage2??"").split(",")).first,
-                sliderImages: (element.imageMapping??[]).map((e) => e.casestudiesImage??"").toList(),
+                // techMapping: (element.techImageMapping??[]).map((e) => (e.casestudiesImage2??"").split(",")).first,
+                sliderImages: (element.imageMapping ?? [])
+                    .map((e) => e.casestudiesImage ?? "")
+                    .toList(),
                 viewType: AppConstants.caseStudy);
             newItems.add(model);
           } catch (ex) {

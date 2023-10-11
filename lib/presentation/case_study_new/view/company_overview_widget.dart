@@ -3,7 +3,7 @@ import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:aio/presentation/case_study_new/view/section_header_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../config/app_assets.dart';
+import '../../project_detail/view/project_image_widget.dart';
 
 class CompanyOverviewWidget extends StatelessWidget {
   String companyTitle;
@@ -18,7 +18,6 @@ class CompanyOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("image ${"${NetworkConstants.kImageBasePath}${companyImage}"}");
     return Container(
       color: Colors.white,
       width: double.infinity,
@@ -27,7 +26,11 @@ class CompanyOverviewWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              flex: 5, child: Image.network("${NetworkConstants.kImageBasePath}${companyImage}")),
+              flex: 5,
+              child: ProjectImageWidget(
+                  imageURL:
+                      companyImage)),
+          const SizedBox(width: 20,),
           Expanded(
             flex: 6,
             child: Column(
@@ -63,8 +66,8 @@ class CompanyOverviewWidget extends StatelessWidget {
                 // const SizedBox(
                 //   height: 4,
                 // ),4
-            Text(
-              companyDescription,
+                Text(
+                  companyDescription,
                   style: TextStyle(
                     fontSize: 18,
                     color: Color(0xff00517C),

@@ -13,7 +13,7 @@ class BottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return sliderImage.isNotEmpty || techlogoImage.isNotEmpty? Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -44,7 +44,7 @@ class BottomSection extends StatelessWidget {
               )),
         ],
       ),
-    );
+    ):Container();
   }
 
   Widget _buildTechnologySolution() {
