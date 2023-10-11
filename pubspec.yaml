@@ -80,8 +80,6 @@ dependencies:
   # Cached network image
   cached_network_image: ^3.3.0
 
-  sizer: ^2.0.15
-
   flutter:
     sdk: flutter
 
