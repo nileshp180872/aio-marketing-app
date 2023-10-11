@@ -80,17 +80,20 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
       onTap: _controller.submit,
       child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+          width: 150,
           decoration: BoxDecoration(
               color: AppColors.colorPrimary,
               borderRadius: BorderRadius.circular(4)),
-          child: Obx(
-            () => _controller.loading.value
-                ? const CircularProgressIndicator()
-                : Text(
-                    AppStrings.submit,
-                    style: _textTheme.labelLarge
-                        ?.copyWith(fontFamily: AppConstants.poppins),
-                  ),
+          child: Center(
+            child: Obx(
+              () => _controller.loading.value
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Text(
+                      AppStrings.submit,
+                      style: _textTheme.labelLarge
+                          ?.copyWith(fontFamily: AppConstants.poppins),
+                    ),
+            ),
           )),
     );
   }

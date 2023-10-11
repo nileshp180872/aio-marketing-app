@@ -84,13 +84,13 @@ class EnquiryController extends GetxController with AppLoadingMixin {
 
   /// submit enquiry
   void submit() async {
-    loading.value = true;
     if (enquiryFormKey.currentState!.validate()) {
       if (_validateFields()) {
+        loading.value = true;
         _saveEntryToDb();
       }
-      loading.value = false;
     }
+    loading.value = false;
   }
 
   ///Store entry to db and later it will by sync with server.
@@ -143,13 +143,16 @@ class EnquiryController extends GetxController with AppLoadingMixin {
 
   /// Add enquiry API.
   Future<void> _addEnquiry(Enquiry enquiry) async {
-    showLoading();
+    // showLoading();
+    loading.value = true;
     final response = await _provider.addInquiry(enquiry);
-    hideLoading();
+    // hideLoading();
     if (response.data != null) {
       if (response.statusCode == 200) {
+        loading.value = false;
         Utils.showSuccessDialog(message: AppStrings.enquiryAddSuccess);
       } else {
+        loading.value = false;
         _addEnquiryAPIError(response);
       }
     }
