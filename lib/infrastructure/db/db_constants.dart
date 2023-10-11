@@ -93,11 +93,10 @@ abstract class DbConstants {
   static const caseStudyBusinessImage3 = 'case_study_business_image3';
   static const caseStudyCompanyId = 'case_study_company_id';
   static const caseStudyCompanyTitle = 'case_study_company_title';
+  static const caseStudyCompanyName = 'case_study_company_name';
   static const caseStudyCompanyDescription = 'case_study_company_description';
   static const caseStudyCompanyImage = 'case_study_company_image';
-  static const caseStudyCompanyDescription1 = 'case_study_company_description1';
-  static const caseStudyCompanyDescription2 = 'case_study_company_description2';
-  static const caseStudyCompanyDescription3 = 'case_study_company_description3';
+  static const caseStudyCompanyDescription1 = 'case_study_company_description';
   static const caseStudySolutionTitle1 = 'case_study_solution_title1';
   static const caseStudySolutionTitle2 = 'case_study_solution_title2';
   static const caseStudySolutionTitle3 = 'case_study_solution_title3';
@@ -112,6 +111,7 @@ abstract class DbConstants {
   static const caseStudyLink = 'case_study_link';
   static const caseStudyDocuments = 'case_study_documents';
   static const caseStudyImages = 'case_study_images';
+  static const caseStudyConclusion = 'case_study_conclusion';
 
   //------------- Case Study technologies ---------
   static const tblCaseStudiesTechnologies = 'case_study_technology';
