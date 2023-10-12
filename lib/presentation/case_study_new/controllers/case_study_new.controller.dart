@@ -215,6 +215,10 @@ class CaseStudyNewController extends GetxController {
   ///
   /// required [response] response.
   void _getCaseStudyAPISuccess(dio.Response response) async {
+
+  }
+
+  void showSuccessDialog(){
     Utils.showSuccessDialog(
         navigateToHome: false, message: AppStrings.shareCaseStudySuccess);
   }
@@ -231,6 +235,7 @@ class CaseStudyNewController extends GetxController {
         color: Colors.transparent,
         child: ShareDocDialog(
           onShareClick: (value) => shareCasestuduDetail(value, _projectId),
+          onSuccess: showSuccessDialog,
         )));
   }
 

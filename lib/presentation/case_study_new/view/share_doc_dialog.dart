@@ -11,13 +11,16 @@ class ShareDocDialog extends StatelessWidget {
   final GlobalKey<FormState> enquiryFormKey = GlobalKey<FormState>();
 
   Future<bool> Function(String email) onShareClick;
+  Function() onSuccess;
+
   String _email = "";
   TextEditingController emailController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
 
   RxBool isLoading = false.obs;
 
-  ShareDocDialog({required this.onShareClick, super.key});
+  ShareDocDialog(
+      {required this.onShareClick, required this.onSuccess, super.key});
 
   late TextTheme _textTheme;
 
@@ -105,10 +108,13 @@ class ShareDocDialog extends StatelessWidget {
     if (enquiryFormKey.currentState!.validate()) {
       isLoading.value = true;
       final shareResponse = await onShareClick(_email);
+      Get.log("shareResponse $shareResponse");
       isLoading.value = false;
-      if (shareResponse) {
+      if (shareResponse) {}
+      Future.delayed(Duration(milliseconds: 300), () {
         Get.back();
-      }
+        onSuccess();
+      });
     }
   }
 
@@ -124,10 +130,10 @@ class ShareDocDialog extends StatelessWidget {
         child: isLoading.value
             ? const CircularProgressIndicator(color: Colors.white)
             : Text(
-          AppStrings.submit,
-          style:
-              _textTheme.labelLarge?.copyWith(fontFamily: AppConstants.poppins),
-        ),
+                AppStrings.submit,
+                style: _textTheme.labelLarge
+                    ?.copyWith(fontFamily: AppConstants.poppins),
+              ),
       ),
     );
   }
