@@ -20,7 +20,7 @@ class AppConstants {
   static const projectListPaginationLimit = 50;
 
   /// Page limit for portfolios and case studies
-  static const paginationPageLimit = 10;
+  static const paginationPageLimit = 16;
 
   static var countryData = CountryModel(
       id: '1',
