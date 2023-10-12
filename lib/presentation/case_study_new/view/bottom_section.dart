@@ -14,7 +14,6 @@ class BottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.log("techlogoImage ${techlogoImage.length}");
     return sliderImage.isNotEmpty || techlogoImage.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
