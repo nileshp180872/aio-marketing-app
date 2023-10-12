@@ -25,11 +25,11 @@ class FilterController extends GetxController {
   late DatabaseHelper _dbHelper;
 
   // Main category list
-  List<String> lstSectionCategory = [
+  RxList<String> lstSectionCategory = [
     AppStrings.domainIndustry,
     AppStrings.mobileWeb,
     AppStrings.technologyStack
-  ];
+  ].obs;
 
   RxBool domainLoading = false.obs;
   RxBool platformLoading = false.obs;
@@ -62,13 +62,16 @@ class FilterController extends GetxController {
 
   /// Receive arguments from previous screen.
   void _getArguments() async {
-    if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
-      lstSectionCategory
-          .removeWhere((element) => element == AppStrings.mobileWeb);
-    }
+
+    lstSectionCategory.refresh();
     if (Get.arguments != null) {
       portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
+
+      if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
+        lstSectionCategory
+            .removeWhere((element) => element == AppStrings.mobileWeb);
+      }
 
       if (await Utils.isConnected()) {
         await _getDomains();
