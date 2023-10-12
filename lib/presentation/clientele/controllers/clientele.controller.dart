@@ -80,7 +80,31 @@ class ClientteleCotroller extends GetxController {
     clientList.add(ClientData(logo: ClientAssets.client15, name: "magmaHDI"));
     clientList.add(ClientData(logo: ClientAssets.client16, name: "foreglimpse"));
     clientList.add(ClientData(logo: ClientAssets.client17, name: "light"));
-    clientList.add(ClientData(logo: ClientAssets.client9, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client18, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client19, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client20, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client21, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client22, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client23, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client24, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client25, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client26, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client27, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client28, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client29, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client30, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client31, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client32, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client33, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client34, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client35, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client36, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client37, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client38, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client39, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client40, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client41, name: "puma"));
+    clientList.add(ClientData(logo: ClientAssets.client42, name: "puma"));
 
   }
 }
