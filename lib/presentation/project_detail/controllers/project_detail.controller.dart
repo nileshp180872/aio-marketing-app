@@ -55,7 +55,7 @@ class ProjectDetailController extends GetxController {
 
   /// Page controller.
   PageController pageController =
-      PageController(keepPage: true, initialPage: 0);
+      PageController(initialPage: 0);
 
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
@@ -66,6 +66,13 @@ class ProjectDetailController extends GetxController {
 
     _getArguments();
     super.onInit();
+
+    pageController.addListener(() {
+      activeProjectIndex.value = pageController.page!.round();
+      Future.delayed(const Duration(milliseconds: 400),(){
+        _prepareProjectDetails();
+      });
+    });
   }
 
   /// Receive arguments from previous screen.
@@ -77,14 +84,14 @@ class ProjectDetailController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-      Future.delayed(Duration(milliseconds: 10),(){
+      Future.delayed(const Duration(milliseconds: 10), () {
         if (pageController.hasClients) {
           pageController.animateToPage(activeProjectIndex.value,
-              curve: Curves.elasticInOut, duration: const Duration(microseconds: 4));
+              curve: Curves.elasticInOut,
+              duration: const Duration(microseconds: 4));
           _prepareProjectDetails();
         }
       });
-
     }
   }
 
@@ -174,12 +181,17 @@ class ProjectDetailController extends GetxController {
     if (listImages.isNotEmpty) {
       onSelectImage(0);
     }
+
+    projectData.refresh();
   }
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
     activeImage.value = listImages.elementAt(index);
-    update();
+    Future.delayed(const Duration(seconds: 1),(){
+      activeImage.refresh();
+    });
+
   }
 
   /// Enable/Disable action buttons.
@@ -198,11 +210,12 @@ class ProjectDetailController extends GetxController {
     }
   }
 
+  /// on page change
   void onPageChange(int page) {
-    activeProjectIndex.value = page;
+    Future.delayed(const Duration(milliseconds: 400),(){
+      activeProjectIndex.value = pageController.page!.round();
+
       _prepareProjectDetails();
-      Future.delayed(const Duration(milliseconds: 200),(){
-        activeImage.refresh();
-      });
+    });
   }
 }

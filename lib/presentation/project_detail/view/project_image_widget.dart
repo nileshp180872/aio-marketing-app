@@ -32,9 +32,8 @@ class ProjectImageWidget extends StatelessWidget {
   Widget _buildNoImage() => Image.asset(AppAssets.kNoImage,fit: fit,);
 
   Widget _buildNetworkImage() {
-    return CachedNetworkImage(
-      imageUrl: "${NetworkConstants.kImageBasePath}$imageURL",
-      errorWidget: (_, __, ___) => _buildNoImage(),
+    return Image.network(
+      "${NetworkConstants.kImageBasePath}$imageURL",
       fit: fit,
     );
   }
