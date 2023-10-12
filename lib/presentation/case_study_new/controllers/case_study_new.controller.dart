@@ -229,20 +229,24 @@ class CaseStudyNewController extends GetxController {
   void openGmail() async {
     Get.dialog(Material(
         color: Colors.transparent,
-        child: ShareDocDialog(onShareClick: (value) {
-          shareCasestuduDetail(value, _projectId);
-        })));
+        child: ShareDocDialog(
+          onShareClick: (value) => shareCasestuduDetail(value, _projectId),
+        )));
   }
 
   /// Get case studies
-  Future<void> shareCasestuduDetail(String email, String id) async {
+  Future<bool> shareCasestuduDetail(String email, String id) async {
     final response = await _provider.sendLinkInvitation(email, id);
     if (response.data != null) {
       if (response.statusCode == 200) {
         _getCaseStudyAPISuccess(response);
+        return true;
       } else {
         _getCaseStudyAPIFailure(response);
+        return false;
       }
+    }else{
+      return false;
     }
   }
 

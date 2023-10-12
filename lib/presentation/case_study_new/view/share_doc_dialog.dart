@@ -10,10 +10,12 @@ class ShareDocDialog extends StatelessWidget {
   // Form Key
   final GlobalKey<FormState> enquiryFormKey = GlobalKey<FormState>();
 
-  Function(String email) onShareClick;
+  Future<bool> Function(String email) onShareClick;
   String _email = "";
   TextEditingController emailController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
+
+  RxBool isLoading = false.obs;
 
   ShareDocDialog({required this.onShareClick, super.key});
 
@@ -47,9 +49,7 @@ class ShareDocDialog extends StatelessWidget {
                       Text(
                         AppStrings.inputString,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                           fontSize: 22
-                        ),
+                        style: TextStyle(fontSize: 22),
                       ),
                     ],
                   ),
@@ -62,13 +62,14 @@ class ShareDocDialog extends StatelessWidget {
               ),
             ),
             Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: (){
-                    Get.back();
-                  },
-                  icon: const Icon(Icons.close),
-                ),),
+              right: 0,
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ),
           ],
         ),
       ),
@@ -100,10 +101,14 @@ class ShareDocDialog extends StatelessWidget {
   }
 
   /// Build submit button.
-  void submit() {
+  void submit() async {
     if (enquiryFormKey.currentState!.validate()) {
-      Get.back();
-      onShareClick(_email);
+      isLoading.value = true;
+      final shareResponse = await onShareClick(_email);
+      isLoading.value = false;
+      if (shareResponse) {
+        Get.back();
+      }
     }
   }
 
@@ -116,7 +121,9 @@ class ShareDocDialog extends StatelessWidget {
         decoration: BoxDecoration(
             color: AppColors.colorPrimary,
             borderRadius: BorderRadius.circular(4)),
-        child: Text(
+        child: isLoading.value
+            ? const CircularProgressIndicator(color: Colors.white)
+            : Text(
           AppStrings.submit,
           style:
               _textTheme.labelLarge?.copyWith(fontFamily: AppConstants.poppins),
