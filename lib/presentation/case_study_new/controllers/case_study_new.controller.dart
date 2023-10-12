@@ -28,7 +28,7 @@ class CaseStudyNewController extends GetxController {
 
   /// Page controller.
   PageController pageController =
-      PageController(keepPage: true, initialPage: 0);
+      PageController( initialPage: 0);
 
   /// technologies
   RxString technologies = "".obs;
@@ -81,7 +81,7 @@ class CaseStudyNewController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-      Future.delayed(Duration(milliseconds: 10),(){
+      Future.delayed(const Duration(milliseconds: 10),(){
         if (pageController.hasClients) {
           pageController.animateToPage(activeProjectIndex.value,
               curve: Curves.elasticInOut, duration: const Duration(microseconds: 4));

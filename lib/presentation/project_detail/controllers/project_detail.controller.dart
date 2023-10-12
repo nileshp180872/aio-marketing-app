@@ -66,13 +66,6 @@ class ProjectDetailController extends GetxController {
 
     _getArguments();
     super.onInit();
-
-    pageController.addListener(() {
-      activeProjectIndex.value = pageController.page!.round();
-      Future.delayed(const Duration(milliseconds: 400),(){
-        _prepareProjectDetails();
-      });
-    });
   }
 
   /// Receive arguments from previous screen.

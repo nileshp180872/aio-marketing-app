@@ -1,109 +1,41 @@
-import 'package:aio/config/app_colors.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:aio/presentation/project_detail/view/project_image_tile_widget.dart';
 import 'package:aio/presentation/project_detail/view/project_image_widget.dart';
-import 'package:aio/presentation/project_detail/view/project_item_widget.dart';
-import 'package:aio/utils/user_feature.mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 
-import '../../config/app_values.dart';
-import '../../infrastructure/navigation/routes.dart';
-import 'controllers/project_detail.controller.dart';
-import 'controllers/project_item_controller.dart';
+import '../../../config/app_colors.dart';
+import '../../../config/app_strings.dart';
+import '../../../config/app_values.dart';
+import '../controllers/project_item_controller.dart';
 
-class ProjectDetailScreen extends GetView<ProjectDetailController>
-    with AppFeature {
-  ProjectDetailController _controller = Get.find(tag: Routes.PROJECT_DETAIL);
+class ProjectItemWidget extends StatefulWidget {
+  int index;
 
-  ProjectDetailScreen({Key? key}) : super(key: key);
+  ProjectItemWidget({required this.index, super.key});
 
-  late TextTheme _textTheme;
+  @override
+  State<ProjectItemWidget> createState() => _ProjectItemWidgetState();
+}
+
+class _ProjectItemWidgetState extends State<ProjectItemWidget> {
+  late ProjectItemController _controller;
+
   late BuildContext _buildContext;
+  late TextTheme _textTheme;
+
+  @override
+  void initState() {
+    _controller = Get.find<ProjectItemController>(tag: "item_${widget.index}");
+    _controller.preparePortfolioData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     _buildContext = context;
     _textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      body: SafeArea(
-        child: Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildCustomAppBar(title: _controller.screenTitle.value),
-              Expanded(child: _buildScreenBody())
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// build screen body
-  Widget _buildScreenBody() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppValues.sideMargin),
-      child: Row(
-        children: [
-          InkWell(
-            splashFactory: NoSplash.splashFactory,
-            highlightColor: Colors.transparent,
-            onTap: _controller.enablePrevious.isTrue
-                ? _controller.goToPreviousPage
-                : null,
-            child: SizedBox(
-                width: AppValues.sideMargin,
-                height: AppValues.sideMargin,
-                child: Center(
-                    child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: _controller.enablePrevious.isTrue
-                      ? AppColors.colorSecondary
-                      : AppColors.colorSecondary.withOpacity(0.5),
-                ))),
-          ),
-          Expanded(child: _buildPagedView()),
-          InkWell(
-            splashFactory: NoSplash.splashFactory,
-            highlightColor: Colors.transparent,
-            onTap:
-                _controller.enableNext.isTrue ? _controller.goToNextPage : null,
-            child: SizedBox(
-                width: AppValues.sideMargin,
-                child: Center(
-                    child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: _controller.enableNext.isTrue
-                      ? AppColors.colorSecondary
-                      : AppColors.colorSecondary.withOpacity(0.5),
-                ))),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Build project paged view
-  Widget _buildPagedView() {
-    return PageView.builder(
-        controller: _controller.pageController,
-        itemCount: _controller.projectList.length,
-        onPageChanged: _controller.onPageChange,
-        itemBuilder: (_, index) {
-          Get.lazyPut<ProjectItemController>(() => ProjectItemController(),
-              tag: "item_${index}");
-
-          ProjectItemController ctrl = Get.find(tag: "item_${index}");
-          ctrl.projectData.value = _controller.projectList[index];
-          ctrl.listImages.value = _controller.listImages;
-          return SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: ProjectItemWidget(index: index),
-          );
-        });
+    return Obx(() => _buildItemRow());
   }
 
   Widget _buildItemRow() {

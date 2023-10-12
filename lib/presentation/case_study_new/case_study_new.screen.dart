@@ -5,6 +5,7 @@ import 'package:aio/config/app_values.dart';
 import 'package:aio/presentation/case_study_new/view/bottom_section.dart';
 import 'package:aio/presentation/case_study_new/view/business_challange_widget.dart';
 import 'package:aio/presentation/case_study_new/view/business_solution_widget.dart';
+import 'package:aio/presentation/case_study_new/view/case_study_single_item_widget.dart';
 import 'package:aio/presentation/case_study_new/view/conclution_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ import '../../infrastructure/navigation/routes.dart';
 import '../../utils/user_feature.mixin.dart';
 import '../project_detail/view/project_image_widget.dart';
 import 'controllers/case_study_new.controller.dart';
+import 'controllers/single_case_study_item_controller.dart';
 import 'view/company_overview_widget.dart';
 
 class CaseStudyNewScreen extends GetView<CaseStudyNewController>
@@ -203,10 +205,18 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
         itemCount: _controller.projectList.length,
         onPageChanged: _controller.onPageChange,
         itemBuilder: (_, index) {
+          Get.lazyPut<SingleCaseStudyItemController>(
+              () => SingleCaseStudyItemController(),
+              tag: "casestudy_${index}");
+
+          SingleCaseStudyItemController ctrl =
+              Get.find(tag: "casestudy_${index}");
+          ctrl.projectData.value = _controller.projectList[index];
+          ctrl.listImages.value = _controller.listImages;
           return SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: _buildScrollableListView(),
+            child: CaseStudySingleItemWidget(index: index),
           );
         });
   }

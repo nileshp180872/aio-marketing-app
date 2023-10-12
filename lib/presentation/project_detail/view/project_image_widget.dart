@@ -29,11 +29,14 @@ class ProjectImageWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildNoImage() => Image.asset(AppAssets.kNoImage,fit: fit,);
+  Widget _buildNoImage() => Image.asset(
+        AppAssets.kNoImage,
+        fit: fit,
+      );
 
   Widget _buildNetworkImage() {
-    return Image.network(
-      "${NetworkConstants.kImageBasePath}$imageURL",
+    return CachedNetworkImage(
+      imageUrl: "${NetworkConstants.kImageBasePath}$imageURL",
       fit: fit,
     );
   }
