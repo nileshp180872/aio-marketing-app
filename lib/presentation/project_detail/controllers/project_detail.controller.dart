@@ -77,11 +77,14 @@ class ProjectDetailController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-      if (pageController.hasClients) {
-        pageController.animateToPage(activeProjectIndex.value,
-            curve: Curves.elasticInOut, duration: Duration(seconds: 1));
-        _prepareProjectDetails();
-      }
+      Future.delayed(Duration(milliseconds: 10),(){
+        if (pageController.hasClients) {
+          pageController.animateToPage(activeProjectIndex.value,
+              curve: Curves.elasticInOut, duration: const Duration(microseconds: 4));
+          _prepareProjectDetails();
+        }
+      });
+
     }
   }
 
@@ -197,6 +200,6 @@ class ProjectDetailController extends GetxController {
 
   void onPageChange(int page) {
     activeProjectIndex.value = page;
-    _prepareProjectDetails();
+      _prepareProjectDetails();
   }
 }

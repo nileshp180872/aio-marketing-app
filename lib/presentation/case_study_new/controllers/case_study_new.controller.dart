@@ -74,13 +74,13 @@ class CaseStudyNewController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-
-      if (pageController.hasClients) {
-        Future.delayed(const Duration(milliseconds: 1400), () {
-          pageController.jumpToPage(activeProjectIndex.value);
-          onPageChange(activeProjectIndex.value);
-        });
-      }
+      Future.delayed(Duration(milliseconds: 10),(){
+        if (pageController.hasClients) {
+          pageController.animateToPage(activeProjectIndex.value,
+              curve: Curves.elasticInOut, duration: const Duration(microseconds: 4));
+          _prepareProjectDetails();
+        }
+      });
     }
   }
 
@@ -157,7 +157,6 @@ class CaseStudyNewController extends GetxController {
       techLogo.value = projectData.value.techMapping ?? [];
       listImages.value = projectData.value.sliderImages ?? [];
 
-      Get.log("testing ${techLogo.value}");
       await Future.delayed(Duration(seconds: 2), () {
         projectData.refresh();
         businessSolution.refresh();

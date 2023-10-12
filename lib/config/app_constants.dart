@@ -30,10 +30,11 @@ class AppConstants {
 
   static var otherCountryData = [
     CountryModel(
-        id: '2',
-        countryName: 'UK',
-        countryAddress: AppStrings.ukOfficeAddress,
-        countryFlag: SVGAssets.ukFlag),
+        id: '6',
+        countryName: 'Dubai',
+        countryAddress: "Yes Business Tower - 101 - Al Barsha 1 - Dubai - United Arab Emirates",
+        countryFlag: SVGAssets.africaFlag),
+
     // CountryModel(
     //     id: '3',
     //     countryName: 'GERMANY',
@@ -50,6 +51,11 @@ class AppConstants {
         countryName: 'AUSTRALIA',
         countryAddress: AppStrings.australiaOfficeAddress,
         countryFlag: SVGAssets.australianFlag),
+    CountryModel(
+        id: '2',
+        countryName: 'UK',
+        countryAddress: AppStrings.ukOfficeAddress,
+        countryFlag: SVGAssets.ukFlag),
     CountryModel(
         id: '3',
         countryName: 'S.AFRICA',
