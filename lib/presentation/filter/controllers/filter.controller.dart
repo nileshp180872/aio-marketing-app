@@ -62,6 +62,10 @@ class FilterController extends GetxController {
 
   /// Receive arguments from previous screen.
   void _getArguments() async {
+    if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
+      lstSectionCategory
+          .removeWhere((element) => element == AppStrings.mobileWeb);
+    }
     if (Get.arguments != null) {
       portfolioEnum = Get.arguments[RouteArguments.portfolioEnum] ??
           PortfolioEnum.PORTFOLIO;
@@ -75,10 +79,7 @@ class FilterController extends GetxController {
       }
 
       // remove mobile web filter
-      if (portfolioEnum == PortfolioEnum.CASE_STUDY) {
-        lstSectionCategory
-            .removeWhere((element) => element == AppStrings.mobileWeb);
-      } else {
+      if (portfolioEnum == PortfolioEnum.PORTFOLIO) {
         if (await Utils.isConnected()) {
           await _getPlatforms();
         } else {
