@@ -3,6 +3,7 @@ import 'package:aio/presentation/case_study_new/view/section_header_widget.dart'
 import 'package:aio/presentation/case_study_new/view/slider_widget.dart';
 import 'package:aio/presentation/case_study_new/view/technology_single_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BottomSection extends StatelessWidget {
   List<String> sliderImage;
@@ -13,6 +14,7 @@ class BottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.log("techlogoImage ${techlogoImage.length}");
     return sliderImage.isNotEmpty || techlogoImage.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
@@ -56,7 +58,7 @@ class BottomSection extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: techlogoImage.length,
       itemBuilder: (_, index) {
-        return TechnologySignleTileWidget(image: techlogoImage[0]);
+        return TechnologySignleTileWidget(image: techlogoImage[index]);
       },
       separatorBuilder: (_, __) {
         return const SizedBox(

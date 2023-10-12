@@ -126,6 +126,16 @@ class Utils {
     final technologies =
         (element.techMapping ?? []).map((e) => e.techName ?? "").toList();
     Get.log("technologies ${technologies}");
+    String strTechnologies = "";
+    final techMapping = (element.techImageMapping ?? []);
+    if(techMapping.isNotEmpty) {
+      strTechnologies =
+          (techMapping.map((e) => e.techImage ?? "").toList()).join(",");
+    }
+    (element.techImageMapping ?? []).isEmpty
+        ? null
+        : (element.techImageMapping ?? [])
+            .map((e) => (e.techImage ?? "").split(","));
     final model = ProjectListModel(
         id: element.casestudiesID,
         projectName: element.projectName,
@@ -158,11 +168,7 @@ class Utils {
         businessDescription2: element.description2,
         businessDescription3: element.description3,
         technologies: technologies.join(","),
-        techMapping: (element.techImageMapping ?? []).isEmpty
-            ? null
-            : (element.techImageMapping ?? [])
-                .map((e) => (e.techImage ?? "").split(","))
-                .first,
+        techMapping: techMapping.map((e) => e.techImage ?? "").toList(),
         sliderImages: (element.imageMapping ?? []).isEmpty
             ? null
             : (element.imageMapping ?? [])
