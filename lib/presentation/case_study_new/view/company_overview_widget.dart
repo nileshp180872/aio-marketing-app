@@ -18,6 +18,7 @@ class CompanyOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
     return Container(
       color: Colors.white,
       width: double.infinity,
@@ -48,27 +49,17 @@ class CompanyOverviewWidget extends StatelessWidget {
                 ),
                 Text(
                   companyTitle,
-                  style: TextStyle(
-                      fontSize: 32,
+                  style: _textTheme.bodyMedium?.copyWith(
+                      fontSize: 28,
                       color: Color(0xff263238),
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                // const Text(
-                //   "Updating industries with Digitization and advanced technologies",
-                //   style: TextStyle(
-                //       fontSize: 18,
-                //       color: Color(0xff00517C),
-                //       fontWeight: FontWeight.bold),
-                // ),
-                // const SizedBox(
-                //   height: 4,
-                // ),4
                 Text(
                   companyDescription,
-                  style: TextStyle(
+                  style: _textTheme.bodyMedium?.copyWith(
                     fontSize: 18,
                     color: Color(0xff00517C),
                   ),

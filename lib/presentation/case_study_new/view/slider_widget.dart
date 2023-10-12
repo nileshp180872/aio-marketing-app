@@ -25,8 +25,7 @@ class _SliderWidgetState extends State<SliderWidget> {
         Container(
           height: 300,
           width: 400,
-          child: widget.imageSlider.isNotEmpty
-              ? PageView.builder(
+          child: PageView.builder(
                   controller: widget._pageController,
                   onPageChanged: (int page) {
                     setState(() {
@@ -40,10 +39,6 @@ class _SliderWidgetState extends State<SliderWidget> {
                     );
                   },
                   itemCount: widget.imageSlider.length,
-                )
-              : Container(
-                  color: AppColors.cardBackground,
-                  child: const Center(child: Text(AppStrings.imageNotAvailable)),
                 ),
         ),
         const SizedBox(
