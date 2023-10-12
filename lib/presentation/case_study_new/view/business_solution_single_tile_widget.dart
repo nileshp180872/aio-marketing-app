@@ -37,13 +37,16 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      model.title ?? "",
-                      // textAlign: TextAlign.justify,
-                      style: _textTheme.bodyLarge?.copyWith(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff263238)),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text(
+                        model.title ?? "",
+                        // textAlign: TextAlign.justify,
+                        style: _textTheme.bodyLarge?.copyWith(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xff263238)),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
