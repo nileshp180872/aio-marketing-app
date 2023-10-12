@@ -17,16 +17,20 @@ class BusinessSolutionSingleTileWidget extends StatelessWidget {
         ? SizedBox(
             width: MediaQuery.of(context).size.width / 3 - 60,
             // width:300,
-            height: 450,
+
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  margin  : const EdgeInsets.only(top: 8.0),
                   height: 50,
                   width: 50,
-                  child: ProjectImageWidget(imageURL: "${model.icon}"),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: ProjectImageWidget(
+                          fit: BoxFit.fill,
+                          imageURL: "${model.icon}")),
                 ),
                 const SizedBox(
                   width: 16,

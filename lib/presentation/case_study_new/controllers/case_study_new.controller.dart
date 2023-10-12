@@ -144,7 +144,7 @@ class CaseStudyNewController extends GetxController {
       ]);
 
       techLogo.value = projectData.value.techMapping ?? [];
-      listImages.value = projectData.value.sliderImages??[];
+      listImages.value = projectData.value.sliderImages ?? [];
 
       Get.log("testing ${techLogo.value}");
       await Future.delayed(Duration(seconds: 2), () {
@@ -204,7 +204,6 @@ class CaseStudyNewController extends GetxController {
     ]);
   }
 
-
   /// Enable/Disable action buttons.
   void _checkForActionButtons() {
     enableNext.value = activeProjectIndex.value != projectList.length - 1;
@@ -215,7 +214,10 @@ class CaseStudyNewController extends GetxController {
   /// Case study API success
   ///
   /// required [response] response.
-  void _getCaseStudyAPISuccess(dio.Response response) async {}
+  void _getCaseStudyAPISuccess(dio.Response response) async {
+    Utils.showSuccessDialog(
+        navigateToHome: false, message: AppStrings.shareCaseStudySuccess);
+  }
 
   /// Case study API Failure
   ///
@@ -245,7 +247,7 @@ class CaseStudyNewController extends GetxController {
   }
 
   /// Scroll to top of the screen.
-  void _scrollToTop(){
+  void _scrollToTop() {
     scrollController.animateTo(scrollController.position.minScrollExtent,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }

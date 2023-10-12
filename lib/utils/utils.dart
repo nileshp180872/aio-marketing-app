@@ -80,11 +80,17 @@ class Utils {
     );
   }
 
-  static void showSuccessDialog({required String message}) {
+  static void showSuccessDialog(
+      {bool navigateToHome = true, required String message}) {
     Get.dialog(SuccessDialogWidget(
       contentText: message,
+      navigateToHome: navigateToHome,
       onSubmit: () {
-        Get.until((route) => route.settings.name == Routes.HOME);
+        if (navigateToHome) {
+          Get.until((route) => route.settings.name == Routes.HOME);
+        } else {
+          Get.back();
+        }
       },
     ));
   }

@@ -22,7 +22,13 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
                 width: 70,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: ProjectImageWidget(imageURL: model.icon ?? ""),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: ProjectImageWidget(
+                        radiusRequired: true,
+                        fit: BoxFit.fill,
+                        imageURL: model.icon ?? ""),
+                  ),
                 ),
               ),
               const SizedBox(

@@ -11,9 +11,13 @@ class SuccessDialogWidget extends StatelessWidget {
 
   late TextTheme _textTheme;
   Function onSubmit;
+  bool navigateToHome;
 
   SuccessDialogWidget(
-      {required this.contentText, required this.onSubmit, super.key});
+      {required this.contentText,
+      this.navigateToHome = true,
+      required this.onSubmit,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +74,7 @@ class SuccessDialogWidget extends StatelessWidget {
               color: AppColors.colorPrimary,
               borderRadius: BorderRadius.circular(4)),
           child: Text(
-            AppStrings.goToHome,
+            navigateToHome ? AppStrings.goToHome : "Done",
             style: _textTheme.labelLarge
                 ?.copyWith(fontFamily: AppConstants.poppins),
           )),
