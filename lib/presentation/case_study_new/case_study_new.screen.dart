@@ -27,8 +27,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
   Widget build(BuildContext context) {
     _textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        body: Obx(
-      () => SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
             // buildCustomAppBar(title: AppStrings.caseStudy),
@@ -114,35 +113,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
             Expanded(
               child: Stack(
                 children: [
-                  SingleChildScrollView(
-                    controller: _controller.scrollController,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildHeaderMainSection(),
-                        CompanyOverviewWidget(
-                          companyTitle:
-                              _controller.projectData.value.companyName ?? "",
-                          companyDescription:
-                              _controller.projectData.value.companyDescription ?? "",
-                          companyImage:
-                              _controller.projectData.value.companyImage ?? "",
-                        ),
-                        BusinessChallenges(
-                            businessChallenges: _controller.businessChallenges),
-                        BusinessSolutionWidget(
-                          businessSolution: _controller.businessSolution,
-                        ),
-                        BottomSection(
-                          sliderImage: _controller.businessImages,
-                          techlogoImage: _controller.techLogo,
-                        ),
-                        ConclutionSection(
-                            conclusion:
-                                _controller.projectData.value.conclusion ?? ""),
-                      ],
-                    ),
-                  ),
+                  _buildPagedView(),
                   Positioned(
                     top: 0,
                     bottom: 0,
@@ -191,7 +162,53 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
           ],
         ),
       ),
-    ));
+    );
+  }
+
+  Widget _buildScrollableListView() {
+    return Obx(
+      () => SingleChildScrollView(
+        controller: _controller.scrollController,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildHeaderMainSection(),
+            CompanyOverviewWidget(
+              companyTitle: _controller.projectData.value.companyName ?? "",
+              companyDescription:
+                  _controller.projectData.value.companyDescription ?? "",
+              companyImage: _controller.projectData.value.companyImage ?? "",
+            ),
+            BusinessChallenges(
+                businessChallenges: _controller.businessChallenges),
+            BusinessSolutionWidget(
+              businessSolution: _controller.businessSolution,
+            ),
+            BottomSection(
+              sliderImage: _controller.businessImages,
+              techlogoImage: _controller.techLogo,
+            ),
+            ConclutionSection(
+                conclusion: _controller.projectData.value.conclusion ?? ""),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Build case study paged view
+  Widget _buildPagedView() {
+    return PageView.builder(
+        controller: _controller.pageController,
+        itemCount: _controller.projectList.length,
+        onPageChanged: _controller.onPageChange,
+        itemBuilder: (_, index) {
+          return SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: _buildScrollableListView(),
+          );
+        });
   }
 
   Widget _buildHeaderMainSection() {

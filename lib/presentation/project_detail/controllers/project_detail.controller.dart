@@ -2,6 +2,7 @@ import 'package:aio/infrastructure/db/database_helper.dart';
 import 'package:aio/infrastructure/db/schema/case_study_images.dart';
 import 'package:aio/infrastructure/navigation/route_arguments.dart';
 import 'package:aio/presentation/filter/model/filter_menu.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -52,6 +53,10 @@ class ProjectDetailController extends GetxController {
 
   final logger = Logger();
 
+  /// Page controller.
+  PageController pageController =
+      PageController(keepPage: true, initialPage: 0);
+
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
 
@@ -72,23 +77,33 @@ class ProjectDetailController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-      _prepareProjectDetails();
+      if (pageController.hasClients) {
+        pageController.animateToPage(activeProjectIndex.value,
+            curve: Curves.elasticInOut, duration: Duration(seconds: 1));
+        _prepareProjectDetails();
+      }
     }
   }
 
   /// Navigate to next page.
   void goToNextPage() {
     if (enableNext.isTrue) {
-      activeProjectIndex.value++;
-      _prepareProjectDetails();
+      pageController.nextPage(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.linearToEaseOut);
+      // activeProjectIndex.value++;
+      // _prepareProjectDetails();
     }
   }
 
   /// Navigate to previous page.
   void goToPreviousPage() {
     if (enablePrevious.isTrue) {
-      activeProjectIndex.value--;
-      _prepareProjectDetails();
+      pageController.previousPage(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.linearToEaseOut);
+      // activeProjectIndex.value--;
+      // _prepareProjectDetails();
     }
   }
 
@@ -178,5 +193,10 @@ class ProjectDetailController extends GetxController {
     } else {
       print("not able to open ${link.url}");
     }
+  }
+
+  void onPageChange(int page) {
+    activeProjectIndex.value = page;
+    _prepareProjectDetails();
   }
 }

@@ -26,6 +26,10 @@ class CaseStudyNewController extends GetxController {
 
   late String _projectId;
 
+  /// Page controller.
+  PageController pageController =
+      PageController(keepPage: true, initialPage: 0);
+
   /// technologies
   RxString technologies = "".obs;
 
@@ -69,7 +73,14 @@ class CaseStudyNewController extends GetxController {
       activeProjectIndex.value = Get.arguments[RouteArguments.index] ?? "";
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
-      _prepareProjectDetails();
+
+
+      if (pageController.hasClients) {
+        Future.delayed(const Duration(milliseconds: 1400), () {
+          pageController.jumpToPage(activeProjectIndex.value);
+          onPageChange(activeProjectIndex.value);
+        });
+      }
     }
   }
 
@@ -214,11 +225,9 @@ class CaseStudyNewController extends GetxController {
   /// Case study API success
   ///
   /// required [response] response.
-  void _getCaseStudyAPISuccess(dio.Response response) async {
+  void _getCaseStudyAPISuccess(dio.Response response) async {}
 
-  }
-
-  void showSuccessDialog(){
+  void showSuccessDialog() {
     Utils.showSuccessDialog(
         navigateToHome: false, message: AppStrings.shareCaseStudySuccess);
   }
@@ -250,7 +259,7 @@ class CaseStudyNewController extends GetxController {
         _getCaseStudyAPIFailure(response);
         return false;
       }
-    }else{
+    } else {
       return false;
     }
   }
@@ -259,5 +268,10 @@ class CaseStudyNewController extends GetxController {
   void _scrollToTop() {
     scrollController.animateTo(scrollController.position.minScrollExtent,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
+  void onPageChange(int page) {
+    activeProjectIndex.value = page;
+    _prepareProjectDetails();
   }
 }

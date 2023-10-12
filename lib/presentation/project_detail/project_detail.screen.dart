@@ -62,18 +62,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
                       : AppColors.colorSecondary.withOpacity(0.5),
                 ))),
           ),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: _buildLeftSideProductImage()),
-                const SizedBox(
-                  width: 30,
-                ),
-                Expanded(child: _buildScrollableProductDetail())
-              ],
-            ),
-          ),
+          Expanded(child: _buildPagedView()),
           InkWell(
             splashFactory: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
@@ -91,6 +80,34 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
           ),
         ],
       ),
+    );
+  }
+
+  /// Build project paged view
+  Widget _buildPagedView() {
+    return PageView.builder(
+        controller: _controller.pageController,
+        itemCount: _controller.projectList.length,
+        onPageChanged: _controller.onPageChange,
+        itemBuilder: (_, index) {
+          return SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: _buildItemRow(),
+          );
+        });
+  }
+
+  Widget _buildItemRow() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: _buildLeftSideProductImage()),
+        const SizedBox(
+          width: 30,
+        ),
+        Expanded(child: _buildScrollableProductDetail())
+      ],
     );
   }
 
@@ -118,34 +135,34 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if((_controller.projectData.value.technologies ?? "").isNotEmpty)
-          _buildSectionHeader(title: AppStrings.usedTechnologies),
-          if((_controller.projectData.value.technologies ?? "").isNotEmpty)
-          _buildContentText(content: _controller.technologies.value ?? ""),
+          if ((_controller.projectData.value.technologies ?? "").isNotEmpty)
+            _buildSectionHeader(title: AppStrings.usedTechnologies),
+          if ((_controller.projectData.value.technologies ?? "").isNotEmpty)
+            _buildContentText(content: _controller.technologies.value ?? ""),
           const SizedBox(
             height: 38,
           ),
-          if((_controller.projectData.value.overView ?? "").isNotEmpty)
-          _buildSectionHeader(title: AppStrings.domain),
-          if((_controller.projectData.value.overView ?? "").isNotEmpty)
-          _buildContentText(
-              content: _controller.projectData.value.overView ?? ""),
+          if ((_controller.projectData.value.overView ?? "").isNotEmpty)
+            _buildSectionHeader(title: AppStrings.domain),
+          if ((_controller.projectData.value.overView ?? "").isNotEmpty)
+            _buildContentText(
+                content: _controller.projectData.value.overView ?? ""),
           const SizedBox(
             height: 38,
           ),
-          if((_controller.projectData.value.description ?? "").isNotEmpty)
-          _buildSectionHeader(title: AppStrings.description),
-          if((_controller.projectData.value.description ?? "").isNotEmpty)
-          _buildLinkableText(
-              content: _controller.projectData.value.description ?? ""),
+          if ((_controller.projectData.value.description ?? "").isNotEmpty)
+            _buildSectionHeader(title: AppStrings.description),
+          if ((_controller.projectData.value.description ?? "").isNotEmpty)
+            _buildLinkableText(
+                content: _controller.projectData.value.description ?? ""),
           const SizedBox(
             height: 38,
           ),
-          if((_controller.projectData.value.urlLink ?? "").isNotEmpty)
-          _buildSectionHeader(title: AppStrings.liveLink),
-          if((_controller.projectData.value.urlLink ?? "").isNotEmpty)
-          _buildLinkableText(
-              content: _controller.projectData.value.urlLink ?? ""),
+          if ((_controller.projectData.value.urlLink ?? "").isNotEmpty)
+            _buildSectionHeader(title: AppStrings.liveLink),
+          if ((_controller.projectData.value.urlLink ?? "").isNotEmpty)
+            _buildLinkableText(
+                content: _controller.projectData.value.urlLink ?? ""),
         ],
       ),
     );
