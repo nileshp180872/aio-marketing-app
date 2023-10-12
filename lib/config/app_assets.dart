@@ -21,6 +21,7 @@ abstract class SVGAssets{
   static const usaFlag = 'assets/svg/us_flag.svg';
   static const australianFlag = 'assets/svg/au_flag.svg';
   static const africaFlag = 'assets/svg/za_flag.svg';
+  static const dubaiFlag = 'assets/svg/ae_flag.svg';
 
 }
 abstract class LottieAssets{
