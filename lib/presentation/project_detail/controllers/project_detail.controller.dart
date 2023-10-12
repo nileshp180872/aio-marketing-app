@@ -201,5 +201,8 @@ class ProjectDetailController extends GetxController {
   void onPageChange(int page) {
     activeProjectIndex.value = page;
       _prepareProjectDetails();
+      Future.delayed(const Duration(milliseconds: 200),(){
+        activeImage.refresh();
+      });
   }
 }
