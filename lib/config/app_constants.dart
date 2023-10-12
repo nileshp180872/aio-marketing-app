@@ -31,9 +31,10 @@ class AppConstants {
   static var otherCountryData = [
     CountryModel(
         id: '6',
-        countryName: 'Dubai',
-        countryAddress: "Yes Business Tower - 101 - Al Barsha 1 - Dubai - United Arab Emirates",
-        countryFlag: SVGAssets.africaFlag),
+        countryName: 'DUBAI',
+        countryAddress:
+            "Yes Business Tower - 101 - Al Barsha 1 - Dubai - United Arab Emirates",
+        countryFlag: SVGAssets.dubaiFlag),
 
     // CountryModel(
     //     id: '3',
@@ -56,6 +57,10 @@ class AppConstants {
         countryName: 'UK',
         countryAddress: AppStrings.ukOfficeAddress,
         countryFlag: SVGAssets.ukFlag),
-
+    // CountryModel(
+    //     id: '3',
+    //     countryName: 'S.AFRICA',
+    //     countryAddress: "Expanding to S.AFRICA",
+    //     countryFlag: SVGAssets.africaFlag),
   ];
 }
