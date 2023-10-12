@@ -205,7 +205,6 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
           image: const AssetImage(AppAssets.caseStudyHeaderBackground),
         ),
       ),
-      height: 700,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
       child: Row(
@@ -279,7 +278,7 @@ class CaseStudyNewScreen extends GetView<CaseStudyNewController>
 
   Widget buildHeaderButton({required String title}) {
     return Container(
-      margin: const EdgeInsets.only(right: 10, top: 4),
+      margin: const EdgeInsets.only(right: 8, top: 8),
       color: AppColors.colorPrimary,
       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 13),
       child: Text(

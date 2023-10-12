@@ -18,15 +18,15 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 70,
-                width: 70,
+                height: 80,
+                width: 80,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: ProjectImageWidget(
                         radiusRequired: true,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.fitHeight,
                         imageURL: model.icon ?? ""),
                   ),
                 ),

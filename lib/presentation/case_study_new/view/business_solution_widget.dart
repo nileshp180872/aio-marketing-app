@@ -8,14 +8,14 @@ import 'business_solution_single_tile_widget.dart';
 class BusinessSolutionWidget extends StatelessWidget {
   List<BusinessChallenge> businessSolution;
 
-      BusinessSolutionWidget({required this.businessSolution, super.key});
+  BusinessSolutionWidget({required this.businessSolution, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 20,bottom: 20, left: 80,right: 60),
+      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 80, right: 60),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,13 +29,39 @@ class BusinessSolutionWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          SizedBox(
-              height: 450,
-              width: double.infinity,
-              child: _buildBusinessSolution()),
+          _buildFeaturedCards(businessSolution),
         ],
       ),
     );
+  }
+
+  Widget _buildFeaturedCards(List<BusinessChallenge> product) {
+    final cards = <Widget>[];
+    Widget FeautredCards;
+
+    if (product.length > 0) {
+      for (int i = 0; i < product.length; i++) {
+        cards.add(BusinessSolutionSingleTileWidget(model: businessSolution[i]));
+        print(product.length);
+      }
+      FeautredCards = Container(
+        padding: EdgeInsets.only(top: 16, bottom: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: cards),
+            ),
+          ],
+        ),
+      );
+    } else {
+      FeautredCards = Container();
+    }
+    return FeautredCards;
   }
 
   /// Build business solution list

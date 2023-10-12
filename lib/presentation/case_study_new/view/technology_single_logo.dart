@@ -16,6 +16,7 @@ class TechnologySignleTileWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Card(
+          margin: EdgeInsets.zero,
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
