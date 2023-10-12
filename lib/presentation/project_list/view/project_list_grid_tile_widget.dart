@@ -46,6 +46,7 @@ class ProjectListGridTileWidget extends StatelessWidget {
 
   ///Build the content
   Widget cardData() {
+    print("Image URL IS"+projectListModel.casestudyThumbnailImage.toString() );
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(

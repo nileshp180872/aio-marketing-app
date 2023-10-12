@@ -56,10 +56,6 @@ class AppConstants {
         countryName: 'UK',
         countryAddress: AppStrings.ukOfficeAddress,
         countryFlag: SVGAssets.ukFlag),
-    CountryModel(
-        id: '3',
-        countryName: 'S.AFRICA',
-        countryAddress: "Expanding to S.AFRICA",
-        countryFlag: SVGAssets.africaFlag),
+
   ];
 }

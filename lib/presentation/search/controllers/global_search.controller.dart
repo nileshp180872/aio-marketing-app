@@ -259,6 +259,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
                 id: element.portfolioID,
                 projectName: element.projectName,
                 networkImages: images,
+                casestudyThumbnailImage: (images.first.split(",")[0]??""),
                 overView: element.domainName,
                 description: element.description,
                 technologies: technologies.join(","),
