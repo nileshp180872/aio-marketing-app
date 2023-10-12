@@ -1,12 +1,7 @@
-import 'package:aio/config/app_colors.dart';
-import 'package:aio/config/app_strings.dart';
 import 'package:aio/config/app_values.dart';
 import 'package:aio/utils/user_feature.mixin.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../infrastructure/navigation/routes.dart';
 import 'controllers/portfolio.controller.dart';

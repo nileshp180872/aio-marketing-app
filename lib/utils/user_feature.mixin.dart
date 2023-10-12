@@ -172,7 +172,7 @@ mixin AppFeature {
                         Center(
                           child: Row(
                             children: [
-                              Expanded(child: Text(screenValue)),
+                              Expanded(child: Text(screenValue, maxLines: 1,overflow: TextOverflow.ellipsis,)),
                               Icon(
                                 Icons.arrow_drop_down_outlined,
                                 color:
@@ -399,6 +399,7 @@ mixin AppFeature {
                   value: item,
                   child: Text(
                     item,
+                    maxLines: 1,
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
