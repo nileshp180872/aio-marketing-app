@@ -47,4 +47,29 @@ abstract class ClientAssets{
   static const client16 = 'assets/clientlist/client16.png';
   static const client17 = 'assets/clientlist/client17.png';
   static const client18 = 'assets/clientlist/client18.png';
+  static const client19 = 'assets/clientlist/dubailist/client19.png';
+  static const client20 = 'assets/clientlist/dubailist/client20.png';
+  static const client21 = 'assets/clientlist/dubailist/client21.png';
+  static const client22 = 'assets/clientlist/dubailist/client22.png';
+  static const client23 = 'assets/clientlist/dubailist/client23.png';
+  static const client24 = 'assets/clientlist/dubailist/client24.png';
+  static const client25 = 'assets/clientlist/dubailist/client25.png';
+  static const client26 = 'assets/clientlist/dubailist/client26.png';
+  static const client27 = 'assets/clientlist/dubailist/client27.png';
+  static const client28 = 'assets/clientlist/dubailist/client28.png';
+  static const client29 = 'assets/clientlist/dubailist/client29.png';
+  static const client30 = 'assets/clientlist/dubailist/client30.png';
+  static const client31 = 'assets/clientlist/dubailist/client31.png';
+  static const client32 = 'assets/clientlist/dubailist/client32.png';
+  static const client33 = 'assets/clientlist/dubailist/client33.png';
+  static const client34 = 'assets/clientlist/dubailist/client34.png';
+  static const client35 = 'assets/clientlist/dubailist/client35.png';
+  static const client36 = 'assets/clientlist/dubailist/client36.png';
+  static const client37 = 'assets/clientlist/dubailist/client37.png';
+  static const client38 = 'assets/clientlist/dubailist/client38.png';
+  static const client39 = 'assets/clientlist/dubailist/client39.png';
+  static const client40 = 'assets/clientlist/dubailist/client40.png';
+  static const client41 = 'assets/clientlist/dubailist/client41.png';
+  static const client42 = 'assets/clientlist/dubailist/client42.png';
+
 }
