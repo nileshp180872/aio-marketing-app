@@ -15,7 +15,7 @@ class BusinessChallengeSingleTileWidget extends StatelessWidget {
 
     return (model.title ?? "").isNotEmpty
         ? Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 80,
