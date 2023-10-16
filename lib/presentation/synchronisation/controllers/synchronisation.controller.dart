@@ -19,6 +19,7 @@ import 'package:synchronized/synchronized.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
 import '../../../infrastructure/db/schema/case_study.dart';
+import '../../../infrastructure/db/schema/case_study_tech_image.dart';
 import '../../../infrastructure/db/schema/leadership_type.dart';
 import '../../../infrastructure/db/schema/platform.dart';
 import '../../../infrastructure/db/schema/portfolio_technologies.dart';
@@ -157,11 +158,11 @@ class SynchronisationController extends GetxController {
   /// Check if getLastDbSyncDate is empty then update case study
   /// otherwise call all the data API.
   Future<void> _syncCaseStudy() {
-    // if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
-    return _getCaseStudies();
-    // } else {
-    //   return _getUpdatedCaseStudies();
-    // }
+    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
+      return _getCaseStudies();
+    } else {
+      return _getUpdatedCaseStudies();
+    }
   }
 
   /// Get portfolio API.
@@ -360,14 +361,17 @@ class SynchronisationController extends GetxController {
             await _addCaseStudies(element, isDelete: true);
             await _addCaseStudyImages(element, isDelete: true);
             await _addCaseStudyTechnologies(element, isDelete: true);
+            await _addCaseStudyTechnologyImages(element, isDelete: true);
           } else if ((element.modifiedOn ?? "").isNotEmpty) {
             await _addCaseStudies(element, isUpdate: true);
             await _addCaseStudyImages(element, isUpdate: true);
             await _addCaseStudyTechnologies(element, isUpdate: true);
+            await _addCaseStudyTechnologyImages(element, isUpdate: true);
           } else {
             await _addCaseStudies(element);
             await _addCaseStudyImages(element);
             await _addCaseStudyTechnologies(element);
+            await _addCaseStudyTechnologyImages(element);
           }
         } catch (ex) {
           logger.e(ex);
@@ -459,6 +463,7 @@ class SynchronisationController extends GetxController {
           await _addCaseStudies(element);
           await _addCaseStudyImages(element);
           await _addCaseStudyTechnologies(element);
+          await _addCaseStudyTechnologyImages(element);
         } catch (ex) {
           logger.e(ex);
         }
@@ -638,6 +643,38 @@ class SynchronisationController extends GetxController {
           await _dbHelper.deleteCaseStudyTechnologies(techMapping);
         } else {
           await _dbHelper.addToCaseStudyTechnologies(techMapping);
+        }
+      });
+    } catch (ex) {
+      logger.e(ex);
+    }
+  }
+
+  /// Add case study technologies
+  Future<void> _addCaseStudyTechnologyImages(CaseStudiesResponseData element,
+      {bool isUpdate = false, bool isDelete = false}) async {
+    Get.log("_addCaseStudyTechnologyImages");
+    try {
+      (element.techImageMapping ?? [])
+          .forEach((technologyMappingElement) async {
+        String technologyImage = "";
+        try {
+          technologyImage = await Utils.getImagePath(
+              imageURL: technologyMappingElement.techImage ?? "",
+              locationName: "casestudy_tech_image");
+        } catch (ex) {
+          print("technologyImage error $ex");
+        }
+        final techMapping = CaseStudyTechImages(
+            caseStudyTechImageId: technologyMappingElement.casestudiesId,
+            caseStudyTechImagePath: technologyImage,
+            caseStudyTechImagePortfolioId: element.casestudiesID);
+        if (isUpdate) {
+          await _dbHelper.updateToCaseStudyTechnologyImage(techMapping);
+        } else if (isDelete) {
+          await _dbHelper.deleteCaseStudyTechnologyImages(techMapping);
+        } else {
+          await _dbHelper.addToCaseStudyTechnologyImages(techMapping);
         }
       });
     } catch (ex) {

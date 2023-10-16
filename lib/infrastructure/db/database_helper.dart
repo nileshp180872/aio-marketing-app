@@ -164,6 +164,15 @@ class DatabaseHelper with DbConfig, SchemaConfig {
         columnName: DbConstants.caseStudyTechnologyId);
   }
 
+  /// Delete case study to db.
+  Future<int> deleteCaseStudyTechnologyImages(
+      CaseStudyTechImages portfolio) async {
+    return delete(
+        id: portfolio.caseStudyTechImageId ?? "",
+        table: DbConstants.tblCaseStudiesTechImageMapping,
+        columnName: DbConstants.caseStudyTechImageId);
+  }
+
   /// Add portfolio images to db.
   Future<int> addToPortfolioImage(PortfolioImages portfolioImage) async {
     return insert(portfolioImage.toJson(), DbConstants.tblPortfolioImages);
@@ -216,6 +225,13 @@ class DatabaseHelper with DbConfig, SchemaConfig {
         DbConstants.tblCaseStudiesTechnologies);
   }
 
+  /// Add case study technologies to db.
+  Future<int> addToCaseStudyTechnologyImages(
+      CaseStudyTechImages caseStudyTechnologyMapping) async {
+    return insert(caseStudyTechnologyMapping.toJson(),
+        DbConstants.tblCaseStudiesTechImageMapping);
+  }
+
   /// Update portfolio technology to db.
   Future<int> updateToCaseStudyTechnology(
       CaseStudyTechnologyMapping caseStudyTechnologyMapping) async {
@@ -224,6 +240,16 @@ class DatabaseHelper with DbConfig, SchemaConfig {
         caseStudyTechnologyMapping.caseStudyTechnologyId ?? "",
         DbConstants.caseStudyTechnologyId,
         DbConstants.tblCaseStudiesTechnologies);
+  }
+
+  /// Update portfolio technology images to db.
+  Future<int> updateToCaseStudyTechnologyImage(
+      CaseStudyTechImages caseStudyTechnologyMapping) async {
+    return update(
+        caseStudyTechnologyMapping.toJson(),
+        caseStudyTechnologyMapping.caseStudyTechImageId ?? "",
+        DbConstants.caseStudyTechImageId,
+        DbConstants.tblCaseStudiesTechImageMapping);
   }
 
   /// Return all portfolios.

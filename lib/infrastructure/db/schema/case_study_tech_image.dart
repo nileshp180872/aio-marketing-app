@@ -19,9 +19,9 @@ class CaseStudyTechImages {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data[DbConstants.caseStudyImageId] = caseStudyTechImageId;
-    data[DbConstants.caseStudyImagePath] = caseStudyTechImagePath;
-    data[DbConstants.caseStudyImageCaseStudyId] = caseStudyTechImagePortfolioId;
+    data[DbConstants.caseStudyTechImageId] = caseStudyTechImageId;
+    data[DbConstants.caseStudyTechImageName] = caseStudyTechImagePath;
+    data[DbConstants.caseStudyTechMapCaseStudyTableId] = caseStudyTechImagePortfolioId;
     return data;
   }
 }

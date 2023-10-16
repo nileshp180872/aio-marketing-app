@@ -9,9 +9,7 @@ import '../../../utils/utils.dart';
 import '../../project_list/model/project_list_model.dart';
 import '../model/business_challenge.dart';
 
-class SingleCaseStudyItemController extends GetxController{
-
-
+class SingleCaseStudyItemController extends GetxController {
   /// Project reactive model
   Rx<ProjectListModel> projectData = ProjectListModel().obs;
 
@@ -33,6 +31,7 @@ class SingleCaseStudyItemController extends GetxController{
   RxList<String> listImages = RxList();
 
   late DatabaseHelper _dbHelper;
+
   @override
   void onInit() {
     _dbHelper = GetIt.I<DatabaseHelper>();
@@ -44,7 +43,6 @@ class SingleCaseStudyItemController extends GetxController{
     businessChallenges.clear();
 
     _projectId = projectData.value.id ?? "";
-
 
     if (await Utils.isConnected()) {
       businessImages.value = projectData.value.sliderImages ?? [];
@@ -66,8 +64,7 @@ class SingleCaseStudyItemController extends GetxController{
             icon: projectData.value.businessImage3,
             title: projectData.value.businessTitle3),
       ]);
-      Get.log(
-          "projectData.value.solutionTitle1 ${projectData.value.solutionTitle1}");
+
       businessSolution.addAll([
         BusinessChallenge(
             description: projectData.value.solutionDescription1,
@@ -92,56 +89,79 @@ class SingleCaseStudyItemController extends GetxController{
       });
     } else {
       final portfolio =
-      await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
+          await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
       projectData.value.description =
           portfolio?.caseStudyProjectDescription ?? "";
       projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
-      projectData.value.companyDescription = portfolio?.caseStudyCompanyDescription ?? "";
+      projectData.value.companyDescription =
+          portfolio?.caseStudyCompanyDescription ?? "";
       projectData.value.companyName = portfolio?.caseStudyCompanyTitle ?? "";
       projectData.value.companyImage = portfolio?.caseStudyCompanyImage ?? "";
-      projectData.value.solutionImage1 = portfolio?.caseStudySolutionImage1 ?? "";
-      projectData.value.solutionImage2 = portfolio?.caseStudySolutionImage2 ?? "";
-      projectData.value.solutionImage3 = portfolio?.caseStudySolutionImage3 ?? "";
-      projectData.value.solutionTitle1 = portfolio?.caseStudySolutionTitle1 ?? "";
-      projectData.value.solutionTitle2 = portfolio?.caseStudySolutionTitle2 ?? "";
-      projectData.value.solutionTitle3 = portfolio?.caseStudySolutionTitle3 ?? "";
-      projectData.value.solutionDescription1 = portfolio?.caseStudySolutionDescription1 ?? "";
-      projectData.value.solutionDescription2 = portfolio?.caseStudySolutionDescription2 ?? "";
-      projectData.value.solutionDescription3 = portfolio?.caseStudySolutionDescription3 ?? "";
-      projectData.value.businessImage1 = portfolio?.caseStudyBusinessImage1 ?? "";
-      projectData.value.businessImage2 = portfolio?.caseStudyBusinessImage2 ?? "";
-      projectData.value.businessImage3 = portfolio?.caseStudyBusinessImage3 ?? "";
-      projectData.value.businessTitle1 = portfolio?.caseStudyBusinessTitle1 ?? "";
-      projectData.value.businessTitle2 = portfolio?.caseStudyBusinessTitle2 ?? "";
-      projectData.value.businessTitle3 = portfolio?.caseStudyBusinessTitle3 ?? "";
-      projectData.value.businessDescription1 = portfolio?.caseStudyBusinessDescription1 ?? "";
-      projectData.value.businessDescription2 = portfolio?.caseStudyBusinessDescription2 ?? "";
-      projectData.value.businessDescription3 = portfolio?.caseStudyBusinessDescription3 ?? "";
+      projectData.value.solutionImage1 =
+          portfolio?.caseStudySolutionImage1 ?? "";
+      projectData.value.solutionImage2 =
+          portfolio?.caseStudySolutionImage2 ?? "";
+      projectData.value.solutionImage3 =
+          portfolio?.caseStudySolutionImage3 ?? "";
+      projectData.value.solutionTitle1 =
+          portfolio?.caseStudySolutionTitle1 ?? "";
+      projectData.value.solutionTitle2 =
+          portfolio?.caseStudySolutionTitle2 ?? "";
+      projectData.value.solutionTitle3 =
+          portfolio?.caseStudySolutionTitle3 ?? "";
+      projectData.value.solutionDescription1 =
+          portfolio?.caseStudySolutionDescription1 ?? "";
+      projectData.value.solutionDescription2 =
+          portfolio?.caseStudySolutionDescription2 ?? "";
+      projectData.value.solutionDescription3 =
+          portfolio?.caseStudySolutionDescription3 ?? "";
+      projectData.value.businessImage1 =
+          portfolio?.caseStudyBusinessImage1 ?? "";
+      projectData.value.businessImage2 =
+          portfolio?.caseStudyBusinessImage2 ?? "";
+      projectData.value.businessImage3 =
+          portfolio?.caseStudyBusinessImage3 ?? "";
+      projectData.value.businessTitle1 =
+          portfolio?.caseStudyBusinessTitle1 ?? "";
+      projectData.value.businessTitle2 =
+          portfolio?.caseStudyBusinessTitle2 ?? "";
+      projectData.value.businessTitle3 =
+          portfolio?.caseStudyBusinessTitle3 ?? "";
+      projectData.value.businessDescription1 =
+          portfolio?.caseStudyBusinessDescription1 ?? "";
+      projectData.value.businessDescription2 =
+          portfolio?.caseStudyBusinessDescription2 ?? "";
+      projectData.value.businessDescription3 =
+          portfolio?.caseStudyBusinessDescription3 ?? "";
       projectData.value.conclusion = portfolio?.caseStudyConclusion ?? "";
       projectData.value.domainName = portfolio?.caseStudyDomainName ?? "";
-      projectData.value.casestudyBannerImage = portfolio?.caseStudyBannerImage ?? "";
-      projectData.value.casestudyThumbnailImage = portfolio?.caseStudyThumbnailImage ?? "";
-
+      projectData.value.casestudyBannerImage =
+          portfolio?.caseStudyBannerImage ?? "";
+      projectData.value.casestudyThumbnailImage =
+          portfolio?.caseStudyThumbnailImage ?? "";
 
       // fetch current portfolio technologies.
       technologies.value =
-      await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+          await _dbHelper.getCaseStudyTechnologies(id: _projectId);
+
+      projectData.value.technologies =
+          technologies.value;
 
       // fetch current case study images.
       List<CaseStudyTechImages> projectTechnologyImages =
-      await _dbHelper.getCaseStudyMapImages(id: _projectId);
+          await _dbHelper.getCaseStudyMapImages(id: _projectId);
 
-      projectData.value.techMapping = projectTechnologyImages
+      techLogo.value = projectTechnologyImages
           .map((e) => e.caseStudyTechImagePath ?? "")
           .toList();
 
       // fetch current case study images.
       List<CaseStudyImages> projectImages =
-      await _dbHelper.getCaseStudyImages(id: _projectId);
+          await _dbHelper.getCaseStudyImages(id: _projectId);
       if (projectImages.length > 3) {
         projectImages = projectImages.sublist(0, 3);
       }
-      projectData.value.sliderImages =
+      businessImages.value =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
     businessChallenges.clear();
@@ -159,8 +179,6 @@ class SingleCaseStudyItemController extends GetxController{
           icon: projectData.value.businessImage3,
           title: projectData.value.businessTitle3),
     ]);
-    Get.log(
-        "projectData.value.solutionTitle1 ${projectData.value.solutionTitle1}");
     businessSolution.addAll([
       BusinessChallenge(
           description: projectData.value.solutionDescription1,

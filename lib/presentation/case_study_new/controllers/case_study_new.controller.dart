@@ -28,8 +28,7 @@ class CaseStudyNewController extends GetxController {
   late String _projectId;
 
   /// Page controller.
-  PageController pageController =
-      PageController( initialPage: 0);
+  PageController pageController = PageController(initialPage: 0);
 
   /// technologies
   RxString technologies = "".obs;
@@ -68,7 +67,7 @@ class CaseStudyNewController extends GetxController {
 
     pageController.addListener(() {
       activeProjectIndex.value = pageController.page!.round();
-      Future.delayed(const Duration(milliseconds: 400),(){
+      Future.delayed(const Duration(milliseconds: 400), () {
         _prepareProjectDetails();
       });
     });
@@ -83,10 +82,11 @@ class CaseStudyNewController extends GetxController {
 
       projectList.value = Get.arguments[RouteArguments.projectList] ?? [];
 
-      Future.delayed(const Duration(milliseconds: 10),(){
+      Future.delayed(const Duration(milliseconds: 10), () {
         if (pageController.hasClients) {
           pageController.animateToPage(activeProjectIndex.value,
-              curve: Curves.elasticInOut, duration: const Duration(microseconds: 4));
+              curve: Curves.elasticInOut,
+              duration: const Duration(microseconds: 4));
           _prepareProjectDetails();
         }
       });
@@ -146,20 +146,34 @@ class CaseStudyNewController extends GetxController {
           portfolio?.caseStudyProjectDescription ?? "";
       projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
       projectData.value.companyName = portfolio?.caseStudyCompanyTitle ?? "";
-      projectData.value.companyDescription = portfolio?.caseStudyCompanyDescription ?? "";
+      projectData.value.technologies = portfolio?.caseStudyDomainName ?? "";
+      projectData.value.companyDescription =
+          portfolio?.caseStudyCompanyDescription ?? "";
       projectData.value.companyImage = portfolio?.caseStudyCompanyImage ?? "";
-      projectData.value.solutionImage1 = portfolio?.caseStudySolutionImage1 ?? "";
-      projectData.value.solutionImage2 = portfolio?.caseStudySolutionImage2 ?? "";
-      projectData.value.solutionImage3 = portfolio?.caseStudySolutionImage3 ?? "";
-      projectData.value.solutionTitle1 = portfolio?.caseStudySolutionTitle1 ?? "";
-      projectData.value.solutionTitle2 = portfolio?.caseStudySolutionTitle2 ?? "";
-      projectData.value.solutionTitle3 = portfolio?.caseStudySolutionTitle3 ?? "";
-      projectData.value.solutionDescription1 = portfolio?.caseStudySolutionDescription1 ?? "";
-      projectData.value.solutionDescription2 = portfolio?.caseStudySolutionDescription2 ?? "";
-      projectData.value.solutionDescription3 = portfolio?.caseStudySolutionDescription3 ?? "";
-      projectData.value.businessImage1 = portfolio?.caseStudyBusinessImage1 ?? "";
-      projectData.value.businessImage2 = portfolio?.caseStudyBusinessImage2 ?? "";
-      projectData.value.businessImage3 = portfolio?.caseStudyBusinessImage3 ?? "";
+      projectData.value.solutionImage1 =
+          portfolio?.caseStudySolutionImage1 ?? "";
+      projectData.value.solutionImage2 =
+          portfolio?.caseStudySolutionImage2 ?? "";
+      projectData.value.solutionImage3 =
+          portfolio?.caseStudySolutionImage3 ?? "";
+      projectData.value.solutionTitle1 =
+          portfolio?.caseStudySolutionTitle1 ?? "";
+      projectData.value.solutionTitle2 =
+          portfolio?.caseStudySolutionTitle2 ?? "";
+      projectData.value.solutionTitle3 =
+          portfolio?.caseStudySolutionTitle3 ?? "";
+      projectData.value.solutionDescription1 =
+          portfolio?.caseStudySolutionDescription1 ?? "";
+      projectData.value.solutionDescription2 =
+          portfolio?.caseStudySolutionDescription2 ?? "";
+      projectData.value.solutionDescription3 =
+          portfolio?.caseStudySolutionDescription3 ?? "";
+      projectData.value.businessImage1 =
+          portfolio?.caseStudyBusinessImage1 ?? "";
+      projectData.value.businessImage2 =
+          portfolio?.caseStudyBusinessImage2 ?? "";
+      projectData.value.businessImage3 =
+          portfolio?.caseStudyBusinessImage3 ?? "";
       projectData.value.conclusion = portfolio?.caseStudyConclusion ?? "";
       projectData.value.domainName = portfolio?.caseStudyDomainName ?? "";
 
@@ -167,6 +181,7 @@ class CaseStudyNewController extends GetxController {
       technologies.value =
           await _dbHelper.getCaseStudyTechnologies(id: _projectId);
 
+      projectData.value.technologies = technologies.value;
       // fetch current case study images.
       List<CaseStudyTechImages> projectTechnologyImages =
           await _dbHelper.getCaseStudyMapImages(id: _projectId);
