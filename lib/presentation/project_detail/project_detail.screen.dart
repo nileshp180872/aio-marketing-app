@@ -236,7 +236,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
   Widget _buildImagePreview() {
     return ProjectImageWidget(
       imageURL:
-          _controller.projectData.value.networkImages!.elementAt(0).toString(),
+          _controller.projectData.value.networkImages!.elementAt(_controller.activeProjectIndex.value).toString(),
       fit: BoxFit.fitHeight,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:aio/presentation/project_detail/view/project_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 
@@ -18,6 +19,7 @@ class ProjectImageTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.log("imagePath ${imagePath}");
     return InkWell(
       onTap: () => selectImage(index),
       child: Container(

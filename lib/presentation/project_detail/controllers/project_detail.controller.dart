@@ -164,7 +164,7 @@ class ProjectDetailController extends GetxController {
         if (projectImages.length > 3) {
           projectImages = projectImages.sublist(0, 3);
         }
-        listImages.value =
+        projectData.value.networkImages =
             projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
       }
     }
