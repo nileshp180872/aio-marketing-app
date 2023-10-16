@@ -27,6 +27,7 @@ class BottomSection extends StatelessWidget {
                     imageSlider: sliderImage,
                   ),
                 ),
+                const SizedBox(width: 14,),
                 Expanded(
                     flex: 6,
                     child: Column(

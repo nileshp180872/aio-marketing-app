@@ -135,7 +135,7 @@ mixin DbConfig {
         "SELECT ${DbConstants.tblPortfolio}.*, ${DbConstants.portfolioImagePath} as images, ${DbConstants.portfolioTechnologyId} as technologies FROM ${DbConstants.tblPortfolio} $joinImages $joinTechnologyTable";
 
     String queryFilter =
-        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioAIId} LIMIT $limit OFFSET $offset";
+        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioProjectName} ASC LIMIT $limit OFFSET $offset";
 
     String filterQuery = "WHERE";
 
@@ -158,11 +158,10 @@ mixin DbConfig {
       filterQuery =
           " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} ${DbConstants.caseStudyId} = '$projectId'";
     }
-    filterQuery =
-    " $filterQuery SORT BY portfolio.portfolio_project_name";
     String finalQuery =
-        "$filterAllDataQuery ${filterApplied ? filterQuery : ""}";
+        "$filterAllDataQuery ${filterApplied ? filterQuery : ""} $queryFilter";
 
+    Get.log("portfolioQuery --> $finalQuery");
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 
     return List<Portfolio>.generate(
@@ -188,7 +187,7 @@ mixin DbConfig {
         "SELECT ${DbConstants.tblPortfolio}.*, ${DbConstants.portfolioImagePath} as images, ${DbConstants.portfolioTechnologyId} as technologies FROM ${DbConstants.tblPortfolio} $joinImages $joinTechnologyTable";
 
     String queryFilter =
-        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioAIId} LIMIT $limit OFFSET $offset";
+        "GROUP BY ${DbConstants.portfolioId} ORDER BY ${DbConstants.portfolioProjectName} ASC LIMIT $limit OFFSET $offset";
 
     String filterQuery = "WHERE";
 
@@ -226,7 +225,7 @@ mixin DbConfig {
         "SELECT ${DbConstants.tblCaseStudies}.*, ${DbConstants.caseStudyImagePath} as images, ${DbConstants.caseStudyTechnologyId} as technologies FROM ${DbConstants.tblCaseStudies} $joinImages $joinTechnologyTable";
 
     String queryFilter =
-        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyAIId} LIMIT $limit OFFSET $offset";
+        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyProjectName} ASC LIMIT $limit OFFSET $offset";
 
     String filterQuery = "WHERE";
 
@@ -271,7 +270,7 @@ mixin DbConfig {
         "SELECT ${DbConstants.tblCaseStudies}.*, ${DbConstants.caseStudyImagePath} as images, ${DbConstants.caseStudyTechnologyId} as technologies FROM ${DbConstants.tblCaseStudies} $joinImages $joinTechnologyTable";
 
     String queryFilter =
-        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyAIId} LIMIT $limit OFFSET $offset";
+        "GROUP BY ${DbConstants.tblCaseStudies}.${DbConstants.caseStudyId} ORDER BY ${DbConstants.caseStudyProjectName} ASC LIMIT $limit OFFSET $offset";
 
     String filterQuery = "WHERE";
 
