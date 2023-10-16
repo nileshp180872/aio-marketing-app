@@ -147,6 +147,16 @@ class ProjectDetailController extends GetxController {
         }
         listImages.value =
             projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+
+        projectData.value.description =
+            portfolio?.portfolioProjectDescription ?? "";
+        projectData.value.overView = portfolio?.portfolioDomainName ?? "";
+
+
+        projectData.value.networkImages =
+            projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+
+        activeProjectIndex.value=0;
       } else {
         final portfolio =
             await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
@@ -166,14 +176,19 @@ class ProjectDetailController extends GetxController {
         }
         projectData.value.networkImages =
             projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
+
+        activeProjectIndex.value = 0;
       }
     }
 
     listImages.refresh();
 
-    if (listImages.isNotEmpty) {
-      onSelectImage(0);
-    }
+    Future.delayed(Duration(seconds: 1),(){
+      if (listImages.isNotEmpty) {
+        onSelectImage(0);
+      }
+    });
+
 
     projectData.refresh();
   }

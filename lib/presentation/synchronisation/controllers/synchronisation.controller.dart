@@ -15,6 +15,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:synchronized/synchronized.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
@@ -66,11 +67,28 @@ class SynchronisationController extends GetxController {
 
     if (isNetworkEnable.value) {
       _dbHelper.clearAllTables();
-      Future.delayed(
-          const Duration(
-            seconds: 1,
-          ),
-          () => getAPIS());
+      final permissionStatus = await Permission.storage.status;
+      if (permissionStatus.isDenied) {
+        // Here just ask for the permission for the first time
+        await Permission.storage.request();
+
+        // I noticed that sometimes popup won't show after user press deny
+        // so I do the check once again but now go straight to appSettings
+        if (permissionStatus.isDenied) {
+          await openAppSettings();
+        }
+      } else if (permissionStatus.isPermanentlyDenied) {
+        // Here open app settings for user to manually enable permission in case
+        // where permission was permanently denied
+        await openAppSettings();
+      } else {
+        Future.delayed(
+            const Duration(
+              seconds: 1,
+            ),
+                () => getAPIS());
+      }
+
     }
   }
 
