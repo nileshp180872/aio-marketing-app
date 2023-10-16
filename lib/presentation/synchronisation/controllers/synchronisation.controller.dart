@@ -543,7 +543,7 @@ class SynchronisationController extends GetxController {
     String companyImage = "";
     try {
       companyImage = await Utils.getImagePath(
-          imageURL: element.businessImage1 ?? "",
+          imageURL: element.companyImage ?? "",
           locationName: "case_study_business1");
     } catch (ex) {
       print("companyImage error $ex");

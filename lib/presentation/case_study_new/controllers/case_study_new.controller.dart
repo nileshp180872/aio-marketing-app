@@ -145,8 +145,9 @@ class CaseStudyNewController extends GetxController {
       projectData.value.description =
           portfolio?.caseStudyProjectDescription ?? "";
       projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
-      projectData.value.companyName = portfolio?.caseStudyCompanyName ?? "";
+      projectData.value.companyName = portfolio?.caseStudyCompanyTitle ?? "";
       projectData.value.companyDescription = portfolio?.caseStudyCompanyDescription ?? "";
+      projectData.value.companyImage = portfolio?.caseStudyCompanyImage ?? "";
       projectData.value.solutionImage1 = portfolio?.caseStudySolutionImage1 ?? "";
       projectData.value.solutionImage2 = portfolio?.caseStudySolutionImage2 ?? "";
       projectData.value.solutionImage3 = portfolio?.caseStudySolutionImage3 ?? "";
@@ -170,7 +171,7 @@ class CaseStudyNewController extends GetxController {
       List<CaseStudyTechImages> projectTechnologyImages =
           await _dbHelper.getCaseStudyMapImages(id: _projectId);
 
-      techLogo.value = projectTechnologyImages
+      projectData.value.techMapping = projectTechnologyImages
           .map((e) => e.caseStudyTechImagePath ?? "")
           .toList();
 
@@ -180,7 +181,7 @@ class CaseStudyNewController extends GetxController {
       if (projectImages.length > 3) {
         projectImages = projectImages.sublist(0, 3);
       }
-      listImages.value =
+      projectData.value.sliderImages =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
     businessChallenges.addAll([

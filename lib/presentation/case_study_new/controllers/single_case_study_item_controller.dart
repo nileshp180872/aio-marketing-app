@@ -97,6 +97,8 @@ class SingleCaseStudyItemController extends GetxController{
           portfolio?.caseStudyProjectDescription ?? "";
       projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
       projectData.value.companyDescription = portfolio?.caseStudyCompanyDescription ?? "";
+      projectData.value.companyName = portfolio?.caseStudyCompanyTitle ?? "";
+      projectData.value.companyImage = portfolio?.caseStudyCompanyImage ?? "";
       projectData.value.solutionImage1 = portfolio?.caseStudySolutionImage1 ?? "";
       projectData.value.solutionImage2 = portfolio?.caseStudySolutionImage2 ?? "";
       projectData.value.solutionImage3 = portfolio?.caseStudySolutionImage3 ?? "";
@@ -120,16 +122,16 @@ class SingleCaseStudyItemController extends GetxController{
       projectData.value.casestudyBannerImage = portfolio?.caseStudyBannerImage ?? "";
       projectData.value.casestudyThumbnailImage = portfolio?.caseStudyThumbnailImage ?? "";
 
+
       // fetch current portfolio technologies.
       technologies.value =
       await _dbHelper.getCaseStudyTechnologies(id: _projectId);
 
-      projectData.value.technologies = technologies.value;
       // fetch current case study images.
       List<CaseStudyTechImages> projectTechnologyImages =
       await _dbHelper.getCaseStudyMapImages(id: _projectId);
 
-      techLogo.value = projectTechnologyImages
+      projectData.value.techMapping = projectTechnologyImages
           .map((e) => e.caseStudyTechImagePath ?? "")
           .toList();
 
@@ -139,7 +141,7 @@ class SingleCaseStudyItemController extends GetxController{
       if (projectImages.length > 3) {
         projectImages = projectImages.sublist(0, 3);
       }
-      listImages.value =
+      projectData.value.sliderImages =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
     businessChallenges.clear();
@@ -173,7 +175,10 @@ class SingleCaseStudyItemController extends GetxController{
           icon: projectData.value.solutionImage3,
           title: projectData.value.solutionTitle3),
     ]);
-    Get.log("businessChallenges ${businessChallenges.length}");
+    await Future.delayed(const Duration(seconds: 1), () {
+      projectData.refresh();
+      businessSolution.refresh();
+    });
     listImages.refresh();
   }
 }

@@ -20,7 +20,6 @@ class ProjectImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("baseURL $imageURL");
     final file = File(imageURL);
     if (imageURL.isEmpty) {
       return _buildNoImage();
