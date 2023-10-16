@@ -258,12 +258,16 @@ class CaseStudyNewController extends GetxController {
   void openDialog() {}
 
   void openGmail() async {
-    Get.dialog(Material(
-        color: Colors.transparent,
-        child: ShareDocDialog(
-          onShareClick: (value) => shareCasestuduDetail(value, _projectId),
-          onSuccess: showSuccessDialog,
-        )));
+    if (await Utils.isConnected()) {
+      Get.dialog(Material(
+          color: Colors.transparent,
+          child: ShareDocDialog(
+            onShareClick: (value) => shareCasestuduDetail(value, _projectId),
+            onSuccess: showSuccessDialog,
+          )));
+    } else {
+      Utils.showErrorMessage(message: AppStrings.offlineShareMessage);
+    }
   }
 
   /// Get case studies

@@ -90,7 +90,7 @@ class SynchronisationController extends GetxController {
           _synchronizeEnquiryWithServer();
           await Future.wait(
             [
-              // _syncPortfolio(),
+              _syncPortfolio(),
               _syncCaseStudy(),
             ],
           );

@@ -158,9 +158,8 @@ mixin DbConfig {
       filterQuery =
           " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} ${DbConstants.caseStudyId} = '$projectId'";
     }
-
     String finalQuery =
-        "$filterAllDataQuery ${filterApplied ? filterQuery : ""}$queryFilter";
+        "$filterAllDataQuery ${filterApplied ? filterQuery : ""}";
 
     final List<Map<String, dynamic>> result = await _db.rawQuery(finalQuery);
 

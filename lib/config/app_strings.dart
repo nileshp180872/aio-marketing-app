@@ -69,6 +69,7 @@ abstract class AppStrings {
   static const inputString = 'Share case study';
   static const imageNotAvailable = 'Images not available';
   static const shareCaseStudySuccess = 'Case study shared successfully!';
+  static const  offlineShareMessage= 'You can\'t share case study while being offline.';
 
 // ------------------- Validation ---------------------
   static const nameValidationMsg = 'Full Name cannot be empty';
