@@ -158,6 +158,8 @@ mixin DbConfig {
       filterQuery =
           " $filterQuery ${filterQuery.trim().toUpperCase() != "WHERE" ? "OR" : ""} ${DbConstants.caseStudyId} = '$projectId'";
     }
+    filterQuery =
+    " $filterQuery SORT BY portfolio.portfolio_project_name";
     String finalQuery =
         "$filterAllDataQuery ${filterApplied ? filterQuery : ""}";
 

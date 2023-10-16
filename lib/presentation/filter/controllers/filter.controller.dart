@@ -206,7 +206,7 @@ class FilterController extends GetxController {
     try {
       domainLoading.value = true;
       final domains = await _dbHelper.getAllDomains();
-      domainLoading.value = true;
+      domainLoading.value = false;
       for (Domain element in domains) {
         lstDomains.add(
             SelectionModel(title: element.domainName, id: element.domainId));
@@ -238,7 +238,7 @@ class FilterController extends GetxController {
     try {
       platformLoading.value = true;
       final platforms = await _dbHelper.getAllPlatform();
-      platformLoading.value = true;
+      platformLoading.value = false;
       for (Platform element in platforms) {
         lstMobileWeb.add(SelectionModel(
             title: element.platformName, id: element.platformId));
