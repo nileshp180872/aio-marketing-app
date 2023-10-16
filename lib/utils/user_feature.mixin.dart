@@ -172,7 +172,12 @@ mixin AppFeature {
                         Center(
                           child: Row(
                             children: [
-                              Expanded(child: Text(screenValue, maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                              Expanded(
+                                  child: Text(
+                                    screenValue,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
                               Icon(
                                 Icons.arrow_drop_down_outlined,
                                 color:
@@ -363,12 +368,17 @@ mixin AppFeature {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    color: AppColors.colorSecondary,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700),
+              SizedBox(
+                width: MediaQuery.of(Get.context!).size.width * 0.9,
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                      color: AppColors.colorSecondary,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700),
+                ),
               ),
               const SizedBox(
                 height: 5,

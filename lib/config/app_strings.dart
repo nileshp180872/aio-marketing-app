@@ -77,6 +77,7 @@ abstract class AppStrings {
   static const phoneValidationMsg = 'Phone No. cannot be empty';
   static const companyNameValidationMsg = 'Company Name cannot be empty';
   static const msgValidationMsg = 'Message cannot be empty';
+  static const emailValidationMessage = 'Email ID is not valid.';
 
 // ------------------- Validation ---------------------
   static const connectionTimeoutMessage = 'Unable to reach server.';

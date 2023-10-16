@@ -34,7 +34,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
         ),
         body: Column(
           children: [
-            buildCustomAppBar(title: "Filter"),
+            buildCustomAppBar(title: "Filter",enableSearch: false),
             Expanded(child: Obx(() => _buildBodyWidget())),
           ],
         ));
@@ -123,7 +123,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
                       model: _controller.lstDomains[index]);
                 },
                 itemCount: _controller.lstDomains.length,
-              )
+              ).paddingOnly(bottom: AppValues.size_68)
             : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 
@@ -147,7 +147,7 @@ class FilterScreen extends GetView<FilterController> with AppFeature {
                       model: _controller.lstMobileWeb[index]);
                 },
                 itemCount: _controller.lstMobileWeb.length,
-              )
+              ).paddingOnly(bottom: AppValues.size_68)
             : _buildNoDataView(content: AppStrings.recordNotFound);
   }
 

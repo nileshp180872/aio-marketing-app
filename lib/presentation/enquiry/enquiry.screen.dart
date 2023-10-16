@@ -126,6 +126,10 @@ class EnquiryScreen extends GetView<EnquiryController> with AppFeature {
         onValidate: (value) {
           if (value == null || value.isEmpty) {
             return AppStrings.emailValidationMsg;
+          } else if ((value ?? "").isNotEmpty) {
+            if (!(value as String).isEmail) {
+              return AppStrings.emailValidationMessage;
+            }
           } else {
             return null;
           }
