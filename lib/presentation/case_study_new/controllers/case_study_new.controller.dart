@@ -2,6 +2,7 @@ import 'package:aio/infrastructure/db/schema/case_study_images.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 
 import '../../../config/app_strings.dart';
@@ -61,6 +62,7 @@ class CaseStudyNewController extends GetxController {
 
   @override
   void onInit() {
+    _dbHelper = GetIt.I<DatabaseHelper>();
     _getArguments();
     super.onInit();
 
@@ -130,37 +132,6 @@ class CaseStudyNewController extends GetxController {
       technologies.value = projectData.value.technologies ?? "";
       businessChallenges.clear();
       businessSolution.clear();
-      businessChallenges.addAll([
-        BusinessChallenge(
-            description: projectData.value.businessDescription1,
-            icon: projectData.value.businessImage1,
-            title: projectData.value.businessTitle1),
-        BusinessChallenge(
-            description: projectData.value.businessDescription2,
-            icon: projectData.value.businessImage2,
-            title: projectData.value.businessTitle2),
-        BusinessChallenge(
-            description: projectData.value.businessDescription3,
-            icon: projectData.value.businessImage3,
-            title: projectData.value.businessTitle3),
-      ]);
-      Get.log(
-          "projectData.value.solutionTitle1 ${projectData.value.solutionTitle1}");
-      businessSolution.addAll([
-        BusinessChallenge(
-            description: projectData.value.solutionDescription1,
-            icon: projectData.value.solutionImage1,
-            title: projectData.value.solutionTitle1),
-        BusinessChallenge(
-            description: projectData.value.solutionDescription2,
-            icon: projectData.value.solutionImage2,
-            title: projectData.value.solutionTitle2),
-        BusinessChallenge(
-            description: projectData.value.solutionDescription3,
-            icon: projectData.value.solutionImage3,
-            title: projectData.value.solutionTitle3),
-      ]);
-
       techLogo.value = projectData.value.techMapping ?? [];
       listImages.value = projectData.value.sliderImages ?? [];
 
@@ -174,6 +145,22 @@ class CaseStudyNewController extends GetxController {
       projectData.value.description =
           portfolio?.caseStudyProjectDescription ?? "";
       projectData.value.overView = portfolio?.caseStudyDomainName ?? "";
+      projectData.value.companyName = portfolio?.caseStudyCompanyName ?? "";
+      projectData.value.companyDescription = portfolio?.caseStudyCompanyDescription ?? "";
+      projectData.value.solutionImage1 = portfolio?.caseStudySolutionImage1 ?? "";
+      projectData.value.solutionImage2 = portfolio?.caseStudySolutionImage2 ?? "";
+      projectData.value.solutionImage3 = portfolio?.caseStudySolutionImage3 ?? "";
+      projectData.value.solutionTitle1 = portfolio?.caseStudySolutionTitle1 ?? "";
+      projectData.value.solutionTitle2 = portfolio?.caseStudySolutionTitle2 ?? "";
+      projectData.value.solutionTitle3 = portfolio?.caseStudySolutionTitle3 ?? "";
+      projectData.value.solutionDescription1 = portfolio?.caseStudySolutionDescription1 ?? "";
+      projectData.value.solutionDescription2 = portfolio?.caseStudySolutionDescription2 ?? "";
+      projectData.value.solutionDescription3 = portfolio?.caseStudySolutionDescription3 ?? "";
+      projectData.value.businessImage1 = portfolio?.caseStudyBusinessImage1 ?? "";
+      projectData.value.businessImage2 = portfolio?.caseStudyBusinessImage2 ?? "";
+      projectData.value.businessImage3 = portfolio?.caseStudyBusinessImage3 ?? "";
+      projectData.value.conclusion = portfolio?.caseStudyConclusion ?? "";
+      projectData.value.domainName = portfolio?.caseStudyDomainName ?? "";
 
       // fetch current portfolio technologies.
       technologies.value =
@@ -196,29 +183,38 @@ class CaseStudyNewController extends GetxController {
       listImages.value =
           projectImages.map((e) => e.caseStudyImagePath ?? "").toList();
     }
-
-    listImages.refresh();
-  }
-
-  /// Business solutions
-  void _businessSolutions() {
+    businessChallenges.addAll([
+      BusinessChallenge(
+          description: projectData.value.businessDescription1,
+          icon: projectData.value.businessImage1,
+          title: projectData.value.businessTitle1),
+      BusinessChallenge(
+          description: projectData.value.businessDescription2,
+          icon: projectData.value.businessImage2,
+          title: projectData.value.businessTitle2),
+      BusinessChallenge(
+          description: projectData.value.businessDescription3,
+          icon: projectData.value.businessImage3,
+          title: projectData.value.businessTitle3),
+    ]);
+    Get.log(
+        "projectData.value.solutionTitle1 ${projectData.value.solutionTitle1}");
     businessSolution.addAll([
       BusinessChallenge(
-          title: "Changing technologies and customer expectation",
-          description:
-              "Businesses must constantly adapt to new technologies and trends if they want to keep up with constantly evolving technology. It should also ensure that its platforms are accessible, flexible, and scalable as per customers’ expectations.",
-          icon: ""),
+          description: projectData.value.solutionDescription1,
+          icon: projectData.value.solutionImage1,
+          title: projectData.value.solutionTitle1),
       BusinessChallenge(
-          title: "Ensuring security and managing data",
-          description:
-              "As sensitive data is increasingly stored and transmitted online, security has become a major concern for tech companies. Managing and analyzing the growing volume of data presents additional challenges.",
-          icon: ""),
+          description: projectData.value.solutionDescription2,
+          icon: projectData.value.solutionImage2,
+          title: projectData.value.solutionTitle2),
       BusinessChallenge(
-          title: "Changing technologies and customer expectation",
-          description:
-              "Businesses must constantly adapt to new technologies and trends if they want to keep up with constantly evolving technology. It should also ensure that its platforms are accessible, flexible, and scalable as per customers’ expectations.",
-          icon: "")
+          description: projectData.value.solutionDescription3,
+          icon: projectData.value.solutionImage3,
+          title: projectData.value.solutionTitle3),
     ]);
+
+    listImages.refresh();
   }
 
   /// Enable/Disable action buttons.

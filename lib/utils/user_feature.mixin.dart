@@ -24,22 +24,25 @@ mixin AppFeature {
 
   /// Build custom appbar
   ///
-  Widget buildCustomAppBarWithoutTite({ bool enableSearch=false}) {
+  Widget buildCustomAppBarWithoutTite({bool enableSearch = false}) {
     return buildCustomAppBarWithoutChild(enableSearch: enableSearch);
   }
 
   /// Build custom appbar
   ///
   /// required[title] for title text
-  Widget buildCustomAppBar({String title = "", bool enableSearch=true}) {
-    return buildCustomAppBarWithChild(child: _buildTitleWithBack(title: title, ),enableSearch: enableSearch);
+  Widget buildCustomAppBar({String title = "", bool enableSearch = true}) {
+    return buildCustomAppBarWithChild(
+        child: _buildTitleWithBack(
+          title: title,
+        ),
+        enableSearch: enableSearch);
   }
 
   /// Build appbar widget with custom child below custom view.
   ///
   /// required [child] widget which needs to add below appbar.
-  Widget buildCustomAppBarWithoutChild(
-      { bool enableSearch = true}) {
+  Widget buildCustomAppBarWithoutChild({bool enableSearch = true}) {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -62,12 +65,17 @@ mixin AppFeature {
                   onTap: () {
                     Get.until((route) => route.settings.name == Routes.HOME);
                   },
-                  child: SvgPicture.asset(SVGAssets.headerAppLogo,height: 50,)),
+                  child: SvgPicture.asset(
+                    SVGAssets.headerAppLogo,
+                    height: 50,
+                  )),
               const Spacer(),
               if (enableSearch) _buildSearchContainer()
             ]),
           ),
-          Container(height: 30,)
+          Container(
+            height: 30,
+          )
         ],
       ),
     );
@@ -149,8 +157,7 @@ mixin AppFeature {
           ),
           Row(
             children: [
-              _buildTitleWithBack(title: title),
-              const Spacer(),
+              Expanded(child: _buildTitleWithBack(title: title)),
               InkWell(
                 onTap: () => onClick(),
                 child: Container(
@@ -162,7 +169,7 @@ mixin AppFeature {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
-                           Radius.circular(8.0),
+                          Radius.circular(8.0),
                         ),
                         border: Border.all(
                             color: AppColors.colorSecondary.withOpacity(0.5))),
@@ -174,10 +181,10 @@ mixin AppFeature {
                             children: [
                               Expanded(
                                   child: Text(
-                                    screenValue,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
+                                screenValue,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                               Icon(
                                 Icons.arrow_drop_down_outlined,
                                 color:
@@ -276,15 +283,15 @@ mixin AppFeature {
           child: Container(
               width: 200,
               height: 32,
-
               decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color: AppColors.colorSecondary.withOpacity(0.25),
-                  ),
+                border: Border.all(
+                  width: 1,
+                  color: AppColors.colorSecondary.withOpacity(0.25),
+                ),
                 borderRadius: BorderRadius.all(
                   Radius.circular(8.0),
-                ),),
+                ),
+              ),
               child: Row(
                 children: [
                   const SizedBox(
@@ -364,13 +371,12 @@ mixin AppFeature {
           const SizedBox(
             width: 24,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(Get.context!).size.width * 0.9,
-                child: Text(
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
                   title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -379,16 +385,16 @@ mixin AppFeature {
                       fontSize: 32,
                       fontWeight: FontWeight.w700),
                 ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Container(
-                width: 50,
-                height: 5,
-                color: AppColors.colorPrimary,
-              )
-            ],
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  width: 50,
+                  height: 5,
+                  color: AppColors.colorPrimary,
+                )
+              ],
+            ),
           )
         ],
       ),

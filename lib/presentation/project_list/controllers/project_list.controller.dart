@@ -102,7 +102,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           projectName: element.portfolioProjectName,
           projectImage: element.images,
           urlLink: element.portfolioLink,
-          casestudyThumbnailImage: element.portfolioProjectName,
+          casestudyThumbnailImage: element.images,
           viewType: AppConstants.portfolio));
     }
     if (isLastPage) {
@@ -136,6 +136,7 @@ class ProjectListController extends GetxController with AppLoadingMixin {
           autoIncrementId: element.caseStudyAutoIncrementId,
           projectName: element.caseStudyProjectName,
           projectImage: element.images,
+          casestudyThumbnailImage: element.caseStudyThumbnailImage,
           viewType: AppConstants.caseStudy));
     }
     if (isLastPage) {

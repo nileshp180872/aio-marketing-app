@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:aio/infrastructure/cache/shared_cofig.dart';
@@ -88,7 +89,7 @@ class SynchronisationController extends GetxController {
           _synchronizeEnquiryWithServer();
           await Future.wait(
             [
-              _syncPortfolio(),
+              // _syncPortfolio(),
               _syncCaseStudy(),
             ],
           );
@@ -156,11 +157,11 @@ class SynchronisationController extends GetxController {
   /// Check if getLastDbSyncDate is empty then update case study
   /// otherwise call all the data API.
   Future<void> _syncCaseStudy() {
-    if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
-      return _getCaseStudies();
-    } else {
-      return _getUpdatedCaseStudies();
-    }
+    // if (GetIt.I<SharedPreference>().getLastDbSyncDate.isEmpty) {
+    return _getCaseStudies();
+    // } else {
+    //   return _getUpdatedCaseStudies();
+    // }
   }
 
   /// Get portfolio API.
@@ -468,25 +469,86 @@ class SynchronisationController extends GetxController {
   /// Add case studies
   Future<void> _addCaseStudies(CaseStudiesResponseData element,
       {bool isUpdate = false, bool isDelete = false}) async {
-    final thumbnailFileName = (element.thumbnailImage ?? "").split(".")[0];
+    String thumbnailImage = "";
+    try {
+      thumbnailImage = await Utils.getImagePath(
+          imageURL: element.thumbnailImage ?? "",
+          locationName: "case_study_thumbnail");
+    } catch (ex) {
+      print("thumbnailImage error $ex");
+    }
+    String bannerImage = "";
+    try {
+      bannerImage = await Utils.getImagePath(
+          imageURL: element.bannerImage ?? "",
+          locationName: "case_study_banner");
+    } catch (ex) {
+      print("banner error $ex");
+    }
 
-    final thumbnailImage = thumbnailFileName.isNotEmpty
-        ? await getImageFilePath(
-            '${NetworkConstants.kImageBasePath}$thumbnailFileName',
-            "casestudy_thumbnail",
-            thumbnailFileName,
-          )
-        : "";
+    String businessSolution1 = "";
+    try {
+      businessSolution1 = await Utils.getImagePath(
+          imageURL: element.solutionImage1 ?? "",
+          locationName: "case_study_solution1");
+    } catch (ex) {
+      print("banner error $ex");
+    }
 
-    final bannerFileName = (element.thumbnailImage ?? "").split(".")[0];
+    String businessSolution2 = "";
+    try {
+      businessSolution2 = await Utils.getImagePath(
+          imageURL: element.solutionImage2 ?? "",
+          locationName: "case_study_solution2");
+    } catch (ex) {
+      print("businessSolution2 error $ex");
+    }
 
-    final bannerImage = bannerFileName.isNotEmpty
-        ? await getImageFilePath(
-            '${NetworkConstants.kImageBasePath}$bannerFileName',
-            "casestudy_banner",
-            bannerFileName,
-          )
-        : "";
+    String businessSolution3 = "";
+    try {
+      businessSolution3 = await Utils.getImagePath(
+          imageURL: element.solutionImage3 ?? "",
+          locationName: "case_study_solution3");
+    } catch (ex) {
+      print("businessSolution3 error $ex");
+    }
+
+    String businessImage1 = "";
+    try {
+      businessImage1 = await Utils.getImagePath(
+          imageURL: element.businessImage1 ?? "",
+          locationName: "case_study_business1");
+    } catch (ex) {
+      print("businessImage1 error $ex");
+    }
+
+    String businessImage2 = "";
+    try {
+      businessImage2 = await Utils.getImagePath(
+          imageURL: element.businessImage1 ?? "",
+          locationName: "case_study_business1");
+    } catch (ex) {
+      print("businessImage2 error $ex");
+    }
+
+    String businessImage3 = "";
+    try {
+      businessImage3 = await Utils.getImagePath(
+          imageURL: element.businessImage1 ?? "",
+          locationName: "case_study_business1");
+    } catch (ex) {
+      print("businessImage3 error $ex");
+    }
+
+    String companyImage = "";
+    try {
+      companyImage = await Utils.getImagePath(
+          imageURL: element.businessImage1 ?? "",
+          locationName: "case_study_business1");
+    } catch (ex) {
+      print("companyImage error $ex");
+    }
+
     final model = CaseStudy(
         caseStudyId: element.casestudiesID,
         caseStudyDomainId: element.domainID,
@@ -495,14 +557,14 @@ class SynchronisationController extends GetxController {
         caseStudyBusinessDescription1: element.solutionDescription1,
         caseStudyBusinessDescription2: element.solutionDescription2,
         caseStudyBusinessDescription3: element.solutionDescription3,
-        caseStudyBusinessImage1: element.businessImage1,
-        caseStudyBusinessImage2: element.businessImage2,
-        caseStudyBusinessImage3: element.businessImage3,
+        caseStudyBusinessImage1: businessImage1,
+        caseStudyBusinessImage2: businessImage2,
+        caseStudyBusinessImage3: businessImage3,
         caseStudyBusinessTitle1: element.businessTitle1,
         caseStudyBusinessTitle2: element.businessTitle2,
         caseStudyBusinessTitle3: element.businessTitle3,
         caseStudyCompanyTitle: element.companyTitle,
-        caseStudyCompanyImage: element.companyImage,
+        caseStudyCompanyImage: companyImage,
         caseStudyCompanyDescription: element.companyDescription,
         caseStudyCompanyName: element.companyName,
         caseStudyLink: element.urlLink,
@@ -513,13 +575,14 @@ class SynchronisationController extends GetxController {
         caseStudySolutionTitle1: element.solutionTitle1,
         caseStudySolutionTitle2: element.solutionTitle2,
         caseStudySolutionTitle3: element.solutionTitle3,
-        caseStudySolutionImage1: element.solutionImage1,
-        caseStudySolutionImage2: element.solutionImage2,
-        caseStudySolutionImage3: element.solutionImage3,
+        caseStudySolutionImage1: businessSolution1,
+        caseStudySolutionImage2: businessSolution2,
+        caseStudySolutionImage3: businessSolution3,
         caseStudyProjectDescription: element.description1,
         caseStudyThumbnailImage: thumbnailImage,
         caseStudyConclusion: element.conclusion,
         caseStudyBannerImage: bannerImage);
+    Get.log("inserting case study ${json.encode(model.toJson())}");
     if (isUpdate) {
       await _dbHelper.updateToCaseStudies(model);
     } else if (isDelete) {
@@ -533,20 +596,19 @@ class SynchronisationController extends GetxController {
   Future<void> _addCaseStudyImages(CaseStudiesResponseData element,
       {bool isUpdate = false, bool isDelete = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
-      String imagePath = "";
+      String businessCasestudyImage = "";
       try {
-        if ((imageMappingElement.casestudiesImage ?? "").isNotEmpty) {
-          final fileName =
-              (imageMappingElement.casestudiesImage ?? "").split(".")[0];
-          imagePath = await getImageFilePath(
-              '${NetworkConstants.kImageBasePath}${imageMappingElement.casestudiesImage}',
-              "casestudy",
-              fileName,
-              deleteFile: isDelete);
+        try {
+          businessCasestudyImage = await Utils.getImagePath(
+              imageURL: imageMappingElement.casestudiesImage ?? "",
+              locationName: "casestudy");
+        } catch (ex) {
+          print("businessCasestudyImage error $ex");
         }
+
         final caseStudyImage = CaseStudyImages(
             caseStudyImageId: imageMappingElement.casestudiesID,
-            caseStudyImagePath: imagePath,
+            caseStudyImagePath: businessCasestudyImage,
             caseStudyImagePortfolioId: element.casestudiesID);
         if (isUpdate) {
           await _dbHelper.updateToCaseStudyImage(caseStudyImage);

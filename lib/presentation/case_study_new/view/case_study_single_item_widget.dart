@@ -31,6 +31,7 @@ class _CaseStudySingleItemWidgetState extends State<CaseStudySingleItemWidget> {
   void initState() {
     _controller = Get.find<SingleCaseStudyItemController>(
         tag: "casestudy_${widget.index}");
+
     _controller.preparePortfolioData();
     super.initState();
   }

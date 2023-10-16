@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aio/infrastructure/network/network_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../config/app_assets.dart';
 
@@ -19,6 +20,7 @@ class ProjectImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("baseURL $imageURL");
     final file = File(imageURL);
     if (imageURL.isEmpty) {
       return _buildNoImage();
@@ -42,6 +44,7 @@ class ProjectImageWidget extends StatelessWidget {
   }
 
   Widget _buildFileImage() {
+    Get.log("imageURL $imageURL");
     return Image.file(
       File(imageURL),
       fit: fit,

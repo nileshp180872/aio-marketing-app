@@ -46,7 +46,7 @@ class ProjectListGridTileWidget extends StatelessWidget {
 
   ///Build the content
   Widget cardData() {
-    print("Image URL IS"+projectListModel.casestudyThumbnailImage.toString() );
+    print("Image URL IS" + projectListModel.casestudyThumbnailImage.toString());
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(
@@ -57,12 +57,9 @@ class ProjectListGridTileWidget extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: (projectListModel.networkImages ?? []).isNotEmpty
-                  ? ProjectImageWidget(
-                      imageURL: projectListModel.casestudyThumbnailImage ?? "",
-                    )
-                  : _buildNoDataImage(),
-            ),
+                child: ProjectImageWidget(
+              imageURL: projectListModel.casestudyThumbnailImage ?? "",
+            )),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),

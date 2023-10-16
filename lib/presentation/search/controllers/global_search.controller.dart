@@ -98,6 +98,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
                 projectName: element.portfolioProjectName,
                 projectImage: element.images,
                 urlLink: element.portfolioLink,
+                casestudyThumbnailImage: element.images,
                 viewType: AppConstants.portfolio));
           }
 
@@ -107,6 +108,7 @@ class GlobalSearchController extends GetxController with AppLoadingMixin {
                 autoIncrementId: element.caseStudyAutoIncrementId,
                 projectName: element.caseStudyProjectName,
                 projectImage: element.images,
+                casestudyThumbnailImage: element.caseStudyThumbnailImage,
                 viewType: AppConstants.caseStudy));
           }
 

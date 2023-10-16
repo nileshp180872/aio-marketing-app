@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:aio/config/app_colors.dart';
 import 'package:aio/config/app_constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../infrastructure/navigation/routes.dart';
 import '../infrastructure/network/model/case_studies_response.dart';
+import '../infrastructure/network/network_constants.dart';
 import '../presentation/enquiry/view/success_dialog_widget.dart';
 import '../presentation/project_list/model/project_list_model.dart';
 
@@ -128,7 +133,7 @@ class Utils {
     Get.log("technologies ${technologies}");
     String strTechnologies = "";
     final techMapping = (element.techImageMapping ?? []);
-    if(techMapping.isNotEmpty) {
+    if (techMapping.isNotEmpty) {
       strTechnologies =
           (techMapping.map((e) => e.techImage ?? "").toList()).join(",");
     }
@@ -177,5 +182,57 @@ class Utils {
         viewType: AppConstants.caseStudy);
 
     return model;
+  }
+
+  static Future<String> getImagePath({
+    required String imageURL,
+    required String locationName,
+  }) async {
+    final thumbnailFileName = imageURL.split(".")[0];
+    try {
+      final data = thumbnailFileName.isNotEmpty
+          ? await getImageFilePath(
+              '${NetworkConstants.kImageBasePath}$imageURL',
+              locationName,
+              thumbnailFileName,
+            )
+          : "";
+      return data;
+    } catch (ex) {
+      print("thumbnail errror $ex");
+      return "";
+    }
+  }
+
+  /// Return image full path from device storage.
+  ///
+  /// 1. Download and store image from url.
+  /// 2. Return saved destination path.
+  ///
+  /// required [imageUrl] as image need to downloaded.
+  static Future<String> getImageFilePath(
+      String imageUrl, String subPath, String fileName,
+      {bool deleteFile = false}) async {
+    var response = await dio.Dio().get(imageUrl,
+        options: dio.Options(responseType: dio.ResponseType.bytes));
+    var documentDirectory = await getApplicationDocumentsDirectory();
+
+    var firstPath = "${documentDirectory.path}/images/$subPath/";
+
+    var filePathAndName = '$firstPath/$fileName.jpg';
+
+    File file = File(filePathAndName);
+    if (await file.exists()) {
+      file.delete(recursive: true);
+      if (deleteFile) {
+        return "";
+      }
+    }
+    //comment out the next three lines to prevent the image from being saved
+    //to the device to show that it's coming from the internet
+    await Directory(firstPath).create(recursive: true);
+    File file2 = File(filePathAndName);
+    file2.writeAsBytes(response.data);
+    return filePathAndName;
   }
 }

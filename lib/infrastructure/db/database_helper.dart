@@ -18,7 +18,7 @@ import 'config/schema_config.dart';
 
 class DatabaseHelper with DbConfig, SchemaConfig {
   static const kDatabaseName = "aio.db";
-  static const kDatabaseVersion = 3;
+  static const kDatabaseVersion = 6;
 
   /// Initialise db
   void initialiseDb() {
