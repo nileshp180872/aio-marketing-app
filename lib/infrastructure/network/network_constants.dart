@@ -8,6 +8,7 @@ abstract class NetworkConstants {
 
   static const kImageBasePath = "https://api.tridhyatech.com/";
 }
+
 //
 abstract class NetworkAPIs {
   // Domains
@@ -54,4 +55,5 @@ abstract class NetworkParams {
   static const screenId = "screen_id";
   static const techId = "tech_id";
   static const searchKey = "searchKey";
+  static const xAPIKey = "x-api-key";
 }

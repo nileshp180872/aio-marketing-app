@@ -1,9 +1,7 @@
 import 'package:aio/config/app_strings.dart';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../../cache/shared_cofig.dart';
 import '../network_constants.dart';
 
 class DioProvider {
@@ -12,11 +10,11 @@ class DioProvider {
   void initialise() {
     mDio = Dio(
       BaseOptions(
-        baseUrl: NetworkConstants.kProduction,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 30),
-        receiveDataWhenStatusError: true,
-      ),
+          baseUrl: NetworkConstants.kProduction,
+          connectTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 30),
+          receiveDataWhenStatusError: true,
+          headers: {NetworkParams.xAPIKey: "application"}),
     );
     mDio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
