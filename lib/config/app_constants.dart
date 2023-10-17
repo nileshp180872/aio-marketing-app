@@ -16,6 +16,8 @@ class AppConstants {
   static const portfolio = 1;
   static const caseStudy = 2;
 
+  static const fileBasePath ='Aio/images';
+
   /// Page limit for portfolios and case studies APIs.
   static const projectListPaginationLimit = 50;
 

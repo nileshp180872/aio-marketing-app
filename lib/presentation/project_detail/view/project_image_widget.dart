@@ -44,9 +44,9 @@ class ProjectImageWidget extends StatelessWidget {
 
   Widget _buildFileImage() {
     Get.log("imageURL $imageURL");
-    final file = File(imageURL);
+    final file = File.fromUri(Uri.parse(imageURL));
     return Image.file(
-      file,
+      File.fromUri(Uri.parse(imageURL)),
       fit: fit,
     );
   }
