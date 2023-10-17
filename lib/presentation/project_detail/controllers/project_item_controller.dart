@@ -18,6 +18,8 @@ class ProjectItemController extends GetxController {
 
   String projectId = "";
 
+  RxInt activeImageIndex = 0.obs;
+
   @override
   void onInit() {
     _dbHelper = GetIt.I<DatabaseHelper>();
@@ -33,9 +35,9 @@ class ProjectItemController extends GetxController {
 
   /// Change currently visible image index.
   void onSelectImage(int index) {
-    activeImage.value = listImages.elementAt(index);
-    Future.delayed(const Duration(seconds: 1), () {
-      activeImage.refresh();
+    activeImageIndex.value = index;
+    Future.delayed(const Duration(milliseconds: 100), () {
+      activeImageIndex.refresh();
     });
   }
 
@@ -57,12 +59,6 @@ class ProjectItemController extends GetxController {
       technologies.value = projectData.value.technologies ?? "";
     } else {
       if (projectData.value.viewType == AppConstants.portfolio) {
-        final portfolio =
-            await _dbHelper.getPortfolioDetails(portfolioId: projectId);
-        projectData.value.description =
-            portfolio?.portfolioProjectDescription ?? "";
-        projectData.value.overView = portfolio?.portfolioDomainName ?? "";
-        // fetch current portfolio technologies.
         technologies.value =
             await _dbHelper.getPortfolioTechnologies(id: projectId);
 
@@ -72,8 +68,10 @@ class ProjectItemController extends GetxController {
         if (projectImages.length > 3) {
           projectImages = projectImages.sublist(0, 3);
         }
-        listImages.value =
-            projectImages.map((e) => e.portfolioImagePath ?? "").toList();
+
+        if (listImages.isNotEmpty) {
+          onSelectImage(0);
+        }
       } else {
         final portfolio =
             await _dbHelper.getCaseStudyDetails(caseStudyId: projectId);
@@ -97,10 +95,6 @@ class ProjectItemController extends GetxController {
     }
 
     listImages.refresh();
-
-    if (listImages.isNotEmpty) {
-      onSelectImage(0);
-    }
 
     projectData.refresh();
   }

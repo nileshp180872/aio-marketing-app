@@ -54,8 +54,7 @@ class ProjectDetailController extends GetxController {
   final logger = Logger();
 
   /// Page controller.
-  PageController pageController =
-      PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage: 0);
 
   /// Project list
   RxList<ProjectListModel> projectList = RxList();
@@ -148,15 +147,14 @@ class ProjectDetailController extends GetxController {
         listImages.value =
             projectImages.map((e) => e.portfolioImagePath ?? "").toList();
 
+        Get.log("listImages.value ${listImages.value}");
         projectData.value.description =
             portfolio?.portfolioProjectDescription ?? "";
         projectData.value.overView = portfolio?.portfolioDomainName ?? "";
 
+        projectData.value.networkImages = listImages.value;
 
-        projectData.value.networkImages =
-            projectImages.map((e) => e.portfolioImagePath ?? "").toList();
-
-        activeProjectIndex.value=0;
+        activeProjectIndex.value = 0;
       } else {
         final portfolio =
             await _dbHelper.getCaseStudyDetails(caseStudyId: _projectId);
@@ -183,12 +181,11 @@ class ProjectDetailController extends GetxController {
 
     listImages.refresh();
 
-    Future.delayed(Duration(seconds: 1),(){
+    Future.delayed(Duration(seconds: 1), () {
       if (listImages.isNotEmpty) {
         onSelectImage(0);
       }
     });
-
 
     projectData.refresh();
   }
@@ -196,10 +193,9 @@ class ProjectDetailController extends GetxController {
   /// Change currently visible image index.
   void onSelectImage(int index) {
     activeImage.value = listImages.elementAt(index);
-    Future.delayed(const Duration(seconds: 1),(){
+    Future.delayed(const Duration(seconds: 1), () {
       activeImage.refresh();
     });
-
   }
 
   /// Enable/Disable action buttons.
@@ -220,7 +216,7 @@ class ProjectDetailController extends GetxController {
 
   /// on page change
   void onPageChange(int page) {
-    Future.delayed(const Duration(milliseconds: 400),(){
+    Future.delayed(const Duration(milliseconds: 400), () {
       activeProjectIndex.value = pageController.page!.round();
 
       _prepareProjectDetails();

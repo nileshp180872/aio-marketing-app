@@ -97,7 +97,7 @@ class ProjectDetailScreen extends GetView<ProjectDetailController>
 
           ProjectItemController ctrl = Get.find(tag: "item_${index}");
           ctrl.projectData.value = _controller.projectList[index];
-          ctrl.listImages.value = _controller.listImages;
+          ctrl.activeImage.value = ctrl.listImages.isEmpty?"":ctrl.listImages[0];
           return SizedBox(
             height: double.infinity,
             width: double.infinity,

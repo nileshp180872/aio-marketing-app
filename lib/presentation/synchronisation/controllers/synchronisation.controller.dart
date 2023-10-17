@@ -68,7 +68,7 @@ class SynchronisationController extends GetxController {
           const Duration(
             seconds: 1,
           ),
-          () => _checkPermission());
+          () => getAPIS());
     }
   }
 

@@ -27,7 +27,6 @@ class _ProjectItemWidgetState extends State<ProjectItemWidget> {
   @override
   void initState() {
     _controller = Get.find<ProjectItemController>(tag: "item_${widget.index}");
-    _controller.preparePortfolioData();
     super.initState();
   }
 
@@ -35,6 +34,7 @@ class _ProjectItemWidgetState extends State<ProjectItemWidget> {
   Widget build(BuildContext context) {
     _buildContext = context;
     _textTheme = Theme.of(context).textTheme;
+    _controller.preparePortfolioData();
     return Obx(() => _buildItemRow());
   }
 
@@ -167,7 +167,7 @@ class _ProjectItemWidgetState extends State<ProjectItemWidget> {
   /// Build image preview.
   Widget _buildImagePreview() {
     return ProjectImageWidget(
-      imageURL: _controller.activeImage.value,
+      imageURL: _controller.projectData.value.networkImages!.elementAt(_controller.activeImageIndex.value),
       fit: BoxFit.fitHeight,
     );
   }
