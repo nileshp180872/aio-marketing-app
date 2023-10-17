@@ -129,12 +129,10 @@ class CaseStudyNewController extends GetxController {
       businessImages.value.removeWhere((element) => element.isEmpty);
       technologies.value = projectData.value.technologies ?? "";
       businessChallenges.clear();
-      businessSolution.clear();
       techLogo.value = projectData.value.techMapping ?? [];
       listImages.value = projectData.value.sliderImages ?? [];
       await Future.delayed(const Duration(milliseconds: 600), () {
         projectData.refresh();
-        businessSolution.refresh();
       });
     }
     listImages.refresh();
