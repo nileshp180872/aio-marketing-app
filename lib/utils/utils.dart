@@ -213,14 +213,11 @@ class Utils {
   static Future<String> getImageFilePath(
       String imageUrl, String subPath, String fileName,
       {bool deleteFile = false}) async {
-    var response = await dio.Dio().get(imageUrl,
-        options: dio.Options(responseType: dio.ResponseType.bytes));
     var documentDirectory = await getApplicationDocumentsDirectory();
 
     var firstPath = "${documentDirectory.path}/images/$subPath/";
 
-    var filePathAndName = '$firstPath/$fileName.jpg';
-
+    var filePathAndName = '$firstPath/$fileName.png';
     File file = File(filePathAndName);
     if (await file.exists()) {
       file.delete(recursive: true);
@@ -228,11 +225,11 @@ class Utils {
         return "";
       }
     }
-    //comment out the next three lines to prevent the image from being saved
-    //to the device to show that it's coming from the internet
-    await Directory(firstPath).create(recursive: true);
-    File file2 = File(filePathAndName);
-    file2.writeAsBytes(response.data);
+
+    var response = await dio.Dio().download(imageUrl, filePathAndName,
+        options: dio.Options(responseType: dio.ResponseType.bytes, persistentConnection: false));
+
+    Get.log("response.data ${(response.data as dio.ResponseBody)}");
     return filePathAndName;
   }
 }

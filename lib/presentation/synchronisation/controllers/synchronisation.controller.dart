@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:aio/infrastructure/cache/shared_cofig.dart';
 import 'package:aio/infrastructure/db/db_constants.dart';
@@ -14,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -33,7 +31,6 @@ import '../../../infrastructure/network/model/leadership_type_response.dart';
 import '../../../infrastructure/network/model/platform_response.dart';
 import '../../../infrastructure/network/model/portfolio_response.dart';
 import '../../../infrastructure/network/model/technology_response.dart';
-import '../../../infrastructure/network/network_constants.dart';
 import '../../../utils/utils.dart';
 import '../provider/synchronisation.provider.dart';
 
@@ -80,9 +77,11 @@ class SynchronisationController extends GetxController {
     Get.log("permissionStatus ${permissionStatus}");
     if (permissionStatus.isDenied) {
       // Here just ask for the permission for the first time
-      await Permission.manageExternalStorage.request();
+      final permissionStatus = await Permission.manageExternalStorage.request();
       if (permissionStatus.isDenied) {
         await openAppSettings();
+      }else{
+        getAPIS();
       }
     } else if (permissionStatus.isPermanentlyDenied) {
       await openAppSettings();
@@ -423,16 +422,17 @@ class SynchronisationController extends GetxController {
       {bool isUpdate = false, bool isDelete = false}) async {
     (element.imageMapping ?? []).forEach((imageMappingElement) async {
       try {
-        final fileName =
-            (imageMappingElement.portfolioImage ?? "").split(".")[0];
-        final imagePath = await getImageFilePath(
-            '${NetworkConstants.kImageBasePath}${imageMappingElement.portfolioImage}',
-            "portfolio",
-            fileName,
-            deleteFile: isDelete);
+        String leaderImage = "";
+        try {
+          leaderImage = await Utils.getImagePath(
+              imageURL: imageMappingElement.portfolioImage ?? "",
+              locationName: "portfolio");
+        } catch (ex) {
+          print("portfolio error $ex");
+        }
         final portfolioImage = PortfolioImages(
             portfolioImageId: imageMappingElement.portfolioID,
-            portfolioImagePath: imagePath,
+            portfolioImagePath: leaderImage,
             portfolioImagePortfolioId: element.portfolioID);
         if (isUpdate) {
           await _dbHelper.updateToPortfolioImage(portfolioImage);
@@ -731,20 +731,17 @@ class SynchronisationController extends GetxController {
           if ((element.imageMapping ?? []).isNotEmpty) {
             leaderImage = (element.imageMapping ?? []).first.leaderImage ?? "";
           }
-          final fileName = (leaderImage ?? "").split(".")[0];
-
-          final imagePath = leaderImage.isNotEmpty
-              ? await getImageFilePath(
-                  '${NetworkConstants.kImageBasePath}${leaderImage}',
-                  "leaders",
-                  fileName,
-                )
-              : "";
+          try {
+            leaderImage = await Utils.getImagePath(
+                imageURL: leaderImage ?? "", locationName: "leaders");
+          } catch (ex) {
+            print("thumbnailImage error $ex");
+          }
           final model = Leadership(
               leaderId: element.leadershipID,
               description: element.description,
               leaderName: element.leaderNAME,
-              image: imagePath,
+              image: leaderImage,
               designation: element.designation);
           await _dbHelper.addToLeaders(model);
         } catch (ex) {
@@ -793,37 +790,5 @@ class SynchronisationController extends GetxController {
   /// on back.
   void onGetBack() {
     Get.offAllNamed(Routes.HOME);
-  }
-
-  /// Return image full path from device storage.
-  ///
-  /// 1. Download and store image from url.
-  /// 2. Return saved destination path.
-  ///
-  /// required [imageUrl] as image need to downloaded.
-  Future<String> getImageFilePath(
-      String imageUrl, String subPath, String fileName,
-      {bool deleteFile = false}) async {
-    var response = await dio.Dio().get(imageUrl,
-        options: dio.Options(responseType: dio.ResponseType.bytes));
-    var documentDirectory = await getApplicationDocumentsDirectory();
-
-    var firstPath = "${documentDirectory.path}/images/$subPath/";
-
-    var filePathAndName = '$firstPath/$fileName.jpg';
-
-    File file = File(filePathAndName);
-    if (await file.exists()) {
-      file.delete(recursive: true);
-      if (deleteFile) {
-        return "";
-      }
-    }
-    //comment out the next three lines to prevent the image from being saved
-    //to the device to show that it's coming from the internet
-    await Directory(firstPath).create(recursive: true);
-    File file2 = File(filePathAndName);
-    file2.writeAsBytes(response.data);
-    return filePathAndName;
   }
 }
