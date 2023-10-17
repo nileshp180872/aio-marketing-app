@@ -73,11 +73,12 @@ class SynchronisationController extends GetxController {
   }
 
   void _checkPermission() async {
-    final permissionStatus = await Permission.manageExternalStorage.status;
+    Permission permission = GetPlatform.isAndroid?Permission.manageExternalStorage:Permission.storage;
+    final permissionStatus = await permission.status;
     Get.log("permissionStatus ${permissionStatus}");
     if (permissionStatus.isDenied) {
       // Here just ask for the permission for the first time
-      final permissionStatus = await Permission.manageExternalStorage.request();
+      await permission.request();
       if (permissionStatus.isDenied) {
         await openAppSettings();
       }else{
