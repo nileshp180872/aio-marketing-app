@@ -15,6 +15,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:synchronized/synchronized.dart';
 
 import '../../../infrastructure/db/database_helper.dart';
@@ -70,7 +71,23 @@ class SynchronisationController extends GetxController {
           const Duration(
             seconds: 1,
           ),
-          () => getAPIS());
+          () => _checkPermission());
+    }
+  }
+
+  void _checkPermission() async {
+    final permissionStatus = await Permission.manageExternalStorage.status;
+    Get.log("permissionStatus ${permissionStatus}");
+    if (permissionStatus.isDenied) {
+      // Here just ask for the permission for the first time
+      await Permission.manageExternalStorage.request();
+      if (permissionStatus.isDenied) {
+        await openAppSettings();
+      }
+    } else if (permissionStatus.isPermanentlyDenied) {
+      await openAppSettings();
+    } else {
+      getAPIS();
     }
   }
 
