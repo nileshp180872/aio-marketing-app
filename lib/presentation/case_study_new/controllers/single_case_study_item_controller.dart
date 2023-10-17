@@ -65,27 +65,11 @@ class SingleCaseStudyItemController extends GetxController {
             title: projectData.value.businessTitle3),
       ]);
 
-      businessSolution.addAll([
-        BusinessChallenge(
-            description: projectData.value.solutionDescription1,
-            icon: projectData.value.solutionImage1,
-            title: projectData.value.solutionTitle1),
-        BusinessChallenge(
-            description: projectData.value.solutionDescription2,
-            icon: projectData.value.solutionImage2,
-            title: projectData.value.solutionTitle2),
-        BusinessChallenge(
-            description: projectData.value.solutionDescription3,
-            icon: projectData.value.solutionImage3,
-            title: projectData.value.solutionTitle3),
-      ]);
-
       techLogo.value = projectData.value.techMapping ?? [];
       listImages.value = projectData.value.sliderImages ?? [];
 
       await Future.delayed(Duration(seconds: 2), () {
         projectData.refresh();
-        businessSolution.refresh();
       });
     } else {
       final portfolio =
@@ -179,6 +163,7 @@ class SingleCaseStudyItemController extends GetxController {
           icon: projectData.value.businessImage3,
           title: projectData.value.businessTitle3),
     ]);
+    businessSolution.clear();
     businessSolution.addAll([
       BusinessChallenge(
           description: projectData.value.solutionDescription1,
